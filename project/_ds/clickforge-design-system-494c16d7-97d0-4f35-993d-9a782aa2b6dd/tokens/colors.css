@@ -1,0 +1,54 @@
+:root {
+  /* ── Brand accent — Ember. The single chromatic note of the system. ───────── */
+  --color-ember: #ff7a18;
+  --color-ember-hot: #ff9a4d;   /* hover / lifted state */
+  --color-ember-deep: #c2510a;  /* pressed state, dense fills */
+  --color-ember-wash: rgba(255, 122, 24, 0.12); /* tint fill behind accent text */
+  --color-ember-edge: rgba(255, 122, 24, 0.32); /* accent hairline */
+
+  /* ── Neutral stack — warm-shifted near-black (forge, not vacuum) ──────────── */
+  --color-pure-black: #000000; /* modal scrims, full-bleed image fills */
+  --color-carbon: #0b0a09;     /* page canvas */
+  --color-graphite: #151311;   /* card surface */
+  --color-iron: #1f1c19;       /* elevated surface + soft divider */
+  --color-slate-edge: #332f2b; /* hairline border */
+  --color-smoke: #48423c;      /* border on elevated / inverted UI */
+  --color-mist: #7d7671;       /* disabled + low-emphasis text */
+  --color-ash: #a8a19b;        /* secondary text, captions, metadata */
+  --color-bone: #ffffff;       /* primary text, icons, filled CTA */
+
+  /* ── CTR score ramp — DATA ONLY. Never for buttons, links, or chrome. ─────── */
+  --color-ctr-low: #d9534f;
+  --color-ctr-mid: #e8a33d;
+  --color-ctr-high: #35c08a;
+
+  /* ── Surfaces ─────────────────────────────────────────────────────────────── */
+  --surface-canvas: var(--color-carbon);
+  --surface-card: var(--color-graphite);
+  --surface-elevated: var(--color-iron);
+  --surface-border: var(--color-slate-edge);
+  --surface-border-strong: var(--color-smoke);
+  --surface-inverted: var(--color-bone);
+  --surface-scrim: rgba(0, 0, 0, 0.72);
+
+  /* ── Semantic text ────────────────────────────────────────────────────────── */
+  --text-primary: var(--color-bone);
+  --text-secondary: var(--color-ash);
+  --text-disabled: var(--color-mist);
+  --text-accent: var(--color-ember);
+  --text-inverted: var(--color-carbon);
+
+  /* ── Semantic actions ─────────────────────────────────────────────────────── */
+  --action-primary-bg: var(--color-ember);
+  --action-primary-bg-hover: var(--color-ember-hot);
+  --action-primary-bg-active: var(--color-ember-deep);
+  --action-primary-fg: #1a0c02;
+  --action-secondary-border: var(--color-smoke);
+  --action-secondary-fg: var(--color-bone);
+  --action-inverted-bg: var(--color-bone);
+  --action-inverted-fg: var(--color-carbon);
+
+  /* ── Links ────────────────────────────────────────────────────────────────── */
+  --link-color: var(--color-bone);
+  --link-color-hover: var(--color-ember);
+}

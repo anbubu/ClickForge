@@ -1,0 +1,29 @@
+:root {
+  /* Depth comes from luminance stepping + hairlines, not drop shadows.
+     The only legal "shadow" is an ember glow on the primary CTA and on
+     live/forging states. */
+  --shadow-none: none;
+  --glow-ember: 0 0 0 1px rgba(255, 122, 24, 0.35), 0 8px 32px rgba(255, 122, 24, 0.22);
+  --glow-ember-soft: 0 0 24px rgba(255, 122, 24, 0.18);
+
+  --border-hairline: 1px solid var(--color-slate-edge);
+  --border-strong: 1px solid var(--color-smoke);
+  --border-accent: 1px solid var(--color-ember-edge);
+
+  /* Motion — short, mechanical, no bounce. */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --duration-fast: 120ms; /* @kind other */
+  --duration-base: 180ms; /* @kind other */
+  --duration-slow: 320ms; /* @kind other */
+
+  /* Signature background: thumbnail composition grid (rule of thirds).
+     48px micro-grid + thirds guides that echo the Thumbnail Blueprint output. */
+  --grid-line: rgba(255, 255, 255, 0.035);
+  --grid-line-thirds: rgba(255, 122, 24, 0.10);
+  --grid-cell: 48px;
+  --bg-thirds-grid:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  --bg-thirds-grid-size: var(--grid-cell) var(--grid-cell);
+}
