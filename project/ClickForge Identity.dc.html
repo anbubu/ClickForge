@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/modernist-19796e9b-c721-4e64-a507-ab6645221677/styles.css">
+<script src="_ds/modernist-19796e9b-c721-4e64-a507-ab6645221677/_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--color-bg); }
+  a { color: var(--color-accent-700); text-decoration: underline; }
+  a:hover { color: var(--color-accent); }
+  @keyframes cfPlate { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes cfWipeUp { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes cfLetter { from { opacity: 0; transform: translateY(18%); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes cfWordIn { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes cfRule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes cfCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+</style>
+</helmet>
+
+<div style="width: 1440px; margin: 0 auto; background: #fff; font-family: var(--font-body); color: var(--color-text);">
+
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 72px; border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;">
+    <span>ClickForge — Brand Identity</span>
+    <span style="color: var(--color-neutral-600);">Direction 2a · Ruled Monogram · v1.0</span>
+  </div>
+
+  <div style="padding: 96px 72px 80px; display: flex; flex-direction: column; gap: 48px; border-bottom: 2px solid var(--color-text);">
+    <div key="{{ animKey }}" style="display: flex; align-items: center; gap: 32px;">
+      <div style="width: 168px; height: 168px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr; animation: cfPlate 0.5s cubic-bezier(0.7,0,0.2,1) both;">
+        <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 74px; line-height: 1; display: flex; align-items: center; padding-left: 14px; overflow: hidden;">
+          <span style="display: inline-block; animation: cfLetter 0.4s cubic-bezier(0.2,0.8,0.2,1) 0.34s both;">C</span>
+        </div>
+        <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 74px; line-height: 1; display: flex; align-items: center; padding-left: 14px; animation: cfWipeUp 0.42s cubic-bezier(0.7,0,0.2,1) 0.52s both;">F</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-family: var(--font-heading); font-weight: 700; font-size: 74px; line-height: 0.86; letter-spacing: -0.03em; display: flex; flex-direction: column;">
+          <span style="animation: cfWordIn 0.42s cubic-bezier(0.2,0.8,0.2,1) 0.82s both;">Click</span>
+          <span style="animation: cfWordIn 0.42s cubic-bezier(0.2,0.8,0.2,1) 0.94s both;">Forge</span>
+        </div>
+        <div style="border-top: 2px solid var(--color-text); transform-origin: left; animation: cfRule 0.5s cubic-bezier(0.7,0,0.2,1) 1.12s both;"></div>
+        <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-neutral-600); animation: cfWordIn 0.4s ease-out 1.24s both;">
+          <span>Titles · Hooks · Thumbnails</span>
+          <span style="width: 9px; height: 15px; background: var(--color-accent); display: inline-block; animation: cfCursor 1s steps(1,end) 1.6s infinite;"></span>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 48px;">
+      <p style="margin: 0; max-width: 620px; font-size: 17px; line-height: 1.5; text-wrap: pretty;">A CTR engineering tool for YouTube and TikTok creators. The identity is a press plate: two ruled cells, ink over accent, nothing rounded and nothing decorated — the same discipline the product applies to a title, a hook and a thumbnail.</p>
+      <button type="button" class="btn btn-secondary" onClick="{{ replay }}" style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;">Replay build-in</button>
+    </div>
+  </div>
+
+  <div style="padding: 72px; display: flex; flex-direction: column; gap: 32px; border-bottom: 2px solid var(--color-text);">
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <span style="font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent-700);">01</span>
+      <h2 style="margin: 0; font-family: var(--font-heading); font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Construction</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; border: 2px solid var(--color-divider);">
+      <div style="padding: 48px; border-right: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 24px;">
+        <div style="position: relative; width: 176px; height: 176px;">
+          <div style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);">
+            <div style="grid-column: 1 / -1; grid-row: 1 / -1; background-image: linear-gradient(to right, var(--color-neutral-200) 1px, transparent 1px), linear-gradient(to bottom, var(--color-neutral-200) 1px, transparent 1px); background-size: 22px 22px;"></div>
+          </div>
+          <div style="position: absolute; inset: 0; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+            <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 78px; line-height: 1; display: flex; align-items: center; padding-left: 15px;">C</div>
+            <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 78px; line-height: 1; display: flex; align-items: center; padding-left: 15px;">F</div>
+          </div>
+        </div>
+        <div style="font-size: 14px; line-height: 1.55; color: var(--color-neutral-700);">The plate is 8×8 units. The centre rule and the frame are both 2px at any size. Letters inset one unit from the left edge and are optically centred in their cell — never centred horizontally.</div>
+      </div>
+      <div style="padding: 48px; border-right: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 24px;">
+        <div style="padding: 44px; border: 2px dashed var(--color-accent); display: inline-flex; align-self: flex-start;">
+          <div style="width: 88px; height: 88px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+            <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 38px; line-height: 1; display: flex; align-items: center; padding-left: 8px;">C</div>
+            <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 38px; line-height: 1; display: flex; align-items: center; padding-left: 8px;">F</div>
+          </div>
+        </div>
+        <div style="font-size: 14px; line-height: 1.55; color: var(--color-neutral-700);">Clear space equals half the plate height on all four sides. Nothing — type, rule, image edge or button — enters it.</div>
+      </div>
+      <div style="padding: 48px; display: flex; flex-direction: column; gap: 24px;">
+        <div style="display: flex; align-items: flex-end; gap: 28px;">
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
+            <div style="width: 48px; height: 48px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+              <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 19px; line-height: 1; display: flex; align-items: center; padding-left: 4px;">C</div>
+              <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 19px; line-height: 1; display: flex; align-items: center; padding-left: 4px;">F</div>
+            </div>
+            <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600);">48px min · screen</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
+            <div style="width: 24px; height: 24px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+              <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 9px; line-height: 1; display: flex; align-items: center; padding-left: 2px;">C</div>
+              <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 9px; line-height: 1; display: flex; align-items: center; padding-left: 2px;">F</div>
+            </div>
+            <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600);">24px favicon</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
+            <div style="width: 16px; height: 16px; background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 11px; line-height: 16px; text-align: center;">F</div>
+            <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600);">16px · F only</div>
+          </div>
+        </div>
+        <div style="font-size: 14px; line-height: 1.55; color: var(--color-neutral-700);">Below 24px the rules crush: drop to the solid accent F. The full lockup is never set narrower than 180px.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 72px; display: flex; flex-direction: column; gap: 32px; border-bottom: 2px solid var(--color-text);">
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <span style="font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent-700);">02</span>
+      <h2 style="margin: 0; font-family: var(--font-heading); font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Lockups</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--color-divider);">
+      <div style="padding: 56px; border-right: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 28px;">
+        <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-600);">Primary · stacked wordmark</div>
+        <div style="display: flex; align-items: stretch; gap: 20px;">
+          <div style="width: 92px; height: 92px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+            <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 40px; line-height: 1; display: flex; align-items: center; padding-left: 8px;">C</div>
+            <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 40px; line-height: 1; display: flex; align-items: center; padding-left: 8px;">F</div>
+          </div>
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 40px; line-height: 0.9; letter-spacing: -0.025em; align-self: center;">Click<br>Forge</div>
+        </div>
+      </div>
+      <div style="padding: 56px; border-bottom: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 28px;">
+        <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-600);">Horizontal · single line</div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="width: 60px; height: 60px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+            <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 25px; line-height: 1; display: flex; align-items: center; padding-left: 5px;">C</div>
+            <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 25px; line-height: 1; display: flex; align-items: center; padding-left: 5px;">F</div>
+          </div>
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 34px; letter-spacing: -0.025em;">ClickForge</div>
+        </div>
+      </div>
+      <div style="padding: 56px; border-right: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 28px; background: var(--color-text);">
+        <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-400);">Reversed on ink</div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="width: 60px; height: 60px; border: 2px solid #fff; display: grid; grid-template-rows: 1fr 1fr;">
+            <div style="border-bottom: 2px solid #fff; font-family: var(--font-heading); font-weight: 700; font-size: 25px; line-height: 1; color: #fff; display: flex; align-items: center; padding-left: 5px;">C</div>
+            <div style="background: #fff; color: var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 25px; line-height: 1; display: flex; align-items: center; padding-left: 5px;">F</div>
+          </div>
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 34px; letter-spacing: -0.025em; color: #fff;">ClickForge</div>
+        </div>
+      </div>
+      <div style="padding: 56px; display: flex; flex-direction: column; gap: 28px;">
+        <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-600);">Mark alone · wordmark alone</div>
+        <div style="display: flex; align-items: center; gap: 36px;">
+          <div style="width: 60px; height: 60px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+            <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 25px; line-height: 1; display: flex; align-items: center; padding-left: 5px;">C</div>
+            <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 25px; line-height: 1; display: flex; align-items: center; padding-left: 5px;">F</div>
+          </div>
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 30px; letter-spacing: -0.025em;">ClickForge</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 72px; display: flex; flex-direction: column; gap: 32px; border-bottom: 2px solid var(--color-text);">
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <span style="font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent-700);">03</span>
+      <h2 style="margin: 0; font-family: var(--font-heading); font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Color</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); border: 2px solid var(--color-divider);">
+      <div style="border-right: 2px solid var(--color-divider);">
+        <div style="height: 150px; background: var(--color-accent);"></div>
+        <div style="padding: 24px; border-top: 2px solid var(--color-divider);">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-family: var(--font-heading); font-weight: 700; font-size: 17px;">Forge Red</div>
+            <div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600);">--color-accent · #ec3013</div>
+            <div style="font-size: 13px; line-height: 1.5; color: var(--color-neutral-700);">The F cell, primary actions, small emphasis. Never for body copy.</div>
+          </div>
+        </div>
+      </div>
+      <div style="border-right: 2px solid var(--color-divider);">
+        <div style="height: 150px; background: var(--color-text);"></div>
+        <div style="padding: 24px; border-top: 2px solid var(--color-divider);">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-family: var(--font-heading); font-weight: 700; font-size: 17px;">Press Ink</div>
+            <div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600);">--color-text · #201e1d</div>
+            <div style="font-size: 13px; line-height: 1.5; color: var(--color-neutral-700);">All rules, all type, the C cell, reversed grounds.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="height: 150px; background: var(--color-bg); border-bottom: 0;"></div>
+        <div style="padding: 24px; border-top: 2px solid var(--color-divider);">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-family: var(--font-heading); font-weight: 700; font-size: 17px;">Paper</div>
+            <div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600);">--color-bg · #f3f2f2</div>
+            <div style="font-size: 13px; line-height: 1.5; color: var(--color-neutral-700);">The default ground. White is reserved for cards and sheets.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-600);">Accent ramp — tints, hovers, pressed states, deep text</div>
+      <div style="display: grid; grid-template-columns: repeat(9, 1fr); border: 2px solid var(--color-divider);">
+        <div style="height: 64px; background: var(--color-accent-100);"></div>
+        <div style="height: 64px; background: var(--color-accent-200);"></div>
+        <div style="height: 64px; background: var(--color-accent-300);"></div>
+        <div style="height: 64px; background: var(--color-accent-400);"></div>
+        <div style="height: 64px; background: var(--color-accent-500);"></div>
+        <div style="height: 64px; background: var(--color-accent-600);"></div>
+        <div style="height: 64px; background: var(--color-accent-700);"></div>
+        <div style="height: 64px; background: var(--color-accent-800);"></div>
+        <div style="height: 64px; background: var(--color-accent-900);"></div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(9, 1fr); border: 2px solid var(--color-divider); border-top: 0;">
+        <div style="height: 64px; background: var(--color-neutral-100);"></div>
+        <div style="height: 64px; background: var(--color-neutral-200);"></div>
+        <div style="height: 64px; background: var(--color-neutral-300);"></div>
+        <div style="height: 64px; background: var(--color-neutral-400);"></div>
+        <div style="height: 64px; background: var(--color-neutral-500);"></div>
+        <div style="height: 64px; background: var(--color-neutral-600);"></div>
+        <div style="height: 64px; background: var(--color-neutral-700);"></div>
+        <div style="height: 64px; background: var(--color-neutral-800);"></div>
+        <div style="height: 64px; background: var(--color-neutral-900);"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 72px; display: flex; flex-direction: column; gap: 32px; border-bottom: 2px solid var(--color-text);">
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <span style="font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent-700);">04</span>
+      <h2 style="margin: 0; font-family: var(--font-heading); font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Typography</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0; border: 2px solid var(--color-divider);">
+      <div style="padding: 48px; border-right: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 28px;">
+        <div style="font-family: var(--font-heading); font-weight: 700; font-size: 64px; line-height: 0.95; letter-spacing: -0.03em;">Hook them in three seconds</div>
+        <div style="font-family: var(--font-heading); font-weight: 700; font-size: 34px; letter-spacing: -0.02em;">Display 34 / Heading 700</div>
+        <div style="font-size: 20px; line-height: 1.45;">Subhead 20 — Archivo regular, flush left, never centred.</div>
+        <div style="font-size: 16px; line-height: 1.6; max-width: 640px;">Body 16 — ClickForge reads a script draft and returns titles, hooks and a visual blueprint. Copy stays declarative and short: the product measures clicks, so the voice states outcomes rather than promising them.</div>
+        <div style="font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-neutral-600);">Label 12 · 0.2em tracking · uppercase</div>
+      </div>
+      <div style="padding: 48px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="font-family: var(--font-heading); font-weight: 700; font-size: 17px;">Archivo, one family</div>
+        <div style="font-size: 14px; line-height: 1.6; color: var(--color-neutral-700);">Headings 700, body 400, labels 500 in uppercase with wide tracking. Wordmark: Archivo 700, −0.025em, set as one word with no space.</div>
+        <div style="border-top: 2px solid var(--color-divider); padding-top: 20px; font-size: 14px; line-height: 1.6; color: var(--color-neutral-700);">Ratio in the lockup: wordmark cap height equals the plate's cell height. Tagline is 1/4.5 of the wordmark size.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 72px; display: flex; flex-direction: column; gap: 32px; border-bottom: 2px solid var(--color-text);">
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <span style="font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent-700);">05</span>
+      <h2 style="margin: 0; font-family: var(--font-heading); font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Motion</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--color-divider);">
+      <div key="{{ animKey }}" style="padding: 56px; border-right: 2px solid var(--color-divider); display: flex; align-items: center; gap: 22px;">
+        <div style="width: 104px; height: 104px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr; animation: cfPlate 0.5s cubic-bezier(0.7,0,0.2,1) both;">
+          <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 45px; line-height: 1; display: flex; align-items: center; padding-left: 9px; overflow: hidden;">
+            <span style="display: inline-block; animation: cfLetter 0.4s cubic-bezier(0.2,0.8,0.2,1) 0.34s both;">C</span>
+          </div>
+          <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 45px; line-height: 1; display: flex; align-items: center; padding-left: 9px; animation: cfWipeUp 0.42s cubic-bezier(0.7,0,0.2,1) 0.52s both;">F</div>
+        </div>
+        <div style="font-family: var(--font-heading); font-weight: 700; font-size: 45px; line-height: 0.9; letter-spacing: -0.025em; display: flex; flex-direction: column;">
+          <span style="animation: cfWordIn 0.42s cubic-bezier(0.2,0.8,0.2,1) 0.82s both;">Click</span>
+          <span style="animation: cfWordIn 0.42s cubic-bezier(0.2,0.8,0.2,1) 0.94s both;">Forge</span>
+        </div>
+      </div>
+      <div style="padding: 0;">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr><th>Step</th><th>Motion</th><th>Start</th><th>Dur.</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Plate</td><td>Wipe left → right</td><td>0.00s</td><td>0.50s</td></tr>
+            <tr><td>C</td><td>Rise + fade</td><td>0.34s</td><td>0.40s</td></tr>
+            <tr><td>F cell</td><td>Accent wipe upward</td><td>0.52s</td><td>0.42s</td></tr>
+            <tr><td>Click</td><td>Set from left</td><td>0.82s</td><td>0.42s</td></tr>
+            <tr><td>Forge</td><td>Set from left</td><td>0.94s</td><td>0.42s</td></tr>
+            <tr><td>Rule</td><td>Draw from left</td><td>1.12s</td><td>0.50s</td></tr>
+            <tr><td>Caret</td><td>Blink, 1s loop</td><td>1.60s</td><td>∞</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="font-size: 14px; line-height: 1.6; color: var(--color-neutral-700); max-width: 780px;">Easing: wipes and rules use cubic-bezier(0.7, 0, 0.2, 1) — mechanical, like a press stroke. Type uses cubic-bezier(0.2, 0.8, 0.2, 1). Total build-in 1.62s; play once on app launch and on the marketing hero only. Never loop the whole sequence, and honour reduced-motion by showing the settled lockup.</div>
+  </div>
+
+  <div style="padding: 72px; display: flex; flex-direction: column; gap: 32px; border-bottom: 2px solid var(--color-text);">
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <span style="font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent-700);">06</span>
+      <h2 style="margin: 0; font-family: var(--font-heading); font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Applications</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--color-divider);">
+      <div style="border-right: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider); padding: 40px; display: flex; flex-direction: column; gap: 24px;">
+        <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-600);">App icon · avatar · favicon</div>
+        <div style="display: flex; align-items: flex-end; gap: 24px;">
+          <div style="width: 120px; height: 120px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+            <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 52px; line-height: 1; display: flex; align-items: center; padding-left: 10px;">C</div>
+            <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 52px; line-height: 1; display: flex; align-items: center; padding-left: 10px;">F</div>
+          </div>
+          <div style="width: 72px; height: 72px; background: var(--color-text); display: grid; grid-template-rows: 1fr 1fr; padding: 8px; box-sizing: border-box;">
+            <div style="border-bottom: 2px solid #fff; font-family: var(--font-heading); font-weight: 700; font-size: 24px; line-height: 1; color: #fff; display: flex; align-items: center;">C</div>
+            <div style="font-family: var(--font-heading); font-weight: 700; font-size: 24px; line-height: 1; color: var(--color-accent); display: flex; align-items: center;">F</div>
+          </div>
+          <div style="width: 40px; height: 40px; background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 26px; line-height: 40px; text-align: center;">F</div>
+        </div>
+      </div>
+
+      <div style="border-bottom: 2px solid var(--color-divider); padding: 0; display: flex; flex-direction: column;">
+        <div style="padding: 40px 40px 24px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-600);">Product nav bar</div>
+        <div style="margin-top: auto; background: var(--color-text); display: flex; align-items: center; justify-content: space-between; padding: 18px 28px;">
+          <div style="display: flex; align-items: center; gap: 28px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 34px; height: 34px; border: 2px solid #fff; display: grid; grid-template-rows: 1fr 1fr;">
+                <div style="border-bottom: 2px solid #fff; font-family: var(--font-heading); font-weight: 700; font-size: 13px; line-height: 1; color: #fff; display: flex; align-items: center; padding-left: 3px;">C</div>
+                <div style="background: #fff; color: var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 13px; line-height: 1; display: flex; align-items: center; padding-left: 3px;">F</div>
+              </div>
+              <div style="font-family: var(--font-heading); font-weight: 700; font-size: 18px; color: #fff; letter-spacing: -0.02em;">ClickForge</div>
+            </div>
+            <div style="display: flex; gap: 22px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-300);">
+              <span>Titles</span><span>Hooks</span><span>Blueprints</span>
+            </div>
+          </div>
+          <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; padding: 10px 18px;">New draft</div>
+        </div>
+      </div>
+
+      <div style="border-right: 2px solid var(--color-divider); padding: 40px; display: flex; flex-direction: column; gap: 24px;">
+        <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-600);">Thumbnail watermark · 16:9</div>
+        <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; background: var(--color-neutral-800); overflow: hidden;">
+          <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background: var(--color-accent);"></div>
+          <div style="position: absolute; left: 40px; top: 34px; font-family: var(--font-heading); font-weight: 700; font-size: 44px; line-height: 0.95; color: #fff; letter-spacing: -0.02em; max-width: 62%;">CTR<br>UP 41%</div>
+          <div style="position: absolute; right: 20px; bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            <div style="width: 30px; height: 30px; border: 2px solid #fff; display: grid; grid-template-rows: 1fr 1fr;">
+              <div style="border-bottom: 2px solid #fff; font-family: var(--font-heading); font-weight: 700; font-size: 11px; line-height: 1; color: #fff; display: flex; align-items: center; padding-left: 2px;">C</div>
+              <div style="background: #fff; color: var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 11px; line-height: 1; display: flex; align-items: center; padding-left: 2px;">F</div>
+            </div>
+            <div style="font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: #fff; letter-spacing: 0.02em;">ClickForge</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 0; background: var(--color-accent); color: #fff; display: flex; flex-direction: column; justify-content: space-between; min-height: 300px;">
+        <div style="padding: 40px 40px 0; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.75);">Poster statement</div>
+        <div style="padding: 0 40px 40px; display: flex; flex-direction: column; gap: 20px;">
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 46px; line-height: 0.95; letter-spacing: -0.03em;">Every click is engineered.</div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 34px; height: 34px; border: 2px solid #fff; display: grid; grid-template-rows: 1fr 1fr;">
+              <div style="border-bottom: 2px solid #fff; font-family: var(--font-heading); font-weight: 700; font-size: 13px; line-height: 1; display: flex; align-items: center; padding-left: 3px;">C</div>
+              <div style="background: #fff; color: var(--color-accent); font-family: var(--font-heading); font-weight: 700; font-size: 13px; line-height: 1; display: flex; align-items: center; padding-left: 3px;">F</div>
+            </div>
+            <div style="font-family: var(--font-heading); font-weight: 700; font-size: 18px; letter-spacing: -0.02em;">ClickForge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 72px; display: flex; flex-direction: column; gap: 32px;">
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <span style="font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent-700);">07</span>
+      <h2 style="margin: 0; font-family: var(--font-heading); font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Misuse</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); border: 2px solid var(--color-divider);">
+      <div style="padding: 36px; border-right: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 20px;">
+        <div style="width: 76px; height: 76px; border: 2px solid var(--color-text); border-radius: 16px; display: grid; grid-template-rows: 1fr 1fr; overflow: hidden;">
+          <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 32px; line-height: 1; display: flex; align-items: center; padding-left: 8px;">C</div>
+          <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 32px; line-height: 1; display: flex; align-items: center; padding-left: 8px;">F</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent-700);">Don't round</div>
+          <div style="font-size: 13px; line-height: 1.5; color: var(--color-neutral-700);">Radius is 0 everywhere, including the app icon.</div>
+        </div>
+      </div>
+      <div style="padding: 36px; border-right: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 20px;">
+        <div style="width: 110px; height: 62px; border: 2px solid var(--color-text); display: grid; grid-template-rows: 1fr 1fr;">
+          <div style="border-bottom: 2px solid var(--color-text); font-family: var(--font-heading); font-weight: 700; font-size: 26px; line-height: 1; display: flex; align-items: center; padding-left: 8px;">C</div>
+          <div style="background: var(--color-accent); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 26px; line-height: 1; display: flex; align-items: center; padding-left: 8px;">F</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent-700);">Don't stretch</div>
+          <div style="font-size: 13px; line-height: 1.5; color: var(--color-neutral-700);">The plate is square. Scale it, never distort or rotate it.</div>
+        </div>
+      </div>
+      <div style="padding: 36px; border-right: 2px solid var(--color-divider); display: flex; flex-direction: column; gap: 20px;">
+        <div style="width: 76px; height: 76px; border: 1px solid var(--color-neutral-400); display: grid; grid-template-rows: 1fr 1fr;">
+          <div style="border-bottom: 1px solid var(--color-neutral-400); font-family: var(--font-heading); font-weight: 400; font-size: 32px; line-height: 1; display: flex; align-items: center; justify-content: center; color: var(--color-neutral-500);">C</div>
+          <div style="background: var(--color-accent-200); color: var(--color-neutral-500); font-family: var(--font-heading); font-weight: 400; font-size: 32px; line-height: 1; display: flex; align-items: center; justify-content: center;">F</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent-700);">Don't soften</div>
+          <div style="font-size: 13px; line-height: 1.5; color: var(--color-neutral-700);">No hairlines, no tints in place of the accent, no centred letters, no lighter weight.</div>
+        </div>
+      </div>
+      <div style="padding: 36px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="width: 76px; height: 76px; background: linear-gradient(135deg, #ec3013, #7b1bd6); display: grid; grid-template-rows: 1fr 1fr;">
+          <div style="border-bottom: 2px solid #fff; font-family: var(--font-heading); font-weight: 700; font-size: 32px; line-height: 1; color: #fff; display: flex; align-items: center; padding-left: 8px;">C</div>
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 32px; line-height: 1; color: #fff; display: flex; align-items: center; padding-left: 8px;">F</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: var(--font-heading); font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent-700);">Don't gradient</div>
+          <div style="font-size: 13px; line-height: 1.5; color: var(--color-neutral-700);">Two flat colors only. No gradients, glows or shadows on the mark.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="border-top: 2px solid var(--color-text); padding: 28px 72px; display: flex; justify-content: space-between; font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-600);">
+    <span>ClickForge Identity v1.0</span>
+    <span>Modernist · Archivo · Forge Red</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ec3013&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#ec3013&quot;,&quot;#0b6cff&quot;,&quot;#201e1d&quot;,&quot;#0f7a3d&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;monochrome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { animKey: 0 };
+  applyTheme() {
+    const root = document.documentElement;
+    const mono = this.props.monochrome ?? false;
+    const accent = mono ? getComputedStyle(root).getPropertyValue('--color-text').trim()
+                        : (this.props.accent ?? '');
+    if (accent) {
+      root.style.setProperty('--color-accent', accent);
+      root.style.setProperty('--color-accent-700', accent);
+    } else {
+      root.style.removeProperty('--color-accent');
+      root.style.removeProperty('--color-accent-700');
+    }
+  }
+  componentDidMount() { this.applyTheme(); }
+  componentDidUpdate() { this.applyTheme(); }
+  renderVals() {
+    return {
+      animKey: 'anim-' + this.state.animKey,
+      replay: () => this.setState((s) => ({ animKey: s.animKey + 1 }))
+    };
+  }
+}
+</script>
+</body>
+</html>

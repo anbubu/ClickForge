@@ -1,0 +1,27 @@
+:root {
+  --spacing-unit: 8px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-64: 64px;
+  --spacing-96: 96px;
+  --spacing-200: 200px;
+
+  --page-max-width: 1200px;
+  --section-gap: 80px;
+  --card-padding: 24px;
+  --element-gap: 8px;
+
+  --radius-sm: 4px;   /* tags, micro-elements, chart bar tops */
+  --radius-md: 8px;   /* buttons, cards, inputs — the system signature */
+  --radius-full: 9999px; /* nav pills only */
+  --radius-tags: 4px;
+  --radius-cards: 8px;
+  --radius-inputs: 8px;
+  --radius-buttons: 8px;
+  --radius-navpills: 9999px;
+}

@@ -1,0 +1,45 @@
+:root {
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  --text-caption: 12px;
+  --leading-caption: 1.4;
+  --tracking-caption: 0.85px;
+
+  --text-body-sm: 14px;
+  --leading-body-sm: 1.57;
+  --tracking-body-sm: -0.25px;
+
+  --text-body: 16px;
+  --leading-body: 1.5;
+  --tracking-body: -0.25px;
+
+  --text-heading-sm: 20px;
+  --leading-heading-sm: 1.33;
+  --tracking-heading-sm: -0.42px;
+
+  --text-heading: 24px;
+  --leading-heading: 1.29;
+  --tracking-heading: -0.6px;
+
+  --text-heading-lg: 40px;
+  --leading-heading-lg: 1.2;
+  --tracking-heading-lg: -0.84px;
+
+  --text-display-sm: 56px;
+  --leading-display-sm: 1.14;
+  --tracking-display-sm: -1.74px;
+
+  --text-display: 64px;
+  --leading-display: 1.13;
+  --tracking-display: -2.3px;
+
+  /* Mono label stamp — eyebrows, tags, metric units, micro-text */
+  --text-label: 12px;
+  --leading-label: 1;
+  --tracking-label: 0.85px;
+  --text-label-lg: 14px;
+  --leading-label-lg: 1.4;
+  --tracking-label-lg: 1.16px;
+}
