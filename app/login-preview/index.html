@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ClickForge — Log in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <a class="wordmark" href="http://localhost:8099">Click<span>Forge</span></a>
+    <div class="card">
+      <span class="badge">CTR prediction · v3</span>
+      <h1>Log in to forge assets</h1>
+      <p class="sub">Score the click before you record.</p>
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@studio.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+        <div class="row">
+          <a class="link" href="#">Forgot password?</a>
+        </div>
+        <button type="submit">Log in</button>
+      </form>
+      <p class="foot">No account? <a href="signup.html">Start forging</a></p>
+    </div>
+    <p class="note">This is a local design preview — no backend is wired up</p>
+  </div>
+  <div class="toast" id="toast">This is a static preview — no account exists yet.</div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(function () { toast.classList.remove('show'); }, 2400);
+    });
+  </script>
+</body>
+</html>

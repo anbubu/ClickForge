@@ -1,0 +1,170 @@
+:root {
+  --ember: #ff7a18;
+  --ember-hot: #ff9a4d;
+  --ember-deep: #c2510a;
+  --ember-edge: rgba(255, 122, 24, 0.32);
+  --carbon: #0b0a09;
+  --graphite: #151311;
+  --iron: #1f1c19;
+  --slate-edge: #332f2b;
+  --smoke: #48423c;
+  --mist: #7d7671;
+  --ash: #a8a19b;
+  --bone: #ffffff;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--carbon);
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  color: var(--bone);
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.wordmark {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.045em;
+  text-decoration: none;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+.wordmark span { color: var(--ember); }
+.wrap { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
+.card {
+  width: 100%;
+  background: var(--graphite);
+  border: 1px solid var(--slate-edge);
+  border-radius: 8px;
+  padding: 32px;
+}
+.badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.85px;
+  text-transform: uppercase;
+  color: var(--ember);
+  background: rgba(255, 122, 24, 0.12);
+  border: 1px solid var(--ember-edge);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-bottom: 16px;
+}
+h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  letter-spacing: -0.6px;
+  line-height: 1.29;
+  margin: 0 0 8px;
+}
+.sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.57;
+  letter-spacing: -0.25px;
+  color: var(--ash);
+  margin: 0 0 28px;
+}
+label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.85px;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: 8px;
+}
+.field { margin-bottom: 16px; }
+.field:last-of-type { margin-bottom: 8px; }
+.hint {
+  margin: 6px 0 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--mist);
+}
+input {
+  width: 100%;
+  background: var(--iron);
+  border: 1px solid var(--slate-edge);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.25px;
+  color: var(--bone);
+  outline: none;
+  transition: border-color 120ms ease;
+}
+input::placeholder { color: var(--mist); }
+input:focus { border-color: var(--ember); }
+.row { display: flex; justify-content: flex-end; margin-bottom: 24px; }
+.link {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--ash);
+  text-decoration: none;
+}
+.link:hover { color: var(--bone); }
+button {
+  width: 100%;
+  background: var(--ember);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.25px;
+  color: #1a0c02;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(255, 122, 24, 0.35), 0 8px 32px rgba(255, 122, 24, 0.22);
+  transition: background 120ms ease, transform 80ms ease;
+}
+button:hover { background: var(--ember-hot); }
+button:active { transform: translateY(1px); }
+.foot {
+  text-align: center;
+  margin-top: 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--ash);
+}
+.foot a { color: var(--ember); text-decoration: none; }
+.foot a:hover { text-decoration: underline; }
+.note {
+  text-align: center;
+  margin-top: 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.85px;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--iron);
+  border: 1px solid var(--slate-edge);
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--bone);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }

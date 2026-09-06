@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Platform, View } from 'react-native';
+import { Linking, Platform, View } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
@@ -16,6 +16,10 @@ const NAV_ITEMS: [string, string][] = [
   ['proof', 'Results'],
   ['pricing', 'Pricing'],
 ];
+
+// Points at the local static preview (app/login-preview) while there's no real auth backend.
+// Swap back to 'https://app.clickforge.com/login' once that exists.
+const LOGIN_URL = 'http://localhost:8100';
 
 function StickyChrome({ children }: { children: React.ReactNode }) {
   if (Platform.OS === 'web') {
@@ -79,7 +83,7 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
           ))}
         </View>
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <NavPill onPress={() => scrollTo('pricing')}>Log in</NavPill>
+          <NavPill onPress={() => Linking.openURL(LOGIN_URL)}>Log in</NavPill>
           <Button iconRight={<Icon name="arrow-right" size={16} color="#1a0c02" />} onPress={() => scrollTo('top')}>
             Start forging
           </Button>
