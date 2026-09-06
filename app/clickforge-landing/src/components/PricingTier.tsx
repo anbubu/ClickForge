@@ -1,10 +1,13 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { colors, fontFamily, type as t } from '../theme/tokens';
+import { fontFamily, type as t } from '../theme/tokens';
+import { useResponsiveType } from '../theme/useResponsiveType';
 import { Badge } from './Badge';
 import { Button } from './Button';
 import { Card } from './Card';
 import { Icon } from './Icon';
+import { headingProps } from './semantics';
+import { usePalette } from '../theme/ThemeContext';
 
 export function PricingTier({
   name,
@@ -25,16 +28,19 @@ export function PricingTier({
   ctaLabel?: string;
   onSelect?: () => void;
 }) {
+  const p = usePalette();
+  const rt = useResponsiveType();
   return (
     <Card accent={featured} padding={32} style={{ flex: 1, gap: 24 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
         <Text
+          {...headingProps(3)}
           style={{
             fontFamily: fontFamily.monoRegular,
             fontSize: t.label.size,
             letterSpacing: t.label.tracking,
             textTransform: 'uppercase',
-            color: colors.ash,
+            color: p.textSecondary,
           }}
         >
           {name}
@@ -45,14 +51,14 @@ export function PricingTier({
         <Text
           style={{
             fontFamily: fontFamily.interMedium,
-            fontSize: t.headingLg.size,
-            letterSpacing: t.headingLg.tracking,
-            color: colors.bone,
+            fontSize: rt.headingLg.size,
+            letterSpacing: rt.headingLg.tracking,
+            color: p.textPrimary,
           }}
         >
           {price}
         </Text>
-        <Text style={{ fontFamily: fontFamily.interRegular, fontSize: t.bodySm.size, color: colors.ash }}>
+        <Text style={{ fontFamily: fontFamily.interRegular, fontSize: t.bodySm.size, color: p.textSecondary }}>
           {period}
         </Text>
       </View>
@@ -62,7 +68,7 @@ export function PricingTier({
             fontFamily: fontFamily.interRegular,
             fontSize: t.bodySm.size,
             lineHeight: t.bodySm.size * t.bodySm.leading,
-            color: colors.ash,
+            color: p.textSecondary,
           }}
         >
           {blurb}
@@ -71,14 +77,14 @@ export function PricingTier({
       <View style={{ gap: 12 }}>
         {features.map((f) => (
           <View key={f} style={{ flexDirection: 'row', gap: 8, alignItems: 'flex-start' }}>
-            <Icon name="check" size={16} color={featured ? colors.ember : colors.ash} />
+            <Icon name="check" size={16} color={featured ? p.accent : p.textSecondary} />
             <Text
               style={{
                 flexShrink: 1,
                 fontFamily: fontFamily.interRegular,
                 fontSize: t.bodySm.size,
                 lineHeight: t.bodySm.size * t.bodySm.leading,
-                color: colors.bone,
+                color: p.textPrimary,
               }}
             >
               {f}

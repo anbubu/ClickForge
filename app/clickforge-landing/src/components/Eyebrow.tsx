@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, type StyleProp, type TextStyle } from 'react-native';
-import { colors, fontFamily, type as t } from '../theme/tokens';
+import { fontFamily, type as t } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
 
 export function Eyebrow({
   children,
@@ -11,6 +12,7 @@ export function Eyebrow({
   tone?: 'muted' | 'ember';
   style?: StyleProp<TextStyle>;
 }) {
+  const p = usePalette();
   return (
     <Text
       style={[
@@ -20,7 +22,7 @@ export function Eyebrow({
           lineHeight: t.label.size * t.label.leading,
           letterSpacing: t.label.tracking,
           textTransform: 'uppercase',
-          color: tone === 'ember' ? colors.ember : colors.ash,
+          color: tone === 'ember' ? p.accent : p.textSecondary,
         },
         style,
       ]}

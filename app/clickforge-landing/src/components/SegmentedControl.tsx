@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, Text, View, type StyleProp, type ViewStyle } from 'react-native';
-import { colors, fontFamily, radius, surface } from '../theme/tokens';
+import { fontFamily, radius } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
 
 export type SegmentOption = { value: string; label: string };
 
@@ -15,6 +16,7 @@ export function SegmentedControl({
   onChange: (v: string) => void;
   style?: StyleProp<ViewStyle>;
 }) {
+  const p = usePalette();
   return (
     <View
       style={[
@@ -23,9 +25,9 @@ export function SegmentedControl({
           alignSelf: 'flex-start',
           gap: 2,
           padding: 3,
-          backgroundColor: surface.card,
+          backgroundColor: p.surface,
           borderWidth: 1,
-          borderColor: colors.slateEdge,
+          borderColor: p.border,
           borderRadius: radius.inputs,
         },
         style,
@@ -41,9 +43,9 @@ export function SegmentedControl({
               paddingVertical: 6,
               paddingHorizontal: 12,
               borderRadius: 6,
-              backgroundColor: on ? surface.elevated : 'transparent',
+              backgroundColor: on ? p.surfaceElevated : 'transparent',
               borderWidth: on ? 1 : 0,
-              borderColor: colors.slateEdge,
+              borderColor: p.border,
             }}
           >
             <Text
@@ -51,7 +53,7 @@ export function SegmentedControl({
                 fontFamily: fontFamily.interMedium,
                 fontSize: 13,
                 letterSpacing: -0.25,
-                color: on ? colors.bone : colors.ash,
+                color: on ? p.textPrimary : p.textSecondary,
               }}
             >
               {o.label}

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Linking, Text, View } from 'react-native';
+import { authUrls, contactUrls } from '../config/urls';
 import { Container } from '../components/Container';
 import { PricingTier } from '../components/PricingTier';
 import { SectionHeading } from '../components/SectionHeading';
 import { SegmentedControl } from '../components/SegmentedControl';
 import { AnchorSection } from '../navigation/ScrollController';
-import { colors, fontFamily } from '../theme/tokens';
+import { fontFamily } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
 
 export function Pricing() {
+  const p = usePalette();
   const [cycle, setCycle] = useState<'mo' | 'yr'>('mo');
   const annual = cycle === 'yr';
 
@@ -20,6 +23,7 @@ export function Pricing() {
       features: ['5 forges / mo', 'Title options', 'Predicted CTR'],
       featured: false,
       cta: 'Start free',
+      href: authUrls.signup,
     },
     {
       name: 'Creator',
@@ -29,6 +33,7 @@ export function Pricing() {
       features: ['120 forges / mo', 'Retention hooks', 'Thumbnail blueprints', 'Channel benchmarking'],
       featured: true,
       cta: 'Start forging',
+      href: authUrls.signup,
     },
     {
       name: 'Studio',
@@ -38,11 +43,12 @@ export function Pricing() {
       features: ['Unlimited forges', '5 seats', 'API access', 'Shared blueprint library', 'Priority model queue'],
       featured: false,
       cta: 'Talk to sales',
+      href: contactUrls.sales,
     },
   ];
 
   return (
-    <AnchorSection id="pricing" style={{ paddingVertical: 80, borderTopWidth: 1, borderTopColor: colors.slateEdge }}>
+    <AnchorSection id="pricing" style={{ paddingVertical: 80, borderTopWidth: 1, borderTopColor: p.border }}>
       <Container style={{ gap: 32, alignItems: 'center' }}>
         <SectionHeading eyebrow="Pricing" title="Priced against one wasted edit" />
         <SegmentedControl
@@ -64,6 +70,7 @@ export function Pricing() {
                 features={tier.features}
                 featured={tier.featured}
                 ctaLabel={tier.cta}
+                onSelect={() => Linking.openURL(tier.href)}
               />
             </View>
           ))}
@@ -74,7 +81,7 @@ export function Pricing() {
             fontSize: 12,
             letterSpacing: 0.85,
             textTransform: 'uppercase',
-            color: colors.mist,
+            color: p.textMuted,
           }}
         >
           Cancel any time · Forges reset monthly

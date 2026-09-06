@@ -1,18 +1,22 @@
 import React from 'react';
-import { Text, View, useWindowDimensions } from 'react-native';
+import { Linking, Text, View, useWindowDimensions } from 'react-native';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
-import { Icon } from '../components/Icon';
+import { authUrls, contactUrls } from '../config/urls';
 import { AnchorSection } from '../navigation/ScrollController';
-import { breakpoint, colors, fontFamily, type as t } from '../theme/tokens';
+import { fontFamily, breakpoint } from '../theme/tokens';
+import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
+import { usePalette } from '../theme/ThemeContext';
 
 /** `closeVariant="ember"` — the design's default closing section. */
 export function EmberClose() {
+  const p = usePalette();
   const { width } = useWindowDimensions();
   const stacked = width < breakpoint.stack;
+  const rt = useResponsiveType();
 
   return (
-    <AnchorSection id="close" style={{ backgroundColor: colors.ember, borderTopWidth: 1, borderTopColor: colors.slateEdge }}>
+    <AnchorSection id="close" style={{ backgroundColor: p.accent, borderTopWidth: 1, borderTopColor: p.border }}>
       <Container
         style={{
           flexDirection: stacked ? 'column' : 'row',
@@ -36,9 +40,7 @@ export function EmberClose() {
           <Text
             style={{
               fontFamily: fontFamily.interMedium,
-              fontSize: t.display.size,
-              lineHeight: t.display.size * t.display.leading,
-              letterSpacing: t.display.tracking,
+              ...typeStyle(rt.display),
               color: '#1a0c02',
               maxWidth: 18 * 30,
             }}
@@ -46,10 +48,16 @@ export function EmberClose() {
             Stop guessing at the thumbnail.
           </Text>
           <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
-            <Button size="lg" variant="inverted" iconRight={<Icon name="arrow-right" size={18} color={colors.carbon} />}>
+            <Button
+              size="lg"
+              variant="inverted"
+              hoverReveal
+              onPress={() => Linking.openURL(authUrls.signup)}
+            >
               Forge your first video
             </Button>
-            <Button size="lg" variant="ghost">
+            {/* `ghost` here would be ash on ember — 1.02:1, an invisible button. */}
+            <Button size="lg" variant="ghostOnEmber" onPress={() => Linking.openURL(contactUrls.demo)}>
               Book a walkthrough
             </Button>
           </View>
