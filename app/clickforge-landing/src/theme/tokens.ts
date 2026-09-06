@@ -119,6 +119,10 @@ export const duration = {
   fast: 120,
   base: 180,
   slow: 320,
+  /** Scroll-triggered section reveals — slower than any micro-interaction so it reads as content arriving, not a UI blip. */
+  reveal: 640,
+  /** Nav-pill jump-to-section scroll — a hand-driven duration so the glide reads the same on every platform, instead of each browser's own (often near-instant) native smooth-scroll. */
+  navScroll: 650,
 };
 
 export const border = {

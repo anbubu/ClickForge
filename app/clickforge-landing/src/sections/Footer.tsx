@@ -3,6 +3,7 @@ import { Text, View, useWindowDimensions } from 'react-native';
 import { Badge } from '../components/Badge';
 import { Container } from '../components/Container';
 import { Wordmark } from '../components/Wordmark';
+import { AnchorSection } from '../navigation/ScrollController';
 import { colors, fontFamily } from '../theme/tokens';
 
 const COLUMNS: { heading: string; links: string[] }[] = [
@@ -23,7 +24,10 @@ export function Footer() {
   const stacked = width < 720;
 
   return (
-    <View style={{ borderTopWidth: 1, borderTopColor: colors.slateEdge, paddingVertical: 64, paddingHorizontal: 24, paddingBottom: 40 }}>
+    <AnchorSection
+      id="footer"
+      style={{ borderTopWidth: 1, borderTopColor: colors.slateEdge, paddingVertical: 64, paddingHorizontal: 24, paddingBottom: 40 }}
+    >
       <Container
         style={{
           flexDirection: stacked ? 'column' : 'row',
@@ -82,6 +86,6 @@ export function Footer() {
           </Text>
         </View>
       </Container>
-    </View>
+    </AnchorSection>
   );
 }

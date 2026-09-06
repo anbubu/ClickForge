@@ -3,6 +3,7 @@ import { Text, View, useWindowDimensions } from 'react-native';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
 import { Icon } from '../components/Icon';
+import { AnchorSection } from '../navigation/ScrollController';
 import { breakpoint, colors, fontFamily, type as t } from '../theme/tokens';
 
 /** `closeVariant="ember"` — the design's default closing section. */
@@ -11,7 +12,7 @@ export function EmberClose() {
   const stacked = width < breakpoint.stack;
 
   return (
-    <View style={{ backgroundColor: colors.ember, borderTopWidth: 1, borderTopColor: colors.slateEdge }}>
+    <AnchorSection id="close" style={{ backgroundColor: colors.ember, borderTopWidth: 1, borderTopColor: colors.slateEdge }}>
       <Container
         style={{
           flexDirection: stacked ? 'column' : 'row',
@@ -78,6 +79,6 @@ export function EmberClose() {
           </Text>
         </View>
       </Container>
-    </View>
+    </AnchorSection>
   );
 }
