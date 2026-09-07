@@ -39,3 +39,6 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Impeccable (design critique snapshots, live-overlay server scratch)
+.impeccable/
