@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Platform, Text, TextInput, View } from 'react-native';
-import { colors, fontFamily, radius, surface, type as t } from '../theme/tokens';
+import { fontFamily, radius, type as t } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
 
 export function Textarea({
   value,
@@ -19,6 +20,7 @@ export function Textarea({
   maxLength?: number;
   disabled?: boolean;
 }) {
+  const p = usePalette();
   const [focus, setFocus] = useState(false);
   return (
     <View style={{ gap: 8, width: '100%' }}>
@@ -29,7 +31,7 @@ export function Textarea({
             fontSize: t.label.size,
             letterSpacing: t.label.tracking,
             textTransform: 'uppercase',
-            color: colors.ash,
+            color: p.textSecondary,
           }}
         >
           {label}
@@ -37,9 +39,9 @@ export function Textarea({
       )}
       <View
         style={{
-          backgroundColor: surface.card,
+          backgroundColor: p.surface,
           borderWidth: 1,
-          borderColor: focus ? colors.ember : colors.slateEdge,
+          borderColor: focus ? p.accent : p.border,
           borderRadius: radius.inputs,
           padding: 12,
           opacity: disabled ? 0.5 : 1,
@@ -49,7 +51,7 @@ export function Textarea({
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          placeholderTextColor={colors.mist}
+          placeholderTextColor={p.textMuted}
           multiline
           numberOfLines={rows}
           maxLength={maxLength}
@@ -62,7 +64,7 @@ export function Textarea({
               fontSize: t.body.size,
               lineHeight: t.body.size * t.body.leading,
               letterSpacing: t.body.tracking,
-              color: colors.bone,
+              color: p.textPrimary,
               minHeight: rows * t.body.size * t.body.leading,
               textAlignVertical: 'top' as const,
               padding: 0,
@@ -77,7 +79,7 @@ export function Textarea({
               fontFamily: fontFamily.monoRegular,
               fontSize: t.label.size,
               letterSpacing: t.label.tracking,
-              color: colors.mist,
+              color: p.textMuted,
               marginTop: 8,
             }}
           >

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!--
+    The favicon drops the crosshair and thickens the frame: at 16px the two grid
+    lines are dirt rather than detail, and a tab icon has to survive on its
+    silhouette. The ink follows the browser's own theme, because a tab strip is
+    dark or light independently of the page.
+  -->
+  <style>
+    .ink { stroke: #14110e; }
+    @media (prefers-color-scheme: dark) { .ink { stroke: #ffffff; } }
+  </style>
+  <rect class="ink" x="3" y="6.5" width="26" height="19" rx="3.2" stroke-width="2.5" fill="none"/>
+  <circle cx="11.67" cy="12.83" r="3.8" fill="#ff7a18"/>
+</svg>

@@ -1,12 +1,18 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
-import { colors, fontFamily, surface } from '../theme/tokens';
+import { fontFamily } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
+import type { Palette } from '../theme/palettes';
 
-export function ctrTone(score: number) {
-  if (score >= 8) return colors.ctrHigh;
-  if (score >= 5) return colors.ctrMid;
-  return colors.ctrLow;
+/**
+ * Takes the palette explicitly because callers are render bodies that already
+ * hold one, and the light theme needs darker CTR hues to stay legible on white.
+ */
+export function ctrTone(score: number, p: Palette) {
+  if (score >= 8) return p.ctrHigh;
+  if (score >= 5) return p.ctrMid;
+  return p.ctrLow;
 }
 
 export function CTRScore({
@@ -20,8 +26,9 @@ export function CTRScore({
   size?: 'sm' | 'md' | 'lg';
   showRing?: boolean;
 }) {
+  const p = usePalette();
   const dim = size === 'lg' ? 96 : size === 'sm' ? 44 : 64;
-  const tone = ctrTone(score);
+  const tone = ctrTone(score, p);
   const pct = Math.max(0, Math.min(100, (score / 12) * 100));
   const stroke = dim * 0.09;
   const radius = dim / 2 - stroke / 2;
@@ -32,7 +39,7 @@ export function CTRScore({
       <View style={{ width: dim, height: dim, alignItems: 'center', justifyContent: 'center' }}>
         {showRing && (
           <Svg width={dim} height={dim} style={{ position: 'absolute', transform: [{ rotate: '-90deg' }] }}>
-            <Circle cx={dim / 2} cy={dim / 2} r={radius} stroke={surface.elevated} strokeWidth={stroke} fill="none" />
+            <Circle cx={dim / 2} cy={dim / 2} r={radius} stroke={p.surfaceElevated} strokeWidth={stroke} fill="none" />
             <Circle
               cx={dim / 2}
               cy={dim / 2}
@@ -51,9 +58,9 @@ export function CTRScore({
             width: dim - 8,
             height: dim - 8,
             borderRadius: (dim - 8) / 2,
-            backgroundColor: surface.card,
+            backgroundColor: p.surface,
             borderWidth: 1,
-            borderColor: colors.slateEdge,
+            borderColor: p.border,
           }}
         />
         <Text
@@ -75,12 +82,12 @@ export function CTRScore({
               fontSize: 12,
               letterSpacing: 0.85,
               textTransform: 'uppercase',
-              color: colors.ash,
+              color: p.textSecondary,
             }}
           >
             {label}
           </Text>
-          <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 14, color: colors.bone }}>
+          <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 14, color: p.textPrimary }}>
             {score >= 8 ? 'Top decile' : score >= 5 ? 'Above channel median' : 'Below channel median'}
           </Text>
         </View>

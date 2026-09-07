@@ -9,10 +9,13 @@ import {
   LayoutGrid,
   Lock,
   Mail,
+  Menu,
+  Moon,
   PencilLine,
   Search,
   Send,
   Sparkles,
+  Sun,
   Timer,
   TrendingUp,
   Type,
@@ -21,7 +24,7 @@ import {
   Zap,
   type LucideIcon,
 } from 'lucide-react-native';
-import { colors } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
 
 /**
  * Mirrors components/core/Icon.jsx: `<Icon name="flame" />` never a hand-rolled SVG.
@@ -37,10 +40,13 @@ const REGISTRY: Record<string, LucideIcon> = {
   'layout-grid': LayoutGrid,
   lock: Lock,
   mail: Mail,
+  menu: Menu,
+  moon: Moon,
   'pencil-line': PencilLine,
   search: Search,
   send: Send,
   sparkles: Sparkles,
+  sun: Sun,
   timer: Timer,
   'trending-up': TrendingUp,
   type: Type,
@@ -54,7 +60,7 @@ export type IconName = keyof typeof REGISTRY;
 export function Icon({
   name,
   size = 16,
-  color = colors.bone,
+  color,
   strokeWidth = 1.5,
 }: {
   name: string;
@@ -62,7 +68,8 @@ export function Icon({
   color?: string;
   strokeWidth?: number;
 }) {
+  const p = usePalette();
   const Cmp = REGISTRY[name];
   if (!Cmp) return null;
-  return <Cmp size={size} color={color} strokeWidth={strokeWidth} />;
+  return <Cmp size={size} color={color ?? p.textPrimary} strokeWidth={strokeWidth} />;
 }

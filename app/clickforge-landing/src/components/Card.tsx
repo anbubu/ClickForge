@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
-import { colors, glowEmberSoft, radius, surface } from '../theme/tokens';
+import { radius } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
 
 export function Card({
   children,
@@ -19,8 +20,9 @@ export function Card({
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
 }) {
+  const p = usePalette();
   const [hover, setHover] = useState(false);
-  const bg = level === 2 ? surface.elevated : level === 0 ? 'transparent' : surface.card;
+  const bg = level === 2 ? p.surfaceElevated : level === 0 ? 'transparent' : p.surface;
   const lifted = interactive && hover;
 
   const content = (
@@ -29,12 +31,12 @@ export function Card({
       onPointerLeave={interactive ? (() => setHover(false)) as any : undefined}
       style={[
         {
-          backgroundColor: lifted ? surface.elevated : bg,
+          backgroundColor: lifted ? p.surfaceElevated : bg,
           borderRadius: radius.cards,
           padding: padding as any,
           borderWidth: 1,
-          borderColor: accent ? colors.emberEdge : lifted ? colors.smoke : colors.slateEdge,
-          ...(accent ? glowEmberSoft : null),
+          borderColor: accent ? p.accentEdge : lifted ? p.borderStrong : p.border,
+          ...(accent ? p.glowSoft : null),
         },
         style,
       ]}

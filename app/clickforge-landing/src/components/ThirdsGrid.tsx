@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, View, type StyleProp, type ViewStyle } from 'react-native';
-import { gridCell, gridLine, gridLineThirds } from '../theme/tokens';
+import { gridCell } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
 
 /**
  * The system's signature background: a 48px micro-grid at 3.5% white plus
@@ -19,6 +20,7 @@ export function ThirdsGrid({
   fade?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
+  const p = usePalette();
   if (Platform.OS !== 'web') {
     return <View style={style}>{children}</View>;
   }
@@ -33,12 +35,12 @@ export function ThirdsGrid({
   return (
     <View style={[{ position: 'relative' }, style]}>
       <View
-        pointerEvents="none"
         style={
           {
+            pointerEvents: 'none',
             position: 'absolute',
             inset: 0,
-            backgroundImage: `linear-gradient(to right, ${gridLine} 1px, transparent 1px), linear-gradient(to bottom, ${gridLine} 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(to right, ${p.gridLine} 1px, transparent 1px), linear-gradient(to bottom, ${p.gridLine} 1px, transparent 1px)`,
             backgroundSize: `${gridCell}px ${gridCell}px`,
             maskImage,
             WebkitMaskImage: maskImage,
@@ -47,12 +49,12 @@ export function ThirdsGrid({
       />
       {thirds && (
         <View
-          pointerEvents="none"
           style={
             {
+              pointerEvents: 'none',
               position: 'absolute',
               inset: 0,
-              backgroundImage: `linear-gradient(to right, transparent calc(33.333% - 1px), ${gridLineThirds} calc(33.333% - 1px), ${gridLineThirds} 33.333%, transparent 33.333%, transparent calc(66.666% - 1px), ${gridLineThirds} calc(66.666% - 1px), ${gridLineThirds} 66.666%, transparent 66.666%), linear-gradient(to bottom, transparent calc(33.333% - 1px), ${gridLineThirds} calc(33.333% - 1px), ${gridLineThirds} 33.333%, transparent 33.333%, transparent calc(66.666% - 1px), ${gridLineThirds} calc(66.666% - 1px), ${gridLineThirds} 66.666%, transparent 66.666%)`,
+              backgroundImage: `linear-gradient(to right, transparent calc(33.333% - 1px), ${p.gridLineThirds} calc(33.333% - 1px), ${p.gridLineThirds} 33.333%, transparent 33.333%, transparent calc(66.666% - 1px), ${p.gridLineThirds} calc(66.666% - 1px), ${p.gridLineThirds} 66.666%, transparent 66.666%), linear-gradient(to bottom, transparent calc(33.333% - 1px), ${p.gridLineThirds} calc(33.333% - 1px), ${p.gridLineThirds} 33.333%, transparent 33.333%, transparent calc(66.666% - 1px), ${p.gridLineThirds} calc(66.666% - 1px), ${p.gridLineThirds} 66.666%, transparent 66.666%)`,
               maskImage: thirdsMaskImage,
               WebkitMaskImage: thirdsMaskImage,
             } as any

@@ -1,19 +1,21 @@
 import React from 'react';
-import { View, useWindowDimensions } from 'react-native';
+import { View } from 'react-native';
 import { Card } from '../components/Card';
 import { Container } from '../components/Container';
 import { FeatureRow } from '../components/FeatureRow';
 import { ForgePanel } from '../components/ForgePanel';
 import { SectionHeading } from '../components/SectionHeading';
 import { AnchorSection } from '../navigation/ScrollController';
-import { breakpoint, colors } from '../theme/tokens';
+import { breakpoint } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
+import { useBelow } from '../theme/useBreakpoint';
 
 export function Engine() {
-  const { width } = useWindowDimensions();
-  const stacked = width < breakpoint.stack;
+  const p = usePalette();
+  const stacked = useBelow(breakpoint.stack);
 
   return (
-    <AnchorSection id="engine" style={{ paddingVertical: 80, borderTopWidth: 1, borderTopColor: colors.slateEdge }}>
+    <AnchorSection id="engine" style={{ paddingVertical: 80, borderTopWidth: 1, borderTopColor: p.border }}>
       <Container style={{ flexDirection: stacked ? 'column' : 'row', alignItems: stacked ? 'stretch' : 'center', gap: 64 }}>
         <View style={{ flex: stacked ? undefined : 0.9, gap: 32 }}>
           <SectionHeading
@@ -35,7 +37,8 @@ export function Engine() {
           </Card>
         </View>
         <View style={{ flex: stacked ? undefined : 1.1 }}>
-          <ForgePanel compact />
+          {/* The one live demo on the page. */}
+          <ForgePanel />
         </View>
       </Container>
     </AnchorSection>

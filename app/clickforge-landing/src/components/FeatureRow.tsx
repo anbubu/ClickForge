@@ -1,7 +1,9 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { colors, fontFamily, radius, type as t } from '../theme/tokens';
+import { fontFamily, radius, type as t } from '../theme/tokens';
 import { Icon, type IconName } from './Icon';
+import { headingProps } from './semantics';
+import { usePalette } from '../theme/ThemeContext';
 
 export function FeatureRow({
   icon = 'sparkles',
@@ -12,6 +14,7 @@ export function FeatureRow({
   title: string;
   children: string;
 }) {
+  const p = usePalette();
   return (
     <View style={{ flexDirection: 'row', gap: 16, alignItems: 'flex-start' }}>
       <View
@@ -21,20 +24,21 @@ export function FeatureRow({
           borderRadius: radius.md,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colors.emberWash,
+          backgroundColor: p.accentWash,
           borderWidth: 1,
-          borderColor: colors.emberEdge,
+          borderColor: p.accentEdge,
         }}
       >
-        <Icon name={icon} size={16} color={colors.ember} />
+        <Icon name={icon} size={16} color={p.accent} />
       </View>
       <View style={{ gap: 6, flexShrink: 1 }}>
         <Text
+          {...headingProps(3)}
           style={{
             fontFamily: fontFamily.interMedium,
             fontSize: t.body.size,
             letterSpacing: t.body.tracking,
-            color: colors.bone,
+            color: p.textPrimary,
           }}
         >
           {title}
@@ -45,7 +49,7 @@ export function FeatureRow({
             fontSize: t.bodySm.size,
             lineHeight: t.bodySm.size * t.bodySm.leading,
             letterSpacing: t.bodySm.tracking,
-            color: colors.ash,
+            color: p.textSecondary,
           }}
         >
           {children}

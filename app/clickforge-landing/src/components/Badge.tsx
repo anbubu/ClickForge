@@ -1,14 +1,20 @@
 import React from 'react';
 import { Text, View, type StyleProp, type ViewStyle } from 'react-native';
-import { colors, fontFamily, radius, type as t } from '../theme/tokens';
+import { fontFamily, radius, type as t } from '../theme/tokens';
+import { usePalette } from '../theme/ThemeContext';
+import type { Palette } from '../theme/palettes';
 
 export type BadgeTone = 'neutral' | 'ember' | 'solid';
 
-const TONES: Record<BadgeTone, { color: string; borderColor: string; background: string }> = {
-  neutral: { color: colors.ash, borderColor: colors.slateEdge, background: 'transparent' },
-  ember: { color: colors.ember, borderColor: colors.emberEdge, background: colors.emberWash },
-  solid: { color: '#1a0c02', borderColor: 'transparent', background: colors.ember },
-};
+/** A function of the palette rather than a constant, so tones follow the theme. */
+function tones(p: Palette): Record<BadgeTone, { color: string; borderColor: string; background: string }> {
+  return {
+    neutral: { color: p.textSecondary, borderColor: p.border, background: 'transparent' },
+    // `accentInk`, not `accent`: ember as text on a light ground is only 2.6:1.
+    ember: { color: p.accentInk, borderColor: p.accentEdge, background: p.accentWash },
+    solid: { color: p.textOnAccent, borderColor: 'transparent', background: p.accent },
+  };
+}
 
 export function Badge({
   children,
@@ -19,7 +25,8 @@ export function Badge({
   tone?: BadgeTone;
   style?: StyleProp<ViewStyle>;
 }) {
-  const c = TONES[tone];
+  const p = usePalette();
+  const c = tones(p)[tone];
   return (
     <View
       style={[

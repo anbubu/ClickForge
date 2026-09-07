@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { colors, fontFamily, type as t } from '../theme/tokens';
+import { fontFamily, type as t } from '../theme/tokens';
+import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
+import { usePalette } from '../theme/ThemeContext';
 
 export function StatBlock({
   icon,
@@ -15,17 +17,17 @@ export function StatBlock({
   caption?: string;
   align?: 'center' | 'left';
 }) {
+  const p = usePalette();
   const centered = align === 'center';
+  const rt = useResponsiveType();
   return (
     <View style={{ alignItems: centered ? 'center' : 'flex-start', gap: 8 }}>
       {icon && <View style={{ marginBottom: 4 }}>{icon}</View>}
       <Text
         style={{
           fontFamily: fontFamily.interMedium,
-          fontSize: t.headingLg.size,
-          lineHeight: t.headingLg.size * t.headingLg.leading,
-          letterSpacing: t.headingLg.tracking,
-          color: colors.bone,
+          ...typeStyle(rt.headingLg),
+          color: p.textPrimary,
         }}
       >
         {value}
@@ -35,26 +37,26 @@ export function StatBlock({
           fontFamily: fontFamily.interMedium,
           fontSize: t.body.size,
           letterSpacing: t.body.tracking,
-          color: colors.bone,
+          color: p.textPrimary,
         }}
       >
         {label}
       </Text>
-      {caption && (
+      {caption ? (
         <Text
           style={{
             fontFamily: fontFamily.interRegular,
             fontSize: t.bodySm.size,
             lineHeight: t.bodySm.size * t.bodySm.leading,
             letterSpacing: t.bodySm.tracking,
-            color: colors.ash,
+            color: p.textSecondary,
             maxWidth: 320,
             textAlign: centered ? 'center' : 'left',
           }}
         >
           {caption}
         </Text>
-      )}
+      ) : null}
     </View>
   );
 }

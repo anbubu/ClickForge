@@ -1,5 +1,3 @@
-import { Platform } from 'react-native';
-
 /**
  * Ported 1:1 from the ClickForge Design System tokens
  * (_ds/clickforge-design-system-.../tokens/*.css).
@@ -7,6 +5,10 @@ import { Platform } from 'react-native';
  * only the format changes (px strings -> numbers, var() -> JS refs).
  */
 
+/**
+ * Raw brand values. Surface/text/accent *roles* live in `palettes.ts`, which is
+ * what components read — these are the dark theme's hues, not a usable API.
+ */
 export const colors = {
   ember: '#ff7a18',
   emberHot: '#ff9a4d',
@@ -20,7 +22,14 @@ export const colors = {
   iron: '#1f1c19',
   slateEdge: '#332f2b',
   smoke: '#48423c',
-  mist: '#7d7671',
+  /**
+   * Lightened from the system's original #7d7671, which scored 4.15:1 on `graphite`
+   * and 4.43:1 on `carbon` — under the 4.5:1 AA floor. `mist` is used almost entirely
+   * at 12px uppercase mono with +0.85 tracking (the hardest reading condition on the
+   * page), so it needs the headroom. Clears AA on all three dark surfaces:
+   * carbon 5.52, graphite 5.17, iron 4.73.
+   */
+  mist: '#8d8681',
   ash: '#a8a19b',
   bone: '#ffffff',
 
@@ -29,33 +38,11 @@ export const colors = {
   ctrHigh: '#35c08a',
 } as const;
 
-export const surface = {
-  canvas: colors.carbon,
-  card: colors.graphite,
-  elevated: colors.iron,
-  border: colors.slateEdge,
-  borderStrong: colors.smoke,
-  inverted: colors.bone,
-  scrim: 'rgba(0, 0, 0, 0.72)',
-};
-
-export const text = {
-  primary: colors.bone,
-  secondary: colors.ash,
-  disabled: colors.mist,
-  accent: colors.ember,
-  inverted: colors.carbon,
-};
-
-export const action = {
-  primaryBg: colors.ember,
-  primaryBgHover: colors.emberHot,
-  primaryBgActive: colors.emberDeep,
-  primaryFg: '#1a0c02',
-  secondaryBorder: colors.smoke,
-  secondaryFg: colors.bone,
-  invertedBg: colors.bone,
-  invertedFg: colors.carbon,
+/** Keyboard focus indicator. Ember at full strength reads clearly on both grounds. */
+export const focusRing = {
+  color: colors.ember,
+  width: 2,
+  offset: 2,
 };
 
 export const spacing = {
@@ -123,44 +110,20 @@ export const duration = {
   reveal: 640,
   /** Nav-pill jump-to-section scroll — a hand-driven duration so the glide reads the same on every platform, instead of each browser's own (often near-instant) native smooth-scroll. */
   navScroll: 650,
+  /**
+   * The dark/light sweep expanding from the toggle. Long enough to read as the
+   * new theme travelling across the page, short enough that someone flipping
+   * back and forth is never waiting on it.
+   */
+  themeSweep: 450,
 };
 
-export const border = {
-  hairline: { borderWidth: 1, borderColor: colors.slateEdge },
-  strong: { borderWidth: 1, borderColor: colors.smoke },
-  accent: { borderWidth: 1, borderColor: colors.emberEdge },
-};
-
-/** `--glow-ember-soft`: a 24px 18%-alpha ember bloom. No drop shadows exist elsewhere in the system. */
-export const glowEmberSoft = Platform.select({
-  web: { boxShadow: '0 0 24px rgba(255, 122, 24, 0.18)' } as any,
-  default: {
-    shadowColor: colors.ember,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.18,
-    shadowRadius: 12,
-    elevation: 6,
-  },
-});
-
-/** `--glow-ember`: used behind the primary button. */
-export const glowEmber = Platform.select({
-  web: {
-    boxShadow: '0 0 0 1px rgba(255, 122, 24, 0.35), 0 8px 32px rgba(255, 122, 24, 0.22)',
-  } as any,
-  default: {
-    shadowColor: colors.ember,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.22,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-});
-
-/** Rule-of-thirds composition grid — the system's signature background. */
-export const gridLine = 'rgba(255, 255, 255, 0.035)';
-export const gridLineThirds = 'rgba(255, 122, 24, 0.10)';
+/** Grid cell size for the signature rule-of-thirds background; its colours live in `palettes.ts`. */
 export const gridCell = 48;
 
-/** Breakpoint below which two-column marketing rows stack to one column. */
-export const breakpoint = { stack: 860, nav: 900 };
+/**
+ * `stack` — two-column marketing rows collapse to one column.
+ * `nav`   — the header's inline nav pills collapse into a menu sheet.
+ * `phone` — the display/heading ramp steps down to its smallest tier.
+ */
+export const breakpoint = { phone: 560, stack: 860, nav: 900 };
