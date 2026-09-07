@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FlatList, Platform, ScrollView, Text, View } from 'react-native';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
 import { Icon } from '../components/Icon';
@@ -12,7 +12,7 @@ import { Onboarding } from '../components/dashboard/Onboarding';
 import { PerformanceView } from '../components/dashboard/PerformanceView';
 import { QueueEmpty, QueueRow } from '../components/dashboard/QueueRow';
 import { ShippedEmpty, ShippedRow } from '../components/dashboard/ShippedRow';
-import type { Platform } from '../data/dashboard';
+import type { Platform as ForgePlatform, QueuedForge } from '../data/dashboard';
 import { BOTTLENECK_PAYOFF } from '../data/onboarding';
 import { nextQuotaReset } from '../data/relativeTime';
 import { useForge } from '../state/ForgeStore';
@@ -66,7 +66,18 @@ function Heading({ children, count }: { children: string; count?: number }) {
  */
 const FORGE_PENDING_MS = 900;
 
-const PLATFORMS: { value: Platform; label: string }[] = [
+/**
+ * How many rows FlatList renders before the first scroll. Eight fills a laptop
+ * viewport with one row of slack; the rest arrive as the creator scrolls.
+ */
+const INITIAL_ROWS = 8;
+
+/** Matches the 4px the queue used to get from its container's `gap`. */
+function RowSeparator() {
+  return <View style={{ height: 4 }} />;
+}
+
+const PLATFORMS: { value: ForgePlatform; label: string }[] = [
   { value: 'YouTube', label: 'YouTube' },
   { value: 'TikTok', label: 'TikTok' },
   { value: 'Shorts', label: 'Shorts' },
@@ -87,7 +98,7 @@ export function Dashboard() {
 
   const [tab, setTab] = useState<DashboardTab>('Forge');
   const [concept, setConcept] = useState('');
-  const [platform, setPlatform] = useState<Platform>(profile?.platform ?? 'YouTube');
+  const [platform, setPlatform] = useState<ForgePlatform>(profile?.platform ?? 'YouTube');
   const [forging, setForging] = useState(false);
 
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -119,32 +130,58 @@ export function Dashboard() {
     }, FORGE_PENDING_MS);
   };
 
-  return (
-    <View style={{ flex: 1, backgroundColor: p.canvas }}>
-      <AppBar tab={tab} onTabChange={setTab} />
-      <ScrollView
-        {...landmark.main}
-        style={{ flex: 1, backgroundColor: p.canvas }}
-        contentContainerStyle={{ paddingBottom: 96 }}
-      >
-        {/*
-          Step 0 stands in front of everything, including the other tabs: a
-          creator who has not said what they publish or what is broken has no use
-          for a performance chart, and the diagnostic is the first thing that has
-          to happen in the funnel.
-        */}
-        {!profile ? (
-          <Onboarding />
-        ) : tab === 'Performance' ? (
-          <Container style={{ maxWidth: 1040, paddingTop: 48 }}>
-            <PerformanceView />
-          </Container>
-        ) : tab === 'Library' ? (
-          <Container style={{ maxWidth: 1040, paddingTop: 48 }}>
-            <LibraryView />
-          </Container>
-        ) : (
-        <Container style={{ maxWidth: 1040, gap: 40, paddingTop: 48 }}>
+  const keyExtractor = useCallback((item: QueuedForge) => item.id, []);
+
+  /**
+   * `last` drops the final row's hairline, so the row needs to know the length —
+   * which is why this depends on it rather than on nothing.
+   */
+  const renderQueueRow = useCallback(
+    ({ item, index }: { item: QueuedForge; index: number }) => (
+      <Container style={{ maxWidth: 1040 }}>
+        <QueueRow item={item} last={index === queue.length - 1} />
+      </Container>
+    ),
+    [queue.length],
+  );
+
+  /*
+    Step 0 stands in front of everything, including the other tabs: a creator who
+    has not said what they publish or what is broken has no use for a performance
+    chart, and the diagnostic is the first thing that has to happen in the funnel.
+
+    These three screens are ordinary scrolling content — only the queue is long
+    enough to need windowing — so they keep the ScrollView and return early.
+  */
+  if (!profile || tab === 'Performance' || tab === 'Library') {
+    return (
+      <View style={{ flex: 1, backgroundColor: p.canvas }}>
+        <AppBar tab={tab} onTabChange={setTab} />
+        <ScrollView
+          {...landmark.main}
+          style={{ flex: 1, backgroundColor: p.canvas }}
+          contentContainerStyle={{ paddingBottom: 96 }}
+        >
+          {!profile ? (
+            <Onboarding />
+          ) : (
+            <Container style={{ maxWidth: 1040, paddingTop: 48 }}>
+              {tab === 'Performance' ? <PerformanceView /> : <LibraryView />}
+            </Container>
+          )}
+        </ScrollView>
+      </View>
+    );
+  }
+
+  /**
+   * The composer and the queue's own heading. Passed to FlatList as an element
+   * rather than as a component: a function component prop is a new type on every
+   * render, which would remount the header and take the focus out of the textarea
+   * mid-sentence.
+   */
+  const forgeHeader = (
+    <Container style={{ maxWidth: 1040, paddingTop: 48 }}>
           <View style={{ gap: 20 }}>
             <Text
               {...headingProps(1)}
@@ -198,7 +235,7 @@ export function Dashboard() {
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                 <SegmentedControl
                   value={platform}
-                  onChange={(v) => setPlatform(v as Platform)}
+                  onChange={(v) => setPlatform(v as ForgePlatform)}
                   options={PLATFORMS}
                 />
                 <Button
@@ -262,13 +299,12 @@ export function Dashboard() {
               Scored and waiting on you. The score is the predicted click-through for the winning title. Open a row to
               pick a title, approve the hook and settle the thumbnail.
             </Text>
-            {queue.length === 0 ? (
-              <QueueEmpty />
-            ) : (
-              queue.map((item, i) => <QueueRow key={item.id} item={item} last={i === queue.length - 1} />)
-            )}
           </View>
+    </Container>
+  );
 
+  const shippedFooter = (
+    <Container style={{ maxWidth: 1040, paddingTop: 40 }}>
           <View style={{ gap: 4 }}>
             <Heading>Shipped</Heading>
             <Text
@@ -289,9 +325,41 @@ export function Dashboard() {
               shipped.map((item, i) => <ShippedRow key={item.id} item={item} last={i === shipped.length - 1} />)
             )}
           </View>
-        </Container>
-        )}
-      </ScrollView>
+    </Container>
+  );
+
+  return (
+    <View style={{ flex: 1, backgroundColor: p.canvas }}>
+      <AppBar tab={tab} onTabChange={setTab} />
+      {/*
+        The queue is virtualised, so it is the scroll container rather than
+        something inside one — a VirtualizedList nested in a ScrollView of the
+        same orientation is given unbounded height and renders every row, which
+        is the opposite of the point. The composer rides along as the header and
+        the shipped list as the footer.
+      */}
+      <FlatList
+        {...landmark.main}
+        style={{ flex: 1, backgroundColor: p.canvas }}
+        contentContainerStyle={{ paddingBottom: 96 }}
+        data={queue}
+        keyExtractor={keyExtractor}
+        renderItem={renderQueueRow}
+        ItemSeparatorComponent={RowSeparator}
+        ListHeaderComponent={forgeHeader}
+        ListFooterComponent={shippedFooter}
+        ListEmptyComponent={
+          <Container style={{ maxWidth: 1040 }}>
+            <QueueEmpty />
+          </Container>
+        }
+        initialNumToRender={INITIAL_ROWS}
+        maxToRenderPerBatch={INITIAL_ROWS}
+        windowSize={7}
+        // Android-only in practice, and on web it fights the browser's own
+        // compositing; the windowing above is what does the work here.
+        removeClippedSubviews={Platform.OS === 'android'}
+      />
     </View>
   );
 }
