@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  startTransition,
   useContext,
   useEffect,
   useRef,
@@ -111,7 +112,15 @@ export function ScrollControllerProvider({
     }
   };
 
-  /** Which section the reader is currently in, for the nav pills' active state. */
+  /**
+   * Which section the reader is currently in, for the nav pills' active state.
+   *
+   * Called on every scroll frame, so the state write is a transition: the pill
+   * highlight is the least urgent thing on screen, and marking it as such keeps
+   * it from competing with the scroll itself for the same frame. The identity
+   * check still matters — it stops React scheduling work at all when the answer
+   * has not changed, which is almost every frame.
+   */
   const updateActive = () => {
     const probe = scrollY.current + headerH.current + 1;
     let current: string | null = null;
@@ -122,7 +131,9 @@ export function ScrollControllerProvider({
         current = key;
       }
     }
-    setActiveSection((prev) => (prev === current ? prev : current));
+    startTransition(() => {
+      setActiveSection((prev) => (prev === current ? prev : current));
+    });
   };
 
   // If a reduced-motion preference arrives after some sections already animated,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
@@ -6,10 +6,16 @@ import { Icon } from '../components/Icon';
 import { SegmentedControl } from '../components/SegmentedControl';
 import { Textarea } from '../components/Textarea';
 import { headingProps, landmark } from '../components/semantics';
-import { AppBar } from '../components/dashboard/AppBar';
+import { AppBar, type DashboardTab } from '../components/dashboard/AppBar';
+import { LibraryView } from '../components/dashboard/LibraryView';
+import { Onboarding } from '../components/dashboard/Onboarding';
+import { PerformanceView } from '../components/dashboard/PerformanceView';
 import { QueueEmpty, QueueRow } from '../components/dashboard/QueueRow';
 import { ShippedEmpty, ShippedRow } from '../components/dashboard/ShippedRow';
-import { queue, quota, shipped } from '../data/dashboard';
+import type { Platform } from '../data/dashboard';
+import { BOTTLENECK_PAYOFF } from '../data/onboarding';
+import { nextQuotaReset } from '../data/relativeTime';
+import { useForge } from '../state/ForgeStore';
 import { fontFamily, radius, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
@@ -51,6 +57,22 @@ function Heading({ children, count }: { children: string; count?: number }) {
 }
 
 /**
+ * How long the composer stays in its pending state.
+ *
+ * The engine is local and returns in under a millisecond, but a forge that
+ * lands instantly trains the wrong expectation: the real call is a model
+ * request over the network. Holding the pending state means the UI already has
+ * somewhere to put that latency instead of needing it retrofitted later.
+ */
+const FORGE_PENDING_MS = 900;
+
+const PLATFORMS: { value: Platform; label: string }[] = [
+  { value: 'YouTube', label: 'YouTube' },
+  { value: 'TikTok', label: 'TikTok' },
+  { value: 'Shorts', label: 'Shorts' },
+];
+
+/**
  * The signed-in home.
  *
  * It opens with the forge input rather than a row of statistics: the reason a
@@ -61,27 +83,67 @@ function Heading({ children, count }: { children: string; count?: number }) {
 export function Dashboard() {
   const p = usePalette();
   const rt = useResponsiveType();
+  const { queue, shipped, remaining, total, forge, profile } = useForge();
 
+  const [tab, setTab] = useState<DashboardTab>('Forge');
   const [concept, setConcept] = useState('');
-  const [platform, setPlatform] = useState('yt');
+  const [platform, setPlatform] = useState<Platform>(profile?.platform ?? 'YouTube');
   const [forging, setForging] = useState(false);
 
-  const remaining = quota.total - quota.used;
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
 
-  const forge = () => {
-    if (!concept.trim()) return;
+  /**
+   * The composer opens on the platform from Step 0. It follows the diagnostic
+   * rather than being copied once at mount, because the profile arrives after
+   * first render — the creator answers, the answer lands, and this is what makes
+   * the composer reflect it without a reload.
+   */
+  useEffect(() => {
+    if (profile?.platform) setPlatform(profile.platform);
+  }, [profile?.platform]);
+
+  const spent = remaining <= 0;
+  const canForge = !!concept.trim() && !forging && !spent;
+
+  const onForge = () => {
+    if (!canForge) return;
     setForging(true);
-    setTimeout(() => setForging(false), 1100);
+    const submitted = concept;
+    timer.current = setTimeout(() => {
+      forge(submitted, platform);
+      // Clearing on success rather than on submit: if the forge is rejected the
+      // creator still has what they typed.
+      setConcept('');
+      setForging(false);
+    }, FORGE_PENDING_MS);
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: p.canvas }}>
-      <AppBar />
+      <AppBar tab={tab} onTabChange={setTab} />
       <ScrollView
         {...landmark.main}
         style={{ flex: 1, backgroundColor: p.canvas }}
         contentContainerStyle={{ paddingBottom: 96 }}
       >
+        {/*
+          Step 0 stands in front of everything, including the other tabs: a
+          creator who has not said what they publish or what is broken has no use
+          for a performance chart, and the diagnostic is the first thing that has
+          to happen in the funnel.
+        */}
+        {!profile ? (
+          <Onboarding />
+        ) : tab === 'Performance' ? (
+          <Container style={{ maxWidth: 1040, paddingTop: 48 }}>
+            <PerformanceView />
+          </Container>
+        ) : tab === 'Library' ? (
+          <Container style={{ maxWidth: 1040, paddingTop: 48 }}>
+            <LibraryView />
+          </Container>
+        ) : (
         <Container style={{ maxWidth: 1040, gap: 40, paddingTop: 48 }}>
           <View style={{ gap: 20 }}>
             <Text
@@ -94,6 +156,26 @@ export function Dashboard() {
             >
               What are you making?
             </Text>
+
+            {/* The Step 0 answer, said back. This is the diagnostic paying out:
+                it names what they told us and points at the part of the output
+                that addresses it. */}
+            {profile && (
+              <Text
+                style={{
+                  fontFamily: fontFamily.interRegular,
+                  fontSize: t.bodySm.size,
+                  lineHeight: t.bodySm.size * t.bodySm.leading,
+                  color: p.textSecondary,
+                  maxWidth: 620,
+                  borderLeftWidth: 2,
+                  borderLeftColor: p.accentEdge,
+                  paddingLeft: 14,
+                }}
+              >
+                {BOTTLENECK_PAYOFF[profile.bottleneck]}
+              </Text>
+            )}
 
             <View
               style={{
@@ -110,29 +192,41 @@ export function Dashboard() {
                 maxLength={600}
                 value={concept}
                 onChangeText={setConcept}
+                disabled={forging}
                 placeholder="A one-line angle, a script draft, or a rough idea."
               />
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                 <SegmentedControl
                   value={platform}
-                  onChange={setPlatform}
-                  options={[
-                    { value: 'yt', label: 'YouTube' },
-                    { value: 'tt', label: 'TikTok' },
-                    { value: 'sh', label: 'Shorts' },
-                  ]}
+                  onChange={(v) => setPlatform(v as Platform)}
+                  options={PLATFORMS}
                 />
                 <Button
-                  onPress={forge}
-                  disabled={forging || !concept.trim()}
-                  iconLeft={
-                    <Icon name="flame" size={16} color={forging || !concept.trim() ? p.textMuted : p.textOnAccent} />
-                  }
+                  onPress={onForge}
+                  disabled={!canForge}
+                  iconLeft={<Icon name="flame" size={16} color={canForge ? p.textOnAccent : p.textMuted} />}
                   style={{ marginLeft: 'auto' }}
                 >
                   {forging ? 'Forging' : 'Forge assets'}
                 </Button>
               </View>
+
+              {/*
+                Sits with the submit control rather than in a settings screen,
+                because the moment consent has to be visible is the moment the
+                concept leaves the device. App Store review reads a buried
+                disclosure as no disclosure where third-party LLMs are involved.
+              */}
+              <Text
+                style={{
+                  fontFamily: fontFamily.interRegular,
+                  fontSize: 12,
+                  lineHeight: 12 * 1.5,
+                  color: p.textMuted,
+                }}
+              >
+                By forging, you agree to our AI data processing terms.
+              </Text>
             </View>
 
             <Text
@@ -142,8 +236,14 @@ export function Dashboard() {
                 color: p.textMuted,
               }}
             >
-              <Text style={{ fontFamily: fontFamily.monoRegular, color: p.textSecondary }}>{remaining}</Text>
-              {` of ${quota.total} forges left this cycle. Resets ${quota.resets}.`}
+              {spent ? (
+                `No forges left this cycle. Resets ${nextQuotaReset()}.`
+              ) : (
+                <>
+                  <Text style={{ fontFamily: fontFamily.monoRegular, color: p.textSecondary }}>{remaining}</Text>
+                  {` of ${total} forges left this cycle. Resets ${nextQuotaReset()}.`}
+                </>
+              )}
             </Text>
           </View>
 
@@ -159,7 +259,8 @@ export function Dashboard() {
                 maxWidth: 520,
               }}
             >
-              Scored and waiting on you. The score is the predicted click-through for the winning title.
+              Scored and waiting on you. The score is the predicted click-through for the winning title. Open a row to
+              pick a title, approve the hook and settle the thumbnail.
             </Text>
             {queue.length === 0 ? (
               <QueueEmpty />
@@ -189,6 +290,7 @@ export function Dashboard() {
             )}
           </View>
         </Container>
+        )}
       </ScrollView>
     </View>
   );

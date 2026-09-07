@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, Text, View, useWindowDimensions } from 'react-native';
+import { Text, View } from 'react-native';
 import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { headingProps } from '../components/semantics';
@@ -7,20 +7,19 @@ import { Container } from '../components/Container';
 import { ToolSpec } from '../components/ToolSpec';
 import { LogoStrip } from '../components/LogoStrip';
 import { ThirdsGrid } from '../components/ThirdsGrid';
-import { authUrls } from '../config/urls';
-import { AnchorSection, useScrollController } from '../navigation/ScrollController';
+import { AnchorSection } from '../navigation/ScrollController';
+import { goToDashboard, goToSampleReport } from '../navigation/routes';
 import { fontFamily, breakpoint, type as t } from '../theme/tokens';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
 import { usePalette } from '../theme/ThemeContext';
+import { useBelow } from '../theme/useBreakpoint';
 
 const STUDIOS = ['Nightshift', 'Northpoint', 'Studio Kilo', 'Halcyon', 'Rundown', 'Overcast'];
 
 export function Hero() {
   const p = usePalette();
-  const { width } = useWindowDimensions();
-  const stacked = width < breakpoint.stack;
+  const stacked = useBelow(breakpoint.stack);
   const rt = useResponsiveType();
-  const { scrollTo } = useScrollController();
 
   return (
     <ThirdsGrid>
@@ -60,11 +59,12 @@ export function Hero() {
               retention hook, and an exact thumbnail blueprint — each carrying a predicted CTR.
             </Text>
             <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
-              <Button size="lg" hoverReveal onPress={() => Linking.openURL(authUrls.signup)}>
+              <Button size="lg" hoverReveal onPress={goToDashboard}>
                 Forge your first video
               </Button>
-              {/* The live panel to the right is the sample report — send them to it. */}
-              <Button size="lg" variant="secondary" onPress={() => scrollTo('engine')}>
+              {/* The panel to the right is a taste of one; this opens the whole
+                  report on its own page, which is what the label promises. */}
+              <Button size="lg" variant="secondary" onPress={goToSampleReport}>
                 See a sample report
               </Button>
             </View>
@@ -77,7 +77,7 @@ export function Hero() {
                 color: p.textMuted,
               }}
             >
-              No card · 5 free forges
+              30-day free trial · Cancel any time
             </Text>
           </View>
           <View style={{ flex: stacked ? undefined : 1.05, width: stacked ? '100%' : undefined, maxWidth: stacked ? 1000 : undefined }}>

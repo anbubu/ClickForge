@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Linking, Text, View } from 'react-native';
-import { authUrls, contactUrls } from '../config/urls';
+import { contactUrls } from '../config/urls';
+import { goToDashboard } from '../navigation/routes';
 import { Container } from '../components/Container';
 import { PricingTier } from '../components/PricingTier';
 import { SectionHeading } from '../components/SectionHeading';
@@ -14,17 +15,16 @@ export function Pricing() {
   const [cycle, setCycle] = useState<'mo' | 'yr'>('mo');
   const annual = cycle === 'yr';
 
+  /**
+   * Two tiers, no free plan.
+   *
+   * The $0 Starter used to sit first, and a leftmost card absorbs the attention
+   * a pricing table spends before anyone reads across: visitors who would have
+   * trialled Creator took the free plan and never met the paid product. The
+   * funnel now runs through a 30-day trial of Creator, so Creator is the first
+   * card as well as the featured one.
+   */
   const tiers = [
-    {
-      name: 'Starter',
-      price: '$0',
-      period: '',
-      blurb: 'Test the engine on a real upload.',
-      features: ['5 forges / mo', 'Title options', 'Predicted CTR'],
-      featured: false,
-      cta: 'Start free',
-      href: authUrls.signup,
-    },
     {
       name: 'Creator',
       price: annual ? '$23' : '$29',
@@ -32,8 +32,8 @@ export function Pricing() {
       blurb: 'For a channel shipping weekly.',
       features: ['120 forges / mo', 'Retention hooks', 'Thumbnail blueprints', 'Channel benchmarking'],
       featured: true,
-      cta: 'Start forging',
-      href: authUrls.signup,
+      cta: 'Start 30-Day Free Trial',
+      onSelect: goToDashboard,
     },
     {
       name: 'Studio',
@@ -43,7 +43,9 @@ export function Pricing() {
       features: ['Unlimited forges', '5 seats', 'API access', 'Shared blueprint library', 'Priority model queue'],
       featured: false,
       cta: 'Talk to sales',
-      href: contactUrls.sales,
+      // The one CTA on the page with no in-app destination: it needs a real
+      // scheduler or inbox, which is a decision, not a default.
+      onSelect: () => Linking.openURL(contactUrls.sales),
     },
   ];
 
@@ -59,7 +61,18 @@ export function Pricing() {
             { value: 'yr', label: 'Annual · −20%' },
           ]}
         />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 24, width: '100%', alignItems: 'stretch' }}>
+        {/* Capped, because two cards sharing a 1200px row stretch to a shape no
+            pricing card should be. Three used to fill it; two need the limit. */}
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: 24,
+            width: '100%',
+            maxWidth: 760,
+            alignItems: 'stretch',
+          }}
+        >
           {tiers.map((tier) => (
             <View key={tier.name} style={{ flexBasis: 280, flexGrow: 1 }}>
               <PricingTier
@@ -70,7 +83,7 @@ export function Pricing() {
                 features={tier.features}
                 featured={tier.featured}
                 ctaLabel={tier.cta}
-                onSelect={() => Linking.openURL(tier.href)}
+                onSelect={tier.onSelect}
               />
             </View>
           ))}
@@ -84,7 +97,7 @@ export function Pricing() {
             color: p.textMuted,
           }}
         >
-          Cancel any time · Forges reset monthly
+          30 days free · Cancel any time · Forges reset monthly
         </Text>
       </Container>
     </AnchorSection>

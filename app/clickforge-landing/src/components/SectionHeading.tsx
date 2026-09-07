@@ -25,7 +25,7 @@ export function SectionHeading({
   const rt = useResponsiveType();
   return (
     <View style={{ gap: 24, alignItems: centered ? 'center' : 'flex-start', width: '100%' }}>
-      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
       <Text
         {...headingProps(level)}
         style={{
@@ -38,7 +38,7 @@ export function SectionHeading({
       >
         {title}
       </Text>
-      {body && (
+      {body ? (
         <Text
           style={{
             fontFamily: fontFamily.interRegular,
@@ -52,7 +52,7 @@ export function SectionHeading({
         >
           {body}
         </Text>
-      )}
+      ) : null}
     </View>
   );
 }

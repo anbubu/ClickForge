@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import type { Blueprint, Platform } from '../data/dashboard';
+import { forgeAssets, type ForgedAssets } from '../engine/localEngine';
 import { fontFamily, radius, type as t } from '../theme/tokens';
 import { Badge } from './Badge';
 import { Button } from './Button';
@@ -131,6 +133,31 @@ export function BlueprintDiagram({ width = 190 }: { width?: number }) {
   );
 }
 
+/** Panel platform keys are short for the segmented control; the engine wants the real names. */
+const PLATFORM_BY_KEY: Record<string, Platform> = { yt: 'YouTube', tt: 'TikTok', sh: 'Shorts' };
+
+const BLUEPRINT_LABELS: [keyof Blueprint, string][] = [
+  ['subject', 'Focal subject'],
+  ['grade', 'Colour grade'],
+  ['overlay', 'Text overlay'],
+  ['negativeSpace', 'Negative space'],
+];
+
+/** Engine output in the shape this panel renders, so both sources display identically. */
+function reportFrom(assets: ForgedAssets): ForgeSample {
+  return {
+    concept: '',
+    titles: assets.titles.map((t) => ({
+      text: t.text,
+      score: t.score,
+      gap: t.gap ?? 0,
+      hook: t.hook ?? 0,
+    })),
+    hooks: assets.hooks,
+    blueprint: BLUEPRINT_LABELS.map(([key, label]) => [label, assets.blueprint[key]] as const),
+  };
+}
+
 export function ForgePanel({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }) {
   const p = usePalette();
   const [concept, setConcept] = useState(sample.concept);
@@ -138,9 +165,29 @@ export function ForgePanel({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }) 
   const [tab, setTab] = useState<Tab>('titles');
   const [state, setState] = useState<'forging' | 'done'>('done');
 
+  /**
+   * What the panel is showing. It opens on the hand-written sample so the page
+   * reads as a finished product before anyone touches it, and switches to real
+   * engine output the moment someone forges — which is the only honest response
+   * to a button that says it will forge what you typed.
+   */
+  const [report, setReport] = useState<ForgeSample>(sample);
+  const [elapsed, setElapsed] = useState<string | null>(null);
+
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+
   const forge = () => {
+    if (!concept.trim()) return;
     setState('forging');
-    setTimeout(() => setState('done'), 1100);
+    const startedAt = Date.now();
+    // Held rather than instant: the real model call is a network round trip, and
+    // the panel needs somewhere to put that latency before it exists.
+    timer.current = setTimeout(() => {
+      setReport(reportFrom(forgeAssets(concept, PLATFORM_BY_KEY[platform] ?? 'YouTube')));
+      setElapsed(`${((Date.now() - startedAt) / 1000).toFixed(1)}s`);
+      setState('done');
+    }, 1100);
   };
 
   return (
@@ -159,7 +206,7 @@ export function ForgePanel({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }) 
           />
           <Button
             onPress={forge}
-            disabled={state === 'forging'}
+            disabled={state === 'forging' || !concept.trim()}
             iconLeft={<Icon name="flame" size={16} color={state === 'forging' ? p.textMuted : '#1a0c02'} />}
             style={{ marginLeft: 'auto' }}
           >
@@ -207,14 +254,16 @@ export function ForgePanel({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }) 
             color: p.textMuted,
           }}
         >
-          {state === 'forging' ? 'Running model…' : 'Forged in 52s'}
+          {/* Before anyone forges this is the sample's own provenance; after, it
+              is the time the run actually took, measured rather than quoted. */}
+          {state === 'forging' ? 'Running model…' : elapsed ? `Forged in ${elapsed}` : 'Forged in 52s'}
         </Text>
       </View>
 
       <View style={{ padding: 24, opacity: state === 'forging' ? 0.4 : 1, minHeight: 268 }}>
         {tab === 'titles' && (
           <View style={{ gap: 12 }}>
-            {sample.titles.map((item, i) => (
+            {report.titles.map((item, i) => (
               <Card
                 key={item.text}
                 level={2}
@@ -240,7 +289,7 @@ export function ForgePanel({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }) 
 
         {tab === 'hooks' && (
           <View style={{ gap: 12 }}>
-            {sample.hooks.map((h, i) => (
+            {report.hooks.map((h, i) => (
               <Card
                 key={h}
                 level={2}
@@ -261,7 +310,7 @@ export function ForgePanel({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }) 
           <View style={{ flexDirection: 'row', gap: 24 }}>
             <BlueprintDiagram />
             <View style={{ flex: 1, gap: 12 }}>
-              {sample.blueprint.map(([k, v]) => (
+              {report.blueprint.map(([k, v]) => (
                 <View key={k} style={{ flexDirection: 'row', gap: 16 }}>
                   <Text
                     style={{

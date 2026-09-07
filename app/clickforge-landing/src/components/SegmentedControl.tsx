@@ -19,6 +19,7 @@ export function SegmentedControl({
   const p = usePalette();
   return (
     <View
+      accessibilityRole="radiogroup"
       style={[
         {
           flexDirection: 'row',
@@ -39,6 +40,15 @@ export function SegmentedControl({
           <Pressable
             key={o.value}
             onPress={() => onChange(o.value)}
+            // Without a role these read as plain text to assistive tech: a
+            // control that works by mouse and does not exist to a screen reader.
+            accessibilityRole="radio"
+            accessibilityLabel={o.label}
+            accessibilityState={{ checked: on, selected: on }}
+            // React Native Web drops `checked` from accessibilityState for this
+            // role, which leaves a radio announcing no state at all — worse than
+            // having no role. The ARIA attribute has to be set directly.
+            {...({ 'aria-checked': on } as any)}
             style={{
               paddingVertical: 6,
               paddingHorizontal: 12,

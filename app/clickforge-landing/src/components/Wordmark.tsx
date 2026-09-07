@@ -1,20 +1,37 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { fontFamily } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
+import { Logo } from './Logo';
 
-/** Inter Semibold, -0.045em tracking, "Click" in ink, "Forge" in ember. */
+/**
+ * The full lockup: the mark, then Inter Semibold at -0.045em tracking with
+ * "Click" in ink and "Forge" in ember.
+ *
+ * The mark is part of the wordmark rather than something each header assembles
+ * for itself, so the four places the brand appears — landing header, dashboard
+ * bar, standalone page bar, footer — cannot drift apart in spacing or scale.
+ * `showMark` exists for the case where the mark is already present nearby, not
+ * as a general opt-out.
+ */
 export function Wordmark({
   size = 20,
   color,
   accent,
+  showMark = true,
 }: {
   size?: number;
   color?: string;
   accent?: string;
+  showMark?: boolean;
 }) {
   const p = usePalette();
-  return (
+
+  // Ratios rather than constants, so the lockup holds at any size it is asked for.
+  const markSize = Math.round(size * 1.2);
+  const gap = Math.max(6, Math.round(size * 0.45));
+
+  const wordmark = (
     <Text
       style={{
         fontFamily: fontFamily.interSemibold,
@@ -27,5 +44,17 @@ export function Wordmark({
       Click
       <Text style={{ color: accent ?? p.accentInk }}>Forge</Text>
     </Text>
+  );
+
+  if (!showMark) return wordmark;
+
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap }}>
+      {/* Left undefined, the mark picks full-strength ember while the word picks
+          the light theme's darker ember ink — correct for each, since one is a
+          filled shape and the other is text. */}
+      <Logo size={markSize} color={color} accent={accent} />
+      {wordmark}
+    </View>
   );
 }

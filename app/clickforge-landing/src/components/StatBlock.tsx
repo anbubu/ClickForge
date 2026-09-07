@@ -42,7 +42,7 @@ export function StatBlock({
       >
         {label}
       </Text>
-      {caption && (
+      {caption ? (
         <Text
           style={{
             fontFamily: fontFamily.interRegular,
@@ -56,7 +56,7 @@ export function StatBlock({
         >
           {caption}
         </Text>
-      )}
+      ) : null}
     </View>
   );
 }

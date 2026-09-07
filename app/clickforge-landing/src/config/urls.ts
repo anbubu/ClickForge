@@ -27,6 +27,14 @@ const origin = override ?? (usingPreview ? LOCAL_PREVIEW_ORIGIN : PRODUCTION_ORI
 /**
  * The static preview is a pair of flat files; the real app will use clean routes.
  * Keeping the shape difference here means callers just say `authUrls.signup`.
+ *
+ * Both are currently unreferenced. Every "Log in" and "Start forging" on the site
+ * goes straight to the dashboard instead, for two reasons: a preview page cannot
+ * log anyone in or sign anyone up, and in development the preview's own origin is
+ * this app's dev server, so `/signup.html` serves the app shell rather than the
+ * signup page — a CTA pointed there looks to a visitor like a button that does
+ * nothing. They stay defined because they are the contract the real auth pages
+ * will land on. See `navigation/routes.ts`.
  */
 export const authUrls = {
   login: usingPreview ? `${origin}/index.html` : `${origin}/login`,
@@ -45,3 +53,12 @@ export const contactUrls = {
   sales: 'https://clickforge.com/contact-sales',
   demo: 'https://clickforge.com/book-a-walkthrough',
 };
+
+/**
+ * The public feedback board (Canny / UserJot), linked from the footer.
+ *
+ * TODO(clickforge): set this to the real board URL before launch. While it is
+ * empty the footer renders "Feedback Board" as plain text rather than as a link
+ * to nowhere — one line to change, and the link turns itself on.
+ */
+export const feedbackUrl = '';

@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
-import { Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { Linking, Pressable, Text, View } from 'react-native';
 import { Badge } from '../components/Badge';
 import { Container } from '../components/Container';
 import { Wordmark } from '../components/Wordmark';
 import { headingProps, landmark } from '../components/semantics';
+import { feedbackUrl } from '../config/urls';
 import { AnchorSection, useScrollController } from '../navigation/ScrollController';
+import { goTo, type Route } from '../navigation/routes';
 import { fontFamily } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
+import { useBelow } from '../theme/useBreakpoint';
 
 /**
- * `section` points a link at an on-page anchor. The rest have no destination yet —
- * they render as plain text rather than as focusable links that go nowhere, which
+ * `section` points a link at an on-page anchor, `href` at somewhere off-site, and
+ * `route` at another screen in the app. The rest have no destination yet — they
+ * render as plain text rather than as focusable links that go nowhere, which
  * would be worse for keyboard and screen-reader users than not being links at all.
  *
  * TODO(clickforge): give these real hrefs as the pages ship.
  */
-type FooterItem = { label: string; section?: string };
+/** Below this the four link columns no longer fit beside the brand block. */
+const FOOTER_STACK_WIDTH = 720;
+
+type FooterItem = { label: string; section?: string; href?: string; route?: Route };
 
 const COLUMNS: { heading: string; links: FooterItem[] }[] = [
   {
@@ -37,13 +44,27 @@ const COLUMNS: { heading: string; links: FooterItem[] }[] = [
     links: [
       { label: 'Blueprint library' },
       { label: 'CTR benchmarks', section: 'proof' },
-      { label: 'Model cards' },
+      { label: 'Model cards', route: 'model-card' },
       { label: 'API docs' },
+      { label: 'Feedback Board', href: feedbackUrl },
       { label: 'Status' },
     ],
   },
   { heading: 'Company', links: [{ label: 'About' }, { label: 'Careers' }, { label: 'Press' }, { label: 'Contact' }] },
 ];
+
+/**
+ * Resolves a footer entry to the thing it does, or to nothing — an entry with no
+ * destination stays undefined on purpose so `FooterLink` renders it as text.
+ * `href` is checked for emptiness as well as presence: an unset external URL is a
+ * dead link, and a dead link is worse than a label.
+ */
+function destination(item: FooterItem, scrollTo: (id: string) => void): (() => void) | undefined {
+  if (item.section) return () => scrollTo(item.section as string);
+  if (item.route) return () => goTo(item.route as Route);
+  if (item.href) return () => Linking.openURL(item.href as string);
+  return undefined;
+}
 
 function FooterLink({ label, onPress }: { label: string; onPress?: () => void }) {
   const p = usePalette();
@@ -74,8 +95,7 @@ function FooterLink({ label, onPress }: { label: string; onPress?: () => void })
 
 export function Footer() {
   const p = usePalette();
-  const { width } = useWindowDimensions();
-  const stacked = width < 720;
+  const stacked = useBelow(FOOTER_STACK_WIDTH);
   const { scrollTo } = useScrollController();
 
   return (
@@ -112,11 +132,7 @@ export function Footer() {
               {col.heading}
             </Text>
             {col.links.map((l) => (
-              <FooterLink
-                key={l.label}
-                label={l.label}
-                onPress={l.section ? () => scrollTo(l.section as string) : undefined}
-              />
+              <FooterLink key={l.label} label={l.label} onPress={destination(l, scrollTo)} />
             ))}
           </View>
         ))}

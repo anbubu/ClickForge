@@ -1,18 +1,19 @@
 import React from 'react';
-import { Linking, Text, View, useWindowDimensions } from 'react-native';
+import { Linking, Text, View } from 'react-native';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
-import { authUrls, contactUrls } from '../config/urls';
+import { contactUrls } from '../config/urls';
+import { goToDashboard } from '../navigation/routes';
 import { AnchorSection } from '../navigation/ScrollController';
 import { fontFamily, breakpoint } from '../theme/tokens';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
 import { usePalette } from '../theme/ThemeContext';
+import { useBelow } from '../theme/useBreakpoint';
 
 /** `closeVariant="ember"` — the design's default closing section. */
 export function EmberClose() {
   const p = usePalette();
-  const { width } = useWindowDimensions();
-  const stacked = width < breakpoint.stack;
+  const stacked = useBelow(breakpoint.stack);
   const rt = useResponsiveType();
 
   return (
@@ -35,7 +36,7 @@ export function EmberClose() {
               color: 'rgba(26,12,2,0.72)',
             }}
           >
-            Start free · 5 forges
+            30 days free · Cancel any time
           </Text>
           <Text
             style={{
@@ -52,7 +53,7 @@ export function EmberClose() {
               size="lg"
               variant="inverted"
               hoverReveal
-              onPress={() => Linking.openURL(authUrls.signup)}
+              onPress={goToDashboard}
             >
               Forge your first video
             </Button>

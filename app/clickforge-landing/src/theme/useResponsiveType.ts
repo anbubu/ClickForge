@@ -1,5 +1,6 @@
-import { useWindowDimensions } from 'react-native';
+import { useMemo } from 'react';
 import { breakpoint, type as t } from './tokens';
+import { useBelow } from './useBreakpoint';
 
 type Step = { size: number; leading: number; tracking: number };
 
@@ -31,19 +32,26 @@ export type ResponsiveType = {
   headingSm: Step;
 };
 
+/**
+ * The ramp has exactly three states, so it subscribes to two booleans rather than
+ * to the viewport width. Reading the width directly re-ran this on every pixel of
+ * a resize — recomputing five type steps each time — to produce one of three
+ * answers, and re-rendered every screen that uses it along the way.
+ */
 export function useResponsiveType(): ResponsiveType {
-  const { width } = useWindowDimensions();
+  const phone = useBelow(breakpoint.phone);
+  const stack = useBelow(breakpoint.stack);
 
-  const [factor, relief] =
-    width < breakpoint.phone ? [0.6, 0.06] : width < breakpoint.stack ? [0.78, 0.03] : [1, 0];
-
-  return {
-    display: scaleStep(t.display, factor, relief),
-    displaySm: scaleStep(t.displaySm, factor, relief),
-    headingLg: scaleStep(t.headingLg, factor, relief),
-    heading: scaleStep(t.heading, factor, relief * 0.5),
-    headingSm: scaleStep(t.headingSm, factor, relief * 0.5),
-  };
+  return useMemo(() => {
+    const [factor, relief] = phone ? [0.6, 0.06] : stack ? [0.78, 0.03] : [1, 0];
+    return {
+      display: scaleStep(t.display, factor, relief),
+      displaySm: scaleStep(t.displaySm, factor, relief),
+      headingLg: scaleStep(t.headingLg, factor, relief),
+      heading: scaleStep(t.heading, factor, relief * 0.5),
+      headingSm: scaleStep(t.headingSm, factor, relief * 0.5),
+    };
+  }, [phone, stack]);
 }
 
 /** Spreads a ramp step straight into a Text style. */

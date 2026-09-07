@@ -62,7 +62,7 @@ export function PricingTier({
           {period}
         </Text>
       </View>
-      {blurb && (
+      {blurb ? (
         <Text
           style={{
             fontFamily: fontFamily.interRegular,
@@ -73,7 +73,7 @@ export function PricingTier({
         >
           {blurb}
         </Text>
-      )}
+      ) : null}
       <View style={{ gap: 12 }}>
         {features.map((f) => (
           <View key={f} style={{ flexDirection: 'row', gap: 8, alignItems: 'flex-start' }}>

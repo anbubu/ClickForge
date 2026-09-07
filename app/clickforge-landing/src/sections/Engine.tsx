@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, useWindowDimensions } from 'react-native';
+import { View } from 'react-native';
 import { Card } from '../components/Card';
 import { Container } from '../components/Container';
 import { FeatureRow } from '../components/FeatureRow';
@@ -8,11 +8,11 @@ import { SectionHeading } from '../components/SectionHeading';
 import { AnchorSection } from '../navigation/ScrollController';
 import { breakpoint } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
+import { useBelow } from '../theme/useBreakpoint';
 
 export function Engine() {
   const p = usePalette();
-  const { width } = useWindowDimensions();
-  const stacked = width < breakpoint.stack;
+  const stacked = useBelow(breakpoint.stack);
 
   return (
     <AnchorSection id="engine" style={{ paddingVertical: 80, borderTopWidth: 1, borderTopColor: p.border }}>

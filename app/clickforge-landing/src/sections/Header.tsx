@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Linking, Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { Linking, Platform, Pressable, Text, View } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
@@ -9,10 +9,12 @@ import { PromoBanner } from '../components/PromoBanner';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { Wordmark } from '../components/Wordmark';
 import { authUrls } from '../config/urls';
+import { goToDashboard, goToModelCard } from '../navigation/routes';
 import { landmark } from '../components/semantics';
 import { fontFamily, radius, breakpoint } from '../theme/tokens';
 import { useScrollController } from '../navigation/ScrollController';
 import { usePalette } from '../theme/ThemeContext';
+import { useBelow } from '../theme/useBreakpoint';
 
 const NAV_ITEMS: [string, string][] = [
   ['engine', 'Product'],
@@ -69,14 +71,13 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
   const [promoVisible, setPromoVisible] = useState(showPromo);
   const [menuOpen, setMenuOpen] = useState(false);
   const { scrollTo, activeSection, setHeaderOffset } = useScrollController();
-  const { width } = useWindowDimensions();
 
   /**
    * Below this width the wordmark, four nav pills, "Log in" and the CTA wrap onto
    * three rows — and because the bar is sticky, that stack follows you down the
    * page eating most of a phone viewport. Collapse the pills into a sheet instead.
    */
-  const compact = width < breakpoint.nav;
+  const compact = useBelow(breakpoint.nav);
 
   // A resize back up to desktop should not leave the sheet hanging open.
   useEffect(() => {
@@ -88,20 +89,34 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
     scrollTo(id);
   };
 
+  /** Same reasoning as `openLogin`: the forge is what the label promises. */
   const openSignup = () => {
     setMenuOpen(false);
-    Linking.openURL(authUrls.signup);
+    goToDashboard();
   };
 
+  /**
+   * Straight into the signed-in app, with no credentials asked for.
+   *
+   * There is no auth backend yet, so the alternative is a static login page that
+   * cannot log anyone in — a dead end dressed up as a door. Sending someone to
+   * the dashboard at least lands them somewhere real. This is the line that goes
+   * back to `authUrls.login` the day sessions exist.
+   */
   const openLogin = () => {
     setMenuOpen(false);
-    Linking.openURL(authUrls.login);
+    goToDashboard();
   };
 
   return (
     <StickyChrome onHeight={setHeaderOffset}>
       {promoVisible && (
-        <PromoBanner badge="New" ctaLabel="See the model card" onDismiss={() => setPromoVisible(false)}>
+        <PromoBanner
+          badge="New"
+          ctaLabel="See the model card"
+          onPress={goToModelCard}
+          onDismiss={() => setPromoVisible(false)}
+        >
           Retention hooks v3 is live — 22% better first-three-second hold.
         </PromoBanner>
       )}
@@ -136,7 +151,7 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
           {!compact && <NavPill role="button" onPress={openLogin}>Log in</NavPill>}
           <ThemeToggle />
           <Button size={compact ? 'sm' : 'md'} hoverReveal onPress={openSignup}>
-            Start forging
+            Start 30-Day Free Trial
           </Button>
           {compact && (
             <Pressable
