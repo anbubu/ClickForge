@@ -134,7 +134,7 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
           accessibilityLabel="ClickForge — back to top"
           style={{ flexDirection: 'row', alignItems: 'center' }}
         >
-          <Wordmark size={20} />
+          <Wordmark size={20} markOnly={compact} />
         </Pressable>
 
         {!compact && (
@@ -149,7 +149,7 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: compact ? 8 : 12 }}>
           {!compact && <NavPill role="button" onPress={openLogin}>Log in</NavPill>}
-          <ThemeToggle />
+          {!compact && <ThemeToggle />}
           <Button size={compact ? 'sm' : 'md'} hoverReveal onPress={openSignup}>
             Start 30-Day Free Trial
           </Button>
@@ -181,6 +181,14 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
               <MenuRow key={id} active={activeSection === id} onPress={() => go(id)} label={label} />
             ))}
             <MenuRow label="Log in" onPress={openLogin} role="button" />
+            {/* Dropped from the bar at this width; the sheet is where they live
+                instead of being unreachable. */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8, paddingHorizontal: 12 }}>
+              <ThemeToggle />
+              <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 14, color: p.textSecondary }}>
+                Theme
+              </Text>
+            </View>
           </Container>
         </View>
       )}

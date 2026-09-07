@@ -19,11 +19,18 @@ export function Wordmark({
   color,
   accent,
   showMark = true,
+  markOnly = false,
 }: {
   size?: number;
   color?: string;
   accent?: string;
   showMark?: boolean;
+  /**
+   * Drop the word and keep the mark. For narrow headers, where the full lockup
+   * is ~100px that a phone does not have to spare — the conventional trade, and
+   * the reason the mark has to read on its own at small sizes.
+   */
+  markOnly?: boolean;
 }) {
   const p = usePalette();
 
@@ -47,6 +54,10 @@ export function Wordmark({
   );
 
   if (!showMark) return wordmark;
+
+  if (markOnly) {
+    return <Logo size={markSize} color={color} accent={accent} />;
+  }
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap }}>
