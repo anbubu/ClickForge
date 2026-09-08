@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>ClickForge mark</title>
+<style>
+  /*
+   * The mark on its own, transparent, for anywhere the lockup cannot be drawn
+   * in markup — email being the case that forced it. Rendered at 96px and shot
+   * at 2x, so the 192px file covers a retina inbox at any size it is placed.
+   *
+   * Geometry is identical to `src/components/Logo.tsx`: a 32-unit frame, the two
+   * rule-of-thirds lines that intersect, and the focal dot filled in ember.
+   */
+  html, body { margin: 0; padding: 0; background: transparent; }
+  .mark { width: 96px; height: 96px; }
+</style>
+</head>
+<body>
+  <svg class="mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="6.5" width="26" height="19" rx="3.2" stroke="#eeeeee" stroke-width="2" />
+    <path d="M11.67 6.5V25.5M3 12.83H29" stroke="#eeeeee" stroke-opacity="0.38" stroke-width="1.2" />
+    <circle cx="11.67" cy="12.83" r="3.4" fill="#ee6018" />
+  </svg>
+</body>
+</html>

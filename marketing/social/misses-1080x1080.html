@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_base.css" />
+<title>ClickForge — we show the misses</title>
+<style>
+  /*
+   * The credibility post. Every tool in this category claims a lift; the
+   * differentiator worth posting is that this one publishes where it was wrong,
+   * so the board is built out of the Performance screen rather than a promise.
+   *
+   * The rows are the sample account's, which is also what the product shows on
+   * a fresh install — nothing here is a number invented for a poster.
+   */
+  .board { width: 1080px; height: 1080px; padding: 72px; justify-content: space-between; }
+  h1 { font-size: 76px; }
+  .sub { margin-top: 26px; font-size: 24px; line-height: 1.45; color: var(--stone); max-width: 700px; }
+  .panel { border: 1px solid var(--stroke); border-radius: 10px; overflow: hidden; }
+  .m-row { display: flex; align-items: center; justify-content: space-between; padding: 26px 30px; border-top: 1px solid var(--lift); }
+  .m-row:first-child { border-top: 0; }
+  .m-title { font-size: 22px; letter-spacing: -.015em; }
+  .m-meta { font-size: 14px; margin-top: 8px; }
+  .m-num { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 22px; letter-spacing: .02em; color: var(--stone); }
+  .up { color: var(--green); }
+  .down { color: var(--signal); }
+  .foot { display: flex; align-items: center; justify-content: space-between; }
+</style>
+</head>
+<body>
+  <div class="board">
+    <div>
+      <div class="eyebrow mono" style="font-size:15px;"><span class="dot"></span>Checked, not claimed</div>
+      <h1 style="margin-top:30px;">We show you<br />the misses too.</h1>
+      <div class="sub">A week after you ship, every predicted click-through is set against the one the video actually got. The screen opens on the worst calls, sorted by how far off they were.</div>
+    </div>
+
+    <div class="panel">
+      <div class="m-row">
+        <div><div class="m-title">I let a stranger plan my entire week</div><div class="mono m-meta">Shorts · 2 weeks ago</div></div>
+        <div class="m-num">6.2 → 7.1 &nbsp;<span class="up">+0.9</span></div>
+      </div>
+      <div class="m-row">
+        <div><div class="m-title">Every kitchen gadget I regret buying</div><div class="mono m-meta">YouTube · last week</div></div>
+        <div class="m-num">8.4 → 7.9 &nbsp;<span class="down">−0.5</span></div>
+      </div>
+      <div class="m-row">
+        <div><div class="m-title">The cheapest way to light a face, tested nine ways</div><div class="mono m-meta">YouTube · 3 weeks ago</div></div>
+        <div class="m-num">7.5 → 7.4 &nbsp;<span class="down">−0.1</span></div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div class="wordmark"><span class="glyph"></span><span class="name">Click<b>Forge</b></span></div>
+      <div class="mono" style="font-size:15px;">30 days free</div>
+    </div>
+  </div>
+</body>
+</html>

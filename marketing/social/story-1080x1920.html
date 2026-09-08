@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_base.css" />
+<title>ClickForge — story</title>
+<style>
+  /*
+   * Vertical, for stories and reels. The safe area matters more than the canvas:
+   * platform chrome eats roughly the top 250px and the bottom 320px, so nothing
+   * that has to be read lives there — the padding below is doing that job.
+   */
+  .board { width: 1080px; height: 1920px; padding: 260px 76px 340px; justify-content: space-between; }
+  h1 { font-size: 92px; }
+  .sub { margin-top: 34px; font-size: 28px; line-height: 1.45; color: var(--stone); }
+  .card { padding: 36px 38px; }
+  .card-label { font-size: 15px; margin-bottom: 22px; }
+  .t-row { display: flex; align-items: center; gap: 24px; padding: 20px 0; border-top: 1px solid rgba(11,11,11,.12); }
+  .t-row:first-of-type { border-top: 0; }
+  .t-score { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 36px; width: 84px; letter-spacing: -.02em; }
+  .t-title { font-size: 24px; letter-spacing: -.015em; line-height: 1.3; }
+  .win { color: #14672f; }
+  .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: var(--chalk); color: var(--ink);
+    padding: 24px 34px; border-radius: 8px; font-size: 27px; letter-spacing: -.02em;
+  }
+</style>
+</head>
+<body>
+  <div class="board">
+    <div>
+      <div class="wordmark"><span class="glyph"></span><span class="name">Click<b>Forge</b></span></div>
+      <h1 style="margin-top:80px;">You cannot<br />re-shoot the<br /><em>packaging.</em></h1>
+      <div class="sub">The title, the first three seconds and the thumbnail decide whether the edit was worth making — and they get decided by a guess.</div>
+    </div>
+
+    <div class="card grain">
+      <div class="mono card-label">Titles · predicted click-through</div>
+      <div class="t-row"><div class="t-score win">9.2</div><div class="t-title">I tested 41 cheap kitchen knives against a $300 chef knife. It went badly.</div></div>
+      <div class="t-row"><div class="t-score">9.1</div><div class="t-title">I tested 41 cheap kitchen knives — and nobody warned me.</div></div>
+      <div class="t-row"><div class="t-score" style="opacity:.55">7.7</div><div class="t-title" style="opacity:.55">I tested 41 cheap kitchen knives against a $300 chef knife.</div></div>
+    </div>
+
+    <div>
+      <div class="cta">Start the 30-day trial</div>
+      <div class="mono" style="font-size:17px; margin-top:26px;">Score the click before you record</div>
+    </div>
+  </div>
+</body>
+</html>

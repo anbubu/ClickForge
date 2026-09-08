@@ -1,0 +1,95 @@
+/*
+ * Shared ground for every social board.
+ *
+ * Straight out of DESIGN.md, because a social image that misses the palette by
+ * a step is worse than no image: it is the first thing anyone sees of the
+ * product, and it is the only one they see out of context. Same ten colours,
+ * same Geist at 400, same rule that the two accents carry data and nothing else.
+ *
+ * Boards are laid out at their exact pixel size and screenshotted at 2x, so the
+ * type is rendered rather than upscaled.
+ */
+
+:root {
+  --canvas: #101010;
+  --lift: #1d1a18;
+  --stroke: #3d3a39;
+  --granite: #8a8380;
+  --stone: #b8b3b0;
+  --bone: #eeeeee;
+  --chalk: #fafafa;
+  --signal: #ee6018;
+  --green: #a0ca92;
+  --ink: #0b0b0b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--canvas);
+  color: var(--bone);
+  font-family: Geist, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+.board {
+  position: relative;
+  overflow: hidden;
+  background: var(--canvas);
+  display: flex;
+  flex-direction: column;
+}
+
+/* The one texture in the system, and only ever on a light card. */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: .5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+}
+
+.mono {
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--granite);
+}
+
+.eyebrow { display: flex; align-items: center; gap: 10px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); flex: none; }
+
+/*
+ * The lockup, exactly as `src/components/Logo.tsx` and `Wordmark.tsx` draw it:
+ * a 32-unit frame, the two rule-of-thirds lines that actually intersect, and
+ * the focal dot filled in ember. Redrawing it by eye for a poster is how a mark
+ * drifts, so this is the same geometry as the SVG the app renders — the mark
+ * size is 1.2x the word, the gap 0.45x, and the word is Geist 500 at -0.045em.
+ */
+.wordmark { display: flex; align-items: center; gap: 12px; }
+.wordmark .glyph {
+  width: 32px; height: 32px; flex: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Crect x='3' y='6.5' width='26' height='19' rx='3.2' stroke='%23eeeeee' stroke-width='2'/%3E%3Cpath d='M11.67 6.5V25.5M3 12.83H29' stroke='%23eeeeee' stroke-opacity='0.38' stroke-width='1.2'/%3E%3Ccircle cx='11.67' cy='12.83' r='3.4' fill='%23ee6018'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.wordmark .name { font-size: 27px; font-weight: 500; letter-spacing: -0.045em; }
+.wordmark .name b { color: var(--signal); font-weight: 500; }
+
+h1 { font-weight: 400; letter-spacing: -.035em; line-height: 1.02; }
+h1 em { font-style: normal; color: var(--signal); }
+
+/* A queue row, the product's signature object. */
+.row { display: flex; align-items: center; gap: 26px; }
+.score { font-family: 'Geist Mono', ui-monospace, monospace; letter-spacing: -.02em; }
+.score .bar { height: 3px; background: var(--green); margin-top: 8px; border-radius: 1px; }
+.score.mid .bar { background: var(--signal); }
+
+.card {
+  position: relative;
+  background: var(--bone);
+  color: var(--ink);
+  border-radius: 10px;
+}
+.card .mono { color: #5a5450; }

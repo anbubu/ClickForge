@@ -17,7 +17,9 @@
     />
     <link rel="canonical" href="https://clickforge.com/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#ff7a18" />
+    <!-- The canvas, not the accent: this paints the browser chrome, and an
+         orange bar above a #101010 page reads as a rendering fault. -->
+    <meta name="theme-color" content="#101010" />
     <meta name="color-scheme" content="dark light" />
 
     <meta property="og:type" content="website" />
@@ -76,28 +78,24 @@
       }
       /*
         Anti-flash for the gap before the bundle boots: the document sits under
-        the app and would otherwise paint white. Scoped to :not([data-theme]) so
-        it applies only until ThemeContext stamps the real theme — otherwise this
-        hard-coded dark would fight light mode for the life of the page.
+        the app and would otherwise paint white.
+
+        The light-scheme override that used to sit here went with light mode —
+        the Factory system is dark by construction, so honouring
+        prefers-color-scheme meant flashing #f1ede6 at a reader whose OS is set
+        to light before repainting #101010 under them.
       */
-      html:not([data-theme]),
-      html:not([data-theme]) body,
-      html:not([data-theme]) #root {
-        background-color: #0b0a09;
-      }
-      @media (prefers-color-scheme: light) {
-        html:not([data-theme]),
-        html:not([data-theme]) body,
-        html:not([data-theme]) #root {
-          background-color: #f1ede6;
-        }
+      html,
+      body,
+      #root {
+        background-color: #101010;
       }
     </style>
   </head>
 
   <body>
     <noscript>
-      <div style="padding: 48px; font-family: system-ui, sans-serif; color: #ffffff; background: #0b0a09">
+      <div style="padding: 48px; font-family: system-ui, sans-serif; color: #ffffff; background: #101010">
         <h1>ClickForge — score the click before you record.</h1>
         <p>
           Paste a raw concept and get three scored title options, a first-three-second retention hook, and

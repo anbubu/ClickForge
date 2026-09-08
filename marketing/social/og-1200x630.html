@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="_base.css" />
+<title>ClickForge — link preview</title>
+<style>
+  /*
+   * The link preview: what a shared URL becomes in Slack, iMessage, X and
+   * LinkedIn. It has to survive being 400px wide in a chat window, so the
+   * headline carries it and the product detail is one object, not a screenshot.
+   */
+  .board { width: 1200px; height: 630px; padding: 64px; justify-content: space-between; }
+  h1 { font-size: 82px; max-width: 900px; }
+  .row-card { padding: 26px 30px; display: flex; align-items: center; gap: 28px; width: 720px; }
+  .score { font-size: 46px; }
+  .score .bar { width: 62px; }
+  .row-title { font-size: 25px; letter-spacing: -.02em; line-height: 1.25; }
+  .foot { display: flex; align-items: flex-end; justify-content: space-between; }
+  .trial { font-size: 15px; }
+</style>
+</head>
+<body>
+  <div class="board">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div class="wordmark"><span class="glyph"></span><span class="name">Click<b>Forge</b></span></div>
+      <div class="eyebrow mono" style="font-size:14px;"><span class="dot"></span>CTR prediction · v3</div>
+    </div>
+
+    <h1>Score the click<br /><em>before you record.</em></h1>
+
+    <div class="foot">
+      <div class="card grain row-card">
+        <div class="score"><div>9.2</div><div class="bar"></div></div>
+        <div class="row-title">I tested 41 cheap kitchen knives against a $300 chef knife. It went badly.</div>
+      </div>
+      <div class="mono trial" style="padding-bottom:6px;">30 days free</div>
+    </div>
+  </div>
+</body>
+</html>
