@@ -55,6 +55,17 @@ export const contactUrls = {
 };
 
 /**
+ * The address support and press enquiries land on.
+ *
+ * TODO(clickforge): set this once the domain is settled — it is the same
+ * decision as the canonical domain in `public/index.html`, so both are waiting
+ * on the same answer. Empty on purpose in the meantime: the contact, press,
+ * careers and status pages leave the email row out entirely rather than print an
+ * address nobody reads, and turn it back on the moment there is one.
+ */
+export const supportEmail = '';
+
+/**
  * The public feedback board (Canny / UserJot), linked from the footer.
  *
  * TODO(clickforge): set this to the real board URL before launch. While it is

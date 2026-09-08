@@ -5,15 +5,12 @@ import { Button } from '../components/Button';
 import { headingProps } from '../components/semantics';
 import { Container } from '../components/Container';
 import { ToolSpec } from '../components/ToolSpec';
-import { LogoStrip } from '../components/LogoStrip';
 import { AnchorSection } from '../navigation/ScrollController';
 import { hrefFor } from '../navigation/routes';
-import { fontFamily, breakpoint, layout, type as t } from '../theme/tokens';
+import { fontFamily, breakpoint, type as t } from '../theme/tokens';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
 import { usePalette } from '../theme/ThemeContext';
 import { useBelow } from '../theme/useBreakpoint';
-
-const STUDIOS = ['Nightshift', 'Northpoint', 'Studio Kilo', 'Halcyon', 'Rundown', 'Overcast'];
 
 export function Hero() {
   const p = usePalette();
@@ -105,9 +102,14 @@ export function Hero() {
           </View>
         </Container>
       </AnchorSection>
-      <Container style={{ paddingBottom: layout.sectionGap }}>
-        <LogoStrip label="Forging titles for studios shipping 400+ videos a month:" names={STUDIOS} />
-      </Container>
+      {/*
+        A customer logo strip stood here — six studio names under "Forging titles
+        for studios shipping 400+ videos a month". Every one of those studios was
+        invented, and an invented customer is the one claim on a page that cannot
+        be walked back as enthusiasm. It comes back the day there is a customer
+        who has agreed to be named; until then the hero closes on the product
+        panel, which is the honest version of the same proof.
+      */}
     </>
   );
 }

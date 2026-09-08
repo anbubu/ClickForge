@@ -4,63 +4,58 @@ import { Card } from '../components/Card';
 import { Container } from '../components/Container';
 import { Eyebrow } from '../components/Eyebrow';
 import { MetricGrid } from '../components/DashboardFrame';
-import { Sparkline } from '../components/DashboardFrame';
 import { AnchorSection } from '../navigation/ScrollController';
 import { breakpoint, fontFamily, layout, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { useBelow } from '../theme/useBreakpoint';
 
 /**
- * The measured numbers, rendered as instrument readings.
+ * What the product will stand behind, rendered as instrument readings.
  *
- * This was three centred stat blocks with a decorative icon above each one.
- * Two things were wrong with that under the Factory system. The layout was
- * symmetrical and centred, which the doc's whole layout section argues against;
- * and more to the point, these are the same kind of object as the tiles in the
- * hero frame and on the Performance screen — a labelled figure with a series
- * behind it. Giving the same object three different treatments across one product
- * is how a design system stops being one.
+ * This section used to publish three outcome numbers — a median CTR lift "across
+ * 12,400 forged titles", a median time to forge, and a mean absolute error —
+ * each with a sparkline of a series behind it. None of them had been measured:
+ * the scoring engine is still the deterministic local heuristic the model card
+ * describes, and no channel has shipped anything through it. Numbers like that
+ * are the one thing on a marketing page a reader cannot check, so publishing
+ * invented ones spends the exact credibility the section exists to build — and
+ * they contradicted the model card two clicks away, which says in as many words
+ * that the score is not a forecast of the click-through you will get.
  *
- * So they take the doc's Metric Tile shape inside a recessed panel: mono label,
- * Geist 36/400 value, a 1px sparkline, hairlines between columns. The section
- * eyebrow already says "measured, not promised" — the tiles now look measured
- * rather than announced.
+ * So the tiles now carry the mechanism instead of the results: what gets
+ * checked, when, and where the creator sees it. Every line here is true of the
+ * build today, and each one is replaceable by a real measurement the day there
+ * is one — same shape, same layout, better contents.
+ *
+ * They keep the doc's Metric Tile treatment inside a recessed panel — mono
+ * label, Geist 36/400 value, hairlines between columns — because these are the
+ * same object as the tiles in the hero frame and on the Performance screen, and
+ * giving one object three treatments is how a design system stops being one. The
+ * sparklines are gone with the invented series they drew.
  */
-const STATS: {
-  value: string;
-  label: string;
-  caption: string;
-  series: number[];
-  trend: 'up' | 'down';
-}[] = [
+const STATS: { value: string; label: string; caption: string }[] = [
   {
-    value: '+38%',
-    label: 'Median CTR lift',
-    caption: "Across 12,400 forged titles in a channel's first 90 days on ClickForge.",
-    // Lift compounding over the first 90 days, not a straight climb.
-    series: [4, 9, 11, 18, 24, 27, 33, 38],
-    trend: 'up',
+    value: '7 days',
+    label: 'Every call checked',
+    caption:
+      'A week after you ship, the predicted click-through is set against the one the video actually got.',
   },
   {
-    value: '52s',
-    label: 'Median time to forge',
-    caption: 'From pasted concept to a scored, ready-to-ship asset set.',
-    // Falling latency is the good direction here, so it carries the signal stroke.
-    series: [96, 88, 81, 74, 70, 61, 55, 52],
-    trend: 'down',
+    value: 'Misses first',
+    label: 'Nothing buried',
+    caption:
+      'Performance opens on the calls the engine got most wrong, sorted by how far off they were.',
   },
   {
-    value: '±0.8pt',
-    label: 'Prediction error',
-    caption: 'Mean absolute error of predicted CTR against realised 7-day CTR.',
-    series: [2.1, 1.8, 1.6, 1.3, 1.1, 0.9, 0.85, 0.8],
-    trend: 'down',
+    value: 'Last 200',
+    label: 'Your channel, not a benchmark',
+    caption:
+      'Titles are ranked against your own recent uploads, so a strong score means strong for your audience.',
   },
 ];
 
 function ProofTile({ stat }: { stat: (typeof STATS)[number] }) {
   const p = usePalette();
-  const stroke = stat.trend === 'up' ? p.positive : p.signal;
 
   return (
     <View style={{ padding: 24, gap: 12 }}>
@@ -87,7 +82,6 @@ function ProofTile({ stat }: { stat: (typeof STATS)[number] }) {
       >
         {stat.value}
       </Text>
-      <Sparkline points={stat.series} color={stroke} width={160} height={36} />
       <Text
         style={{
           fontFamily: fontFamily.regular,
@@ -115,7 +109,7 @@ export function Proof() {
         {/* Left-aligned, against the old centred block: the doc's rhythm is
             asymmetric and the eyebrow reads as a column header this way. */}
         <View style={{ gap: 16, maxWidth: 640 }}>
-          <Eyebrow dot>Measured, not promised</Eyebrow>
+          <Eyebrow dot>Checked, not claimed</Eyebrow>
           <Text
             style={{
               fontFamily: fontFamily.regular,
@@ -125,7 +119,7 @@ export function Proof() {
               color: p.textPrimary,
             }}
           >
-            Three numbers we publish and keep publishing.
+            We show you the misses too.
           </Text>
         </View>
 

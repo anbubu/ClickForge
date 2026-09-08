@@ -16,10 +16,21 @@ import { Platform } from 'react-native';
  * is most of the value of having a URL at all.
  */
 
-export type Route = 'landing' | 'dashboard' | 'sample-report' | 'model-card';
+/**
+ * The standing pages the footer points at. They all render through one screen
+ * (`screens/InfoPage`) off one content file, so adding another is an entry in
+ * `data/pages.ts` and a name here.
+ */
+export const INFO_ROUTES = ['about', 'careers', 'press', 'contact', 'changelog', 'status', 'api', 'blueprints'] as const;
+
+export type Route = 'landing' | 'dashboard' | 'sample-report' | 'model-card' | (typeof INFO_ROUTES)[number];
+
+export function isInfoRoute(route: Route): route is (typeof INFO_ROUTES)[number] {
+  return (INFO_ROUTES as readonly string[]).includes(route);
+}
 
 /** Every route but `landing`, which is what the absence of a view parameter means. */
-const VIEWS: readonly Route[] = ['dashboard', 'sample-report', 'model-card'];
+const VIEWS: readonly Route[] = ['dashboard', 'sample-report', 'model-card', ...INFO_ROUTES];
 
 const DASHBOARD_PATH = /\/dashboard\/?$/;
 

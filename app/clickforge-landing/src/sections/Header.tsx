@@ -102,7 +102,7 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
           href={hrefFor('model-card')}
           onDismiss={() => setPromoVisible(false)}
         >
-          Retention hooks v3 is live — 22% better first-three-second hold.
+          Retention hooks v3 is live — rewritten for the first three seconds.
         </PromoBanner>
       )}
       <Container

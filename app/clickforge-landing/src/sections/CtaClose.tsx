@@ -119,7 +119,7 @@ export function CtaClose() {
                 color: p.textPrimary,
               }}
             >
-              The model has read 4.1 million thumbnails. Yours is next.
+              Score the packaging before the shoot. Then see how the call held.
             </Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <StatusPulse tone="positive" />
@@ -132,7 +132,7 @@ export function CtaClose() {
                   color: p.textMuted,
                 }}
               >
-                ±0.8pt prediction error
+                Checked against realised CTR at 7 days
               </Text>
             </View>
           </View>

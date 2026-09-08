@@ -3,11 +3,12 @@ import { ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { landmark } from './src/components/semantics';
 import { ScrollControllerProvider, useScrollController } from './src/navigation/ScrollController';
-import { currentRoute } from './src/navigation/routes';
+import { currentRoute, isInfoRoute } from './src/navigation/routes';
 import { CtaClose } from './src/sections/CtaClose';
 import { Engine } from './src/sections/Engine';
 import { Footer } from './src/sections/Footer';
 import { Header } from './src/sections/Header';
+import { InfoPage } from './src/screens/InfoPage';
 import { Hero } from './src/sections/Hero';
 import { HowItWorks } from './src/sections/HowItWorks';
 import { Pricing } from './src/sections/Pricing';
@@ -77,6 +78,8 @@ function Shell() {
         <SampleReport />
       ) : route === 'model-card' ? (
         <ModelCard />
+      ) : isInfoRoute(route) ? (
+        <InfoPage route={route} />
       ) : (
         <ScrollControllerProvider scrollRef={scrollRef}>
           <LandingBody scrollRef={scrollRef} />

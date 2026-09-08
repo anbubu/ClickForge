@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Badge } from '../components/Badge';
 import { Container } from '../components/Container';
 import { Wordmark } from '../components/Wordmark';
 import { headingProps, landmark } from '../components/semantics';
@@ -13,11 +12,17 @@ import { useBelow } from '../theme/useBreakpoint';
 
 /**
  * `section` points a link at an on-page anchor, `href` at somewhere off-site, and
- * `route` at another screen in the app. The rest have no destination yet — they
- * render as plain text rather than as focusable links that go nowhere, which
- * would be worse for keyboard and screen-reader users than not being links at all.
+ * `route` at another screen in the app.
  *
- * TODO(clickforge): give these real hrefs as the pages ship.
+ * Every entry now resolves to one of those three. Fourteen of them used to
+ * resolve to nothing and rendered as plain text — safer than a dead link, but
+ * still a footer describing a company with a careers page, an API and a status
+ * page that did not exist. The pages behind them are in `data/pages.ts`, and
+ * each says what is true today rather than what its label implies.
+ *
+ * The four platform names stay on-page anchors on purpose: they are capabilities
+ * of the engine, not products with pages of their own, and pointing them at the
+ * section that demonstrates the scoring is the honest destination.
  */
 /** Below this the four link columns no longer fit beside the brand block. */
 const FOOTER_STACK_WIDTH = 720;
@@ -32,25 +37,38 @@ const COLUMNS: { heading: string; links: FooterItem[] }[] = [
       { label: 'Retention hooks', section: 'engine' },
       { label: 'Thumbnail blueprints', section: 'engine' },
       { label: 'CTR prediction', section: 'proof' },
-      { label: 'Changelog' },
+      { label: 'Changelog', route: 'changelog' },
     ],
   },
   {
     heading: 'Platforms',
-    links: [{ label: 'YouTube' }, { label: 'YouTube Shorts' }, { label: 'TikTok' }, { label: 'Instagram Reels' }],
+    links: [
+      { label: 'YouTube', section: 'engine' },
+      { label: 'YouTube Shorts', section: 'engine' },
+      { label: 'TikTok', section: 'engine' },
+      { label: 'Instagram Reels', section: 'engine' },
+    ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'Blueprint library' },
+      { label: 'Blueprint library', route: 'blueprints' },
       { label: 'CTR benchmarks', section: 'proof' },
       { label: 'Model cards', route: 'model-card' },
-      { label: 'API docs' },
+      { label: 'API docs', route: 'api' },
       { label: 'Feedback Board', href: feedbackUrl },
-      { label: 'Status' },
+      { label: 'Status', route: 'status' },
     ],
   },
-  { heading: 'Company', links: [{ label: 'About' }, { label: 'Careers' }, { label: 'Press' }, { label: 'Contact' }] },
+  {
+    heading: 'Company',
+    links: [
+      { label: 'About', route: 'about' },
+      { label: 'Careers', route: 'careers' },
+      { label: 'Press', route: 'press' },
+      { label: 'Contact', route: 'contact' },
+    ],
+  },
 ];
 
 /**
@@ -124,7 +142,9 @@ export function Footer() {
           <Text style={{ fontFamily: fontFamily.regular, fontSize: 14, lineHeight: 14 * 1.57, color: p.textSecondary, maxWidth: 260 }}>
             Score the click before you record.
           </Text>
-          <Badge>SOC 2 Type II</Badge>
+          {/* A SOC 2 Type II badge sat here. There is no audit, and a
+              compliance badge is a claim a buyer is entitled to ask for the
+              report behind. It goes back when there is one to show. */}
         </View>
         {COLUMNS.map((col) => (
           <View key={col.heading} style={{ flex: stacked ? undefined : 1, gap: 12 }}>
