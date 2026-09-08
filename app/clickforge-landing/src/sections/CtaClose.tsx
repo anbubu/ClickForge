@@ -1,11 +1,11 @@
 import React from 'react';
-import { Linking, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Container } from '../components/Container';
 import { StatusPulse } from '../components/StatusPulse';
 import { contactUrls } from '../config/urls';
-import { goToDashboard } from '../navigation/routes';
+import { hrefFor } from '../navigation/routes';
 import { AnchorSection } from '../navigation/ScrollController';
 import { breakpoint, fontFamily, layout, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
@@ -82,16 +82,18 @@ export function CtaClose() {
               Three assets. Sixty seconds. Every one scored before a frame is shot.
             </Text>
 
+            {/* Stacked, both go full width — same reasoning as the hero pair. */}
             <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
               {/* `onCard` is the doc's #101010 fill — the light button would
                   disappear into the card it sits on. */}
-              <Button size="lg" variant="onCard" onPress={goToDashboard}>
+              <Button size="lg" variant="onCard" fullWidth={stacked} href={hrefFor('dashboard')}>
                 Forge your first video
               </Button>
               <Button
                 size="lg"
                 variant="ghost"
-                onPress={() => Linking.openURL(contactUrls.demo)}
+                fullWidth={stacked}
+                href={contactUrls.demo}
                 // The label is a Text node so it can carry the card's ink, which
                 // means the Pressable cannot infer its own name from a string.
                 accessibilityLabel="Book a walkthrough"

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
-import { goToDashboard, goToLanding } from '../navigation/routes';
+import { goToLanding, hrefFor } from '../navigation/routes';
 import { fontFamily, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { Button } from './Button';
@@ -60,7 +60,7 @@ export function PageBar({ label }: { label: string }) {
         </Text>
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-          <Button size="sm" onPress={goToDashboard}>
+          <Button size="sm" href={hrefFor('dashboard')}>
             Start 30-Day Free Trial
           </Button>
         </View>

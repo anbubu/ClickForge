@@ -6,7 +6,7 @@ import { Card } from '../components/Card';
 import { Container } from '../components/Container';
 import { PageBar } from '../components/PageBar';
 import { headingProps, landmark } from '../components/semantics';
-import { goToSampleReport } from '../navigation/routes';
+import { hrefFor } from '../navigation/routes';
 import { fontFamily, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
@@ -266,7 +266,7 @@ export function ModelCard() {
 
           <View style={{ paddingTop: 32, borderTopWidth: 1, borderTopColor: p.border, gap: 16 }}>
             <Body>See the outputs on a real concept, scored end to end.</Body>
-            <Button size="lg" variant="ghost" onPress={goToSampleReport}>
+            <Button size="lg" variant="ghost" href={hrefFor('sample-report')}>
               Read a sample report
             </Button>
           </View>

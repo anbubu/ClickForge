@@ -9,6 +9,7 @@ import { useForge } from '../../state/ForgeStore';
 import { Badge } from '../Badge';
 import { Card } from '../Card';
 import { SegmentedControl } from '../SegmentedControl';
+import { headingProps } from '../semantics';
 
 /**
  * Every blueprint and hook the account has produced, in one place.
@@ -219,7 +220,11 @@ export function LibraryView() {
   return (
     <View style={{ gap: 24 }}>
       <View style={{ gap: 8 }}>
-        <Text style={{ fontFamily: fontFamily.regular, fontSize: t.headingSm.size, letterSpacing: t.headingSm.tracking, color: p.textPrimary }}>
+        {/* This tab's <h1> — see the note in PerformanceView. */}
+        <Text
+          {...headingProps(1)}
+          style={{ fontFamily: fontFamily.regular, fontSize: t.headingSm.size, letterSpacing: t.headingSm.tracking, color: p.textPrimary }}
+        >
           Blueprint library
         </Text>
         <Text

@@ -20,12 +20,15 @@ export function PromoBanner({
   children,
   ctaLabel = 'Read more',
   onPress,
+  href,
   onDismiss,
 }: {
   badge?: string;
   children: React.ReactNode;
   ctaLabel?: string;
   onPress?: () => void;
+  /** Renders the CTA as a real <a>. See the note on `Button`'s own `href`. */
+  href?: string;
   onDismiss?: () => void;
 }) {
   const p = usePalette();
@@ -76,7 +79,8 @@ export function PromoBanner({
         {children}
       </Text>
       <Pressable
-        onPress={onPress}
+        onPress={href ? undefined : onPress}
+        {...((href ? { href } : null) as any)}
         accessibilityRole="link"
         accessibilityLabel={ctaLabel}
         onHoverIn={() => setHover(true)}

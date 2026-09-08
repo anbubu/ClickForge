@@ -7,7 +7,7 @@ import { Container } from '../components/Container';
 import { ToolSpec } from '../components/ToolSpec';
 import { LogoStrip } from '../components/LogoStrip';
 import { AnchorSection } from '../navigation/ScrollController';
-import { goToDashboard, goToSampleReport } from '../navigation/routes';
+import { hrefFor } from '../navigation/routes';
 import { fontFamily, breakpoint, layout, type as t } from '../theme/tokens';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
 import { usePalette } from '../theme/ThemeContext';
@@ -66,13 +66,25 @@ export function Hero() {
               Paste a raw concept. Sixty seconds later you have three scored title options, a first-three-second
               retention hook, and an exact thumbnail blueprint — each carrying a predicted CTR.
             </Text>
-            <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
-              <Button size="lg" variant="light" onPress={goToDashboard}>
+            {/* Stacked, the two buttons go full width. Left to hug their labels
+                they wrapped into a ragged left-aligned column — "Forge your first
+                video" a third wider than "See a sample report" — which reads as
+                two unrelated controls rather than as a primary choice and its
+                alternative. */}
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: 12,
+                flexWrap: 'wrap',
+                width: stacked ? '100%' : undefined,
+              }}
+            >
+              <Button size="lg" variant="light" fullWidth={stacked} href={hrefFor('dashboard')}>
                 Forge your first video
               </Button>
               {/* The panel to the right is a taste of one; this opens the whole
                   report on its own page, which is what the label promises. */}
-              <Button size="lg" variant="ghost" onPress={goToSampleReport}>
+              <Button size="lg" variant="ghost" fullWidth={stacked} href={hrefFor('sample-report')}>
                 See a sample report
               </Button>
             </View>

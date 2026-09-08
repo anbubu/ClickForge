@@ -16,11 +16,14 @@ import { transition } from '../theme/webGlobalStyles';
 export function NavPill({
   children,
   onPress,
+  href,
   active = false,
   role = 'link',
 }: {
   children: React.ReactNode;
   onPress?: () => void;
+  /** Renders the pill as a real <a>. See the note on `Button`'s own `href`. */
+  href?: string;
   active?: boolean;
   role?: AccessibilityRole;
 }) {
@@ -29,8 +32,9 @@ export function NavPill({
 
   return (
     <Pressable
-      onPress={onPress}
-      accessibilityRole={role}
+      onPress={href ? undefined : onPress}
+      {...((href ? { href } : null) as any)}
+      accessibilityRole={href ? 'link' : role}
       accessibilityLabel={typeof children === 'string' ? children : undefined}
       // `selected` is what a screen reader announces for the section you are in.
       accessibilityState={{ selected: active }}

@@ -7,6 +7,7 @@ import { relativeDay } from '../../data/relativeTime';
 import { useForge } from '../../state/ForgeStore';
 import { Card } from '../Card';
 import { MetricGrid } from '../DashboardFrame';
+import { headingProps } from '../semantics';
 
 /**
  * Whether the predictions held.
@@ -213,7 +214,12 @@ export function PerformanceView() {
   return (
     <View style={{ gap: 32 }}>
       <View style={{ gap: 8 }}>
+        {/* The tab's own <h1>. Each dashboard tab replaces the whole screen
+            below the app bar, so each one owns the document's top heading —
+            without this, Performance and Library rendered with no heading at
+            all and a screen reader's outline stopped at the app bar. */}
         <Text
+          {...headingProps(1)}
           style={{
             fontFamily: fontFamily.regular,
             fontSize: t.headingSm.size,

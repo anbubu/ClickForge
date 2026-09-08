@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Linking, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { contactUrls } from '../config/urls';
-import { goToDashboard } from '../navigation/routes';
+import { hrefFor } from '../navigation/routes';
 import { Container } from '../components/Container';
 import { PricingTier } from '../components/PricingTier';
 import { SectionHeading } from '../components/SectionHeading';
@@ -33,7 +33,7 @@ export function Pricing() {
       features: ['120 forges / mo', 'Retention hooks', 'Thumbnail blueprints', 'Channel benchmarking'],
       featured: true,
       cta: 'Start 30-Day Free Trial',
-      onSelect: goToDashboard,
+      href: hrefFor('dashboard'),
     },
     {
       name: 'Studio',
@@ -43,9 +43,9 @@ export function Pricing() {
       features: ['Unlimited forges', '5 seats', 'API access', 'Shared blueprint library', 'Priority model queue'],
       featured: false,
       cta: 'Talk to sales',
+      href: contactUrls.sales,
       // The one CTA on the page with no in-app destination: it needs a real
       // scheduler or inbox, which is a decision, not a default.
-      onSelect: () => Linking.openURL(contactUrls.sales),
     },
   ];
 
@@ -83,7 +83,7 @@ export function Pricing() {
                 features={tier.features}
                 featured={tier.featured}
                 ctaLabel={tier.cta}
-                onSelect={tier.onSelect}
+                href={tier.href}
               />
             </View>
           ))}

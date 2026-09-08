@@ -9,7 +9,7 @@ import { KNIFE_SAMPLE, type ForgeSample } from '../components/ForgePanel';
 import { MeterBar } from '../components/MeterBar';
 import { PageBar } from '../components/PageBar';
 import { headingProps, landmark } from '../components/semantics';
-import { goToDashboard, goToModelCard } from '../navigation/routes';
+import { hrefFor } from '../navigation/routes';
 import { fontFamily, radius, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
@@ -307,16 +307,16 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
               what it currently cannot tell you — is written up on the model card.
             </Text>
             <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
-              <Button size="lg" onPress={goToDashboard}>
+              <Button size="lg" href={hrefFor('dashboard')}>
                 Forge your own
               </Button>
-              <Button size="lg" variant="ghost" onPress={goToDashboard}>
+              <Button size="lg" variant="ghost" href={hrefFor('dashboard')}>
                 Open the dashboard
               </Button>
               <Button
                 size="lg"
                 variant="ghost"
-                onPress={goToModelCard}
+                href={hrefFor('model-card')}
                 style={{ borderRadius: radius.buttons }}
               >
                 Read the model card

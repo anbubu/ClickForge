@@ -37,11 +37,14 @@ function Choice({
   note,
   selected,
   onPress,
+  width,
 }: {
   label: string;
   note: string;
   selected: boolean;
   onPress: () => void;
+  /** Set by `Question` once it has measured its row. See the note there. */
+  width?: number;
 }) {
   const p = usePalette();
   const [hover, setHover] = useState(false);
@@ -58,8 +61,9 @@ function Choice({
       onHoverIn={() => setHover(true)}
       onHoverOut={() => setHover(false)}
       style={{
-        flexBasis: 220,
-        flexGrow: 1,
+        // Before the first layout pass there is no measured width to work with,
+        // so the cards fall back to filling the row the way they always did.
+        ...(width === undefined ? { flexBasis: 220, flexGrow: 1 } : { width }),
         gap: 8,
         padding: 16,
         borderRadius: radius.cards,
@@ -98,6 +102,10 @@ function Choice({
   );
 }
 
+/** The answer grid's gutter, and the widest it is allowed to get. */
+const GRID_GAP = 12;
+const GRID_COLUMNS = 3;
+
 function Question({
   step,
   title,
@@ -108,6 +116,22 @@ function Question({
   children: React.ReactNode;
 }) {
   const p = usePalette();
+  const narrow = useBelow(breakpoint.stack);
+  const [rowWidth, setRowWidth] = useState(0);
+
+  /**
+   * Every card is given the same measured width rather than being left to
+   * `flexGrow`.
+   *
+   * Growing cards look right only while the answers divide evenly into the row.
+   * The second question has four, so the fourth wrapped alone and then stretched
+   * to the full width of the grid — one answer rendered three times the size of
+   * the three above it, which reads as a heading or a recommendation rather than
+   * as the fourth of four equal choices.
+   */
+  const columns = narrow ? 1 : GRID_COLUMNS;
+  const columnWidth =
+    rowWidth > 0 ? (rowWidth - GRID_GAP * (columns - 1)) / columns : undefined;
   return (
     <View style={{ gap: 14 }}>
       <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 10 }}>
@@ -136,9 +160,14 @@ function Question({
       </View>
       <View
         accessibilityRole="radiogroup"
-        style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}
+        onLayout={(e) => setRowWidth(e.nativeEvent.layout.width)}
+        style={{ flexDirection: 'row', flexWrap: 'wrap', gap: GRID_GAP }}
       >
-        {children}
+        {React.Children.map(children, (child) =>
+          React.isValidElement(child)
+            ? React.cloneElement(child as React.ReactElement<{ width?: number }>, { width: columnWidth })
+            : child,
+        )}
       </View>
     </View>
   );

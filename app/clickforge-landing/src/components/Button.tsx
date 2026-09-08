@@ -95,6 +95,7 @@ export function Button({
   iconLeft = null,
   iconRight = null,
   onPress,
+  href,
   accessibilityLabel,
   style,
 }: {
@@ -106,6 +107,16 @@ export function Button({
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
   onPress?: () => void;
+  /**
+   * Where this button goes, when it goes somewhere addressable.
+   *
+   * RN Web renders a <View> for everything, so a button that navigated by
+   * calling `window.location.assign` was invisible as a link: nothing to
+   * middle-click, nothing to open in a new tab, nothing for a crawler to follow.
+   * Passing an href renders a real <a> and lets the browser do the navigating,
+   * so `onPress` is not needed alongside it (and is ignored when both are set).
+   */
+  href?: string;
   /** Only needed when `children` isn't a plain string. */
   accessibilityLabel?: string;
   style?: StyleProp<ViewStyle>;
@@ -119,8 +130,10 @@ export function Button({
   return (
     <Pressable
       disabled={disabled}
-      onPress={onPress}
-      accessibilityRole="button"
+      onPress={href ? undefined : onPress}
+      // Web-only props RN's own types don't carry; RNW turns `href` into an <a>.
+      {...((href && !disabled ? { href } : null) as any)}
+      accessibilityRole={href ? 'link' : 'button'}
       accessibilityLabel={accessibilityLabel ?? (typeof children === 'string' ? children : undefined)}
       accessibilityState={{ disabled }}
       onHoverIn={() => setHover(true)}
@@ -138,7 +151,12 @@ export function Button({
           borderWidth: 1,
           paddingHorizontal: dim.paddingHorizontal,
           backgroundColor: disabled ? p.surface : (active && v.hoverBackground) || v.background,
-          borderColor: disabled ? p.border : (active && v.hoverBorderColor) || v.borderColor,
+          // `borderStrong`, not `border`. A disabled button drops to the surface
+          // fill, and `border` is that same value — so on any panel already
+          // sitting at surface (the forge composer, every raised well) the button
+          // lost its edge as well as its fill and read as a line of grey text
+          // rather than as a control waiting on an input.
+          borderColor: disabled ? p.borderStrong : (active && v.hoverBorderColor) || v.borderColor,
           // A 1px drop, not a scale. Springs and bounce are out of voice here.
           transform: pressed && !disabled ? [{ translateY: 1 }] : undefined,
           // Colour, background and border move as one switch flipping.

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Linking, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Badge } from '../components/Badge';
 import { Container } from '../components/Container';
 import { Wordmark } from '../components/Wordmark';
 import { headingProps, landmark } from '../components/semantics';
 import { feedbackUrl } from '../config/urls';
 import { AnchorSection, useScrollController } from '../navigation/ScrollController';
-import { goTo, type Route } from '../navigation/routes';
+import { hrefFor, type Route } from '../navigation/routes';
 import { fontFamily, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { useBelow } from '../theme/useBreakpoint';
@@ -59,14 +59,22 @@ const COLUMNS: { heading: string; links: FooterItem[] }[] = [
  * `href` is checked for emptiness as well as presence: an unset external URL is a
  * dead link, and a dead link is worse than a label.
  */
-function destination(item: FooterItem, scrollTo: (id: string) => void): (() => void) | undefined {
-  if (item.section) return () => scrollTo(item.section as string);
-  if (item.route) return () => goTo(item.route as Route);
-  if (item.href) return () => Linking.openURL(item.href as string);
-  return undefined;
+function destination(
+  item: FooterItem,
+  scrollTo: (id: string) => void,
+): { onPress?: () => void; href?: string } {
+  // An on-page target is a scroll, not a document: the sections carry no DOM ids
+  // to point an href at, so this one stays a handler.
+  if (item.section) return { onPress: () => scrollTo(item.section as string) };
+  // The rest are addressable, so they are rendered as real links and the browser
+  // does the navigating — which is what makes them open in a new tab and makes
+  // them worth something to a crawler.
+  if (item.route) return { href: hrefFor(item.route as Route) };
+  if (item.href) return { href: item.href };
+  return {};
 }
 
-function FooterLink({ label, onPress }: { label: string; onPress?: () => void }) {
+function FooterLink({ label, onPress, href }: { label: string; onPress?: () => void; href?: string }) {
   const p = usePalette();
   const [hover, setHover] = useState(false);
   const style = {
@@ -75,13 +83,14 @@ function FooterLink({ label, onPress }: { label: string; onPress?: () => void })
     color: hover ? p.textPrimary : p.textSecondary,
   } as const;
 
-  if (!onPress) {
+  if (!onPress && !href) {
     return <Text style={{ ...style, color: p.textSecondary }}>{label}</Text>;
   }
 
   return (
     <Pressable
       onPress={onPress}
+      {...((href ? { href } : null) as any)}
       accessibilityRole="link"
       accessibilityLabel={label}
       onHoverIn={() => setHover(true)}
@@ -132,7 +141,7 @@ export function Footer() {
               {col.heading}
             </Text>
             {col.links.map((l) => (
-              <FooterLink key={l.label} label={l.label} onPress={destination(l, scrollTo)} />
+              <FooterLink key={l.label} label={l.label} {...destination(l, scrollTo)} />
             ))}
           </View>
         ))}

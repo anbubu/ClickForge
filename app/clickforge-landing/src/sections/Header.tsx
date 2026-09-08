@@ -6,7 +6,7 @@ import { Icon } from '../components/Icon';
 import { NavPill } from '../components/NavPill';
 import { PromoBanner } from '../components/PromoBanner';
 import { Wordmark } from '../components/Wordmark';
-import { goToDashboard, goToModelCard } from '../navigation/routes';
+import { goToDashboard, hrefFor } from '../navigation/routes';
 import { landmark } from '../components/semantics';
 import { fontFamily, radius, breakpoint, type as t } from '../theme/tokens';
 import { useScrollController } from '../navigation/ScrollController';
@@ -80,12 +80,6 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
     scrollTo(id);
   };
 
-  /** Same reasoning as `openLogin`: the forge is what the label promises. */
-  const openSignup = () => {
-    setMenuOpen(false);
-    goToDashboard();
-  };
-
   /**
    * Straight into the signed-in app, with no credentials asked for.
    *
@@ -105,7 +99,7 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
         <PromoBanner
           badge="New"
           ctaLabel="See the model card"
-          onPress={goToModelCard}
+          href={hrefFor('model-card')}
           onDismiss={() => setPromoVisible(false)}
         >
           Retention hooks v3 is live — 22% better first-three-second hold.
@@ -141,11 +135,9 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: compact ? 8 : 12 }}>
           {!compact && (
-            <NavPill role="button" onPress={openLogin}>
-              Log in
-            </NavPill>
+            <NavPill href={hrefFor('dashboard')}>Log in</NavPill>
           )}
-          <Button variant="light" size={compact ? 'sm' : 'md'} onPress={openSignup}>
+          <Button variant="light" size={compact ? 'sm' : 'md'} href={hrefFor('dashboard')}>
             Start 30-Day Free Trial
           </Button>
           {compact && (

@@ -17,7 +17,7 @@ export function PricingTier({
   features = [],
   featured = false,
   ctaLabel = 'Start forging',
-  onSelect,
+  href,
 }: {
   name: string;
   price: string;
@@ -26,7 +26,8 @@ export function PricingTier({
   features?: string[];
   featured?: boolean;
   ctaLabel?: string;
-  onSelect?: () => void;
+  /** Where the tier's CTA goes. Both destinations are addressable, so both are links. */
+  href?: string;
 }) {
   const p = usePalette();
   const rt = useResponsiveType();
@@ -92,7 +93,7 @@ export function PricingTier({
           </View>
         ))}
       </View>
-      <Button variant={featured ? 'light' : 'ghost'} fullWidth onPress={onSelect} style={{ marginTop: 'auto' }}>
+      <Button variant={featured ? 'light' : 'ghost'} fullWidth href={href} style={{ marginTop: 'auto' }}>
         {ctaLabel}
       </Button>
     </Card>
