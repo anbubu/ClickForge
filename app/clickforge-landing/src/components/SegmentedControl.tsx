@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View, type StyleProp, type ViewStyle } from 'react-native';
-import { fontFamily, radius } from '../theme/tokens';
+import { fontFamily, radius, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 
 export type SegmentOption = { value: string; label: string };
@@ -52,7 +52,7 @@ export function SegmentedControl({
             style={{
               paddingVertical: 6,
               paddingHorizontal: 12,
-              borderRadius: 6,
+              borderRadius: radius.sm,
               backgroundColor: on ? p.surfaceElevated : 'transparent',
               borderWidth: on ? 1 : 0,
               borderColor: p.border,
@@ -60,8 +60,8 @@ export function SegmentedControl({
           >
             <Text
               style={{
-                fontFamily: fontFamily.interMedium,
-                fontSize: 13,
+                fontFamily: fontFamily.regular,
+                fontSize: t.bodySm.size,
                 letterSpacing: -0.25,
                 color: on ? p.textPrimary : p.textSecondary,
               }}

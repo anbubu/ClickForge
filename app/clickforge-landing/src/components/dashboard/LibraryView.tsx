@@ -51,14 +51,14 @@ function BlueprintLines({ blueprint }: { blueprint: Blueprint }) {
     <View style={{ gap: 8 }}>
       {lines.map(([label, value]) => (
         <View key={label} style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
-          <Text style={{ fontFamily: fontFamily.monoRegular, fontSize: 13, color: p.textMuted, minWidth: 110 }}>
+          <Text style={{ fontFamily: fontFamily.monoRegular, fontSize: t.label.size, color: p.textMuted, minWidth: 110 }}>
             {label}
           </Text>
           <Text
             style={{
               flex: 1,
               minWidth: 200,
-              fontFamily: fontFamily.interRegular,
+              fontFamily: fontFamily.regular,
               fontSize: t.bodySm.size,
               lineHeight: t.bodySm.size * t.bodySm.leading,
               color: p.textSecondary,
@@ -75,21 +75,21 @@ function BlueprintLines({ blueprint }: { blueprint: Blueprint }) {
 function EntryCard({ entry }: { entry: Entry }) {
   const p = usePalette();
   return (
-    <Card level={2} style={{ gap: 16 }}>
+    <Card variant="dark" style={{ gap: 16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
         <View style={{ flex: 1, gap: 6, minWidth: 220 }}>
           <Text
             style={{
-              fontFamily: fontFamily.interMedium,
-              fontSize: 15,
-              lineHeight: 15 * 1.4,
+              fontFamily: fontFamily.regular,
+              fontSize: t.body.size,
+              lineHeight: t.body.size * 1.4,
               letterSpacing: -0.25,
               color: p.textPrimary,
             }}
           >
             {entry.title}
           </Text>
-          <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 13, color: p.textMuted }}>
+          <Text style={{ fontFamily: fontFamily.regular, fontSize: t.bodySm.size, color: p.textMuted }}>
             {entry.platform}, {relativeDay(entry.at)}
           </Text>
         </View>
@@ -98,7 +98,7 @@ function EntryCard({ entry }: { entry: Entry }) {
             <Text
               style={{
                 fontFamily: fontFamily.monoMedium,
-                fontSize: 13,
+                fontSize: t.label.size,
                 color: p.textSecondary,
                 fontVariant: ['tabular-nums'],
               }}
@@ -106,7 +106,7 @@ function EntryCard({ entry }: { entry: Entry }) {
               {entry.actual.toFixed(1)}
             </Text>
           )}
-          <Badge tone={entry.status === 'shipped' ? 'ember' : 'neutral'}>
+          <Badge tone={entry.status === 'shipped' ? 'signal' : 'neutral'}>
             {entry.status === 'shipped' ? 'Shipped' : 'In progress'}
           </Badge>
         </View>
@@ -127,7 +127,7 @@ function EntryCard({ entry }: { entry: Entry }) {
           </Text>
           <Text
             style={{
-              fontFamily: fontFamily.interRegular,
+              fontFamily: fontFamily.regular,
               fontSize: t.bodySm.size,
               lineHeight: t.bodySm.size * t.bodySm.leading,
               color: p.textSecondary,
@@ -219,12 +219,12 @@ export function LibraryView() {
   return (
     <View style={{ gap: 24 }}>
       <View style={{ gap: 8 }}>
-        <Text style={{ fontFamily: fontFamily.interMedium, fontSize: 20, letterSpacing: -0.42, color: p.textPrimary }}>
+        <Text style={{ fontFamily: fontFamily.regular, fontSize: t.headingSm.size, letterSpacing: t.headingSm.tracking, color: p.textPrimary }}>
           Blueprint library
         </Text>
         <Text
           style={{
-            fontFamily: fontFamily.interRegular,
+            fontFamily: fontFamily.regular,
             fontSize: t.bodySm.size,
             lineHeight: t.bodySm.size * t.bodySm.leading,
             color: p.textMuted,
@@ -239,10 +239,10 @@ export function LibraryView() {
       <SegmentedControl value={filter} onChange={setFilter} options={FILTERS} />
 
       {withAssets.length === 0 ? (
-        <Card level={2}>
+        <Card variant="dark">
           <Text
             style={{
-              fontFamily: fontFamily.interRegular,
+              fontFamily: fontFamily.regular,
               fontSize: t.body.size,
               lineHeight: t.body.size * t.body.leading,
               color: p.textSecondary,

@@ -32,7 +32,7 @@ function SectionLabel({ children, count }: { children: string; count?: string })
       <Text
         {...headingProps(2)}
         style={{
-          fontFamily: fontFamily.interMedium,
+          fontFamily: fontFamily.regular,
           fontSize: 20,
           letterSpacing: -0.42,
           color: p.textPrimary,
@@ -41,7 +41,7 @@ function SectionLabel({ children, count }: { children: string; count?: string })
         {children}
       </Text>
       {count ? (
-        <Text style={{ fontFamily: fontFamily.monoRegular, fontSize: 13, color: p.textMuted }}>{count}</Text>
+        <Text style={{ fontFamily: fontFamily.monoRegular, fontSize: t.label.size, color: p.textMuted }}>{count}</Text>
       ) : null}
     </View>
   );
@@ -52,7 +52,7 @@ function Note({ children }: { children: React.ReactNode }) {
   return (
     <Text
       style={{
-        fontFamily: fontFamily.interRegular,
+        fontFamily: fontFamily.regular,
         fontSize: t.bodySm.size,
         lineHeight: t.bodySm.size * t.bodySm.leading,
         color: p.textMuted,
@@ -80,7 +80,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
         <Container style={{ maxWidth: 900, gap: 48, paddingTop: 48 }}>
           <View style={{ gap: 20 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <Badge tone="ember">YouTube</Badge>
+              <Badge tone="signal">YouTube</Badge>
               <Text
                 style={{
                   fontFamily: fontFamily.monoRegular,
@@ -96,7 +96,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
 
             <Text
               {...headingProps(1)}
-              style={{ fontFamily: fontFamily.interMedium, ...typeStyle(rt.headingLg), color: p.textPrimary }}
+              style={{ fontFamily: fontFamily.regular, ...typeStyle(rt.headingLg), color: p.textPrimary }}
             >
               One concept, scored end to end.
             </Text>
@@ -107,7 +107,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
             <View
               style={{
                 borderLeftWidth: 2,
-                borderLeftColor: p.accentEdge,
+                borderLeftColor: p.borderStrong,
                 paddingLeft: 16,
                 paddingVertical: 4,
               }}
@@ -126,7 +126,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
               </Text>
               <Text
                 style={{
-                  fontFamily: fontFamily.interRegular,
+                  fontFamily: fontFamily.regular,
                   fontSize: t.body.size,
                   lineHeight: t.body.size * t.body.leading,
                   color: p.textSecondary,
@@ -139,7 +139,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
 
           {/* Headline result. The winning title and its score are what the whole
               report is for, so they get the page's only large number. */}
-          <Card level={1} accent style={{ gap: 20 }}>
+          <Card variant="dark" selected style={{ gap: 20 }}>
             <Text
               style={{
                 fontFamily: fontFamily.monoRegular,
@@ -156,7 +156,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
                 style={{
                   flex: 1,
                   minWidth: 240,
-                  fontFamily: fontFamily.interMedium,
+                  fontFamily: fontFamily.regular,
                   ...typeStyle(rt.heading),
                   color: p.textPrimary,
                 }}
@@ -177,8 +177,8 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
               {sample.titles.map((item, i) => (
                 <Card
                   key={item.text}
-                  level={2}
-                  accent={i === 0}
+                  variant="dark"
+                  selected={i === 0}
                   padding={0}
                   style={{
                     paddingVertical: 16,
@@ -191,7 +191,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
                   <View style={{ flex: 1, gap: 12, minWidth: 0 }}>
                     <Text
                       style={{
-                        fontFamily: fontFamily.interMedium,
+                        fontFamily: fontFamily.regular,
                         fontSize: 16,
                         lineHeight: 16 * 1.4,
                         letterSpacing: -0.25,
@@ -221,7 +221,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
               {sample.hooks.map((hook, i) => (
                 <Card
                   key={hook}
-                  level={2}
+                  variant="dark"
                   padding={0}
                   style={{
                     paddingVertical: 16,
@@ -231,11 +231,11 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
                     alignItems: 'flex-start',
                   }}
                 >
-                  <Badge tone={i === 0 ? 'ember' : 'neutral'}>0–3s</Badge>
+                  <Badge tone={i === 0 ? 'signal' : 'neutral'}>0–3s</Badge>
                   <Text
                     style={{
                       flex: 1,
-                      fontFamily: fontFamily.interRegular,
+                      fontFamily: fontFamily.regular,
                       fontSize: t.body.size,
                       lineHeight: t.body.size * t.body.leading,
                       letterSpacing: -0.25,
@@ -254,7 +254,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
             <Note>
               Not a generated image — a brief. Four decisions a designer or a phone camera can both act on.
             </Note>
-            <Card level={2} style={{ gap: 16 }}>
+            <Card variant="dark" style={{ gap: 16 }}>
               {sample.blueprint.map(([key, value]) => (
                 <View key={key} style={{ flexDirection: 'row', gap: 16, flexWrap: 'wrap' }}>
                   <Text
@@ -273,7 +273,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
                     style={{
                       flex: 1,
                       minWidth: 220,
-                      fontFamily: fontFamily.interRegular,
+                      fontFamily: fontFamily.regular,
                       fontSize: t.bodySm.size,
                       lineHeight: t.bodySm.size * t.bodySm.leading,
                       color: p.textPrimary,
@@ -296,7 +296,7 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
           >
             <Text
               style={{
-                fontFamily: fontFamily.interRegular,
+                fontFamily: fontFamily.regular,
                 fontSize: t.bodySm.size,
                 lineHeight: t.bodySm.size * t.bodySm.leading,
                 color: p.textMuted,
@@ -307,10 +307,10 @@ export function SampleReport({ sample = KNIFE_SAMPLE }: { sample?: ForgeSample }
               what it currently cannot tell you — is written up on the model card.
             </Text>
             <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
-              <Button size="lg" hoverReveal onPress={goToDashboard}>
+              <Button size="lg" onPress={goToDashboard}>
                 Forge your own
               </Button>
-              <Button size="lg" variant="secondary" onPress={goToDashboard}>
+              <Button size="lg" variant="ghost" onPress={goToDashboard}>
                 Open the dashboard
               </Button>
               <Button

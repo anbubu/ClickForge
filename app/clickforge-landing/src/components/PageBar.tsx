@@ -5,7 +5,6 @@ import { fontFamily, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { Button } from './Button';
 import { Container } from './Container';
-import { ThemeToggle } from './ThemeToggle';
 import { Wordmark } from './Wordmark';
 import { landmark } from './semantics';
 
@@ -61,7 +60,6 @@ export function PageBar({ label }: { label: string }) {
         </Text>
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-          <ThemeToggle />
           <Button size="sm" onPress={goToDashboard}>
             Start 30-Day Free Trial
           </Button>

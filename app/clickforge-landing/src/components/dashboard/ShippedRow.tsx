@@ -39,16 +39,16 @@ export function ShippedRow({ item, last }: { item: ShippedForge; last: boolean }
       <View style={{ flex: 1, gap: 6, minWidth: 0 }}>
         <Text
           style={{
-            fontFamily: fontFamily.interMedium,
-            fontSize: 15,
-            lineHeight: 15 * 1.4,
+            fontFamily: fontFamily.regular,
+            fontSize: t.body.size,
+            lineHeight: t.body.size * 1.4,
             letterSpacing: -0.25,
             color: p.textPrimary,
           }}
         >
           {item.title}
         </Text>
-        <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 13, color: p.textMuted }}>
+        <Text style={{ fontFamily: fontFamily.regular, fontSize: t.bodySm.size, color: p.textMuted }}>
           {item.platform}, {relativeDay(item.shippedAt)}
         </Text>
       </View>
@@ -66,8 +66,8 @@ export function ShippedRow({ item, last }: { item: ShippedForge; last: boolean }
         </Text>
         <Text
           style={{
-            fontFamily: pending ? fontFamily.interRegular : fontFamily.monoMedium,
-            fontSize: 13,
+            fontFamily: pending ? fontFamily.regular : fontFamily.monoMedium,
+            fontSize: t.bodySm.size,
             color: pending ? p.textMuted : deltaColor,
             fontVariant: ['tabular-nums'],
           }}
@@ -87,7 +87,7 @@ export function ShippedEmpty() {
       <Text
         style={{
           flex: 1,
-          fontFamily: fontFamily.interRegular,
+          fontFamily: fontFamily.regular,
           fontSize: t.body.size,
           lineHeight: t.body.size * t.body.leading,
           color: p.textSecondary,

@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
-import { Pressable, Text, type AccessibilityRole } from 'react-native';
-import { fontFamily, radius } from '../theme/tokens';
+import { Pressable, Text, View, type AccessibilityRole } from 'react-native';
+import { fontFamily, radius, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
+import { transition } from '../theme/webGlobalStyles';
 
+/**
+ * A nav link, not a pill any more.
+ *
+ * DESIGN.md's nav is uppercase Geist 14/400 in #eeeeee with no fill behind it,
+ * so the standing surface the active item used to carry is gone. The current
+ * section is marked instead by a 1px underline in the accent — a live-state
+ * readout, which is what #ee6018 is for, and the only mark small enough to say
+ * "you are here" without putting chrome back in the bar.
+ */
 export function NavPill({
   children,
   onPress,
@@ -16,7 +26,7 @@ export function NavPill({
 }) {
   const p = usePalette();
   const [hover, setHover] = useState(false);
-  const on = active || hover;
+
   return (
     <Pressable
       onPress={onPress}
@@ -27,26 +37,35 @@ export function NavPill({
       onHoverIn={() => setHover(true)}
       onHoverOut={() => setHover(false)}
       style={{
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
-        gap: 6,
-        paddingVertical: 8,
-        paddingHorizontal: 14,
+        gap: 5,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
         borderRadius: radius.navpills,
-        // The active section keeps a standing surface; hover is the transient one.
-        backgroundColor: active ? p.surfaceElevated : hover ? p.surface : 'transparent',
       }}
     >
       <Text
         style={{
-          fontFamily: active ? fontFamily.interSemibold : fontFamily.interMedium,
-          fontSize: 14,
-          letterSpacing: -0.25,
-          color: on ? p.textPrimary : p.textSecondary,
+          fontFamily: fontFamily.regular,
+          fontSize: t.bodySm.size,
+          letterSpacing: t.bodySm.tracking,
+          textTransform: 'uppercase',
+          color: active || hover ? p.textPrimary : p.textSecondary,
+          ...transition('color'),
         }}
       >
         {children}
       </Text>
+      <View
+        {...({ 'aria-hidden': true } as any)}
+        style={{
+          height: 1,
+          alignSelf: 'stretch',
+          backgroundColor: active ? p.signal : 'transparent',
+          ...transition('background-color'),
+        }}
+      />
     </Pressable>
   );
 }

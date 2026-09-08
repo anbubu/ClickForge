@@ -1,8 +1,20 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { fontFamily, radius } from '../theme/tokens';
+import { fontFamily, radius, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
+import { transition } from '../theme/webGlobalStyles';
+import { StatusPulse } from './StatusPulse';
 
+/**
+ * The announcement strip.
+ *
+ * It used to be a full-bleed #ff7a18 band, which is the single clearest thing
+ * DESIGN.md forbids: orange is a data voice, and a page-width fill is the
+ * largest possible piece of chrome. The announcement is still the first thing on
+ * the page, but it earns that position the way the rest of the system does — a
+ * hairline over the canvas with a live dot doing the work the orange ground used
+ * to do.
+ */
 export function PromoBanner({
   badge,
   children,
@@ -17,6 +29,8 @@ export function PromoBanner({
   onDismiss?: () => void;
 }) {
   const p = usePalette();
+  const [hover, setHover] = React.useState(false);
+
   return (
     <View
       style={{
@@ -27,19 +41,22 @@ export function PromoBanner({
         gap: 12,
         paddingVertical: 10,
         paddingHorizontal: 24,
-        backgroundColor: p.accent,
+        backgroundColor: p.canvas,
+        borderBottomWidth: 1,
+        borderBottomColor: p.border,
       }}
     >
+      <StatusPulse />
       {badge && (
         <Text
           style={{
             fontFamily: fontFamily.monoRegular,
-            fontSize: 12,
-            letterSpacing: 0.85,
+            fontSize: t.label.size,
+            letterSpacing: t.label.tracking,
             textTransform: 'uppercase',
-            color: '#1a0c02',
+            color: p.textMuted,
             borderWidth: 1,
-            borderColor: 'rgba(26,12,2,0.45)',
+            borderColor: p.borderStrong,
             borderRadius: radius.tags,
             paddingVertical: 2,
             paddingHorizontal: 6,
@@ -48,16 +65,30 @@ export function PromoBanner({
           {badge}
         </Text>
       )}
-      <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 14, letterSpacing: -0.25, color: '#1a0c02' }}>
+      <Text
+        style={{
+          fontFamily: fontFamily.regular,
+          fontSize: t.bodySm.size,
+          letterSpacing: t.bodySm.tracking,
+          color: p.textPrimary,
+        }}
+      >
         {children}
       </Text>
-      <Pressable onPress={onPress} accessibilityRole="link" accessibilityLabel={ctaLabel}>
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="link"
+        accessibilityLabel={ctaLabel}
+        onHoverIn={() => setHover(true)}
+        onHoverOut={() => setHover(false)}
+      >
         <Text
           style={{
-            fontFamily: fontFamily.interMedium,
-            fontSize: 14,
-            color: '#1a0c02',
+            fontFamily: fontFamily.regular,
+            fontSize: t.bodySm.size,
+            color: hover ? p.fillLight : p.textSecondary,
             textDecorationLine: 'underline',
+            ...transition('color'),
           }}
         >
           {ctaLabel} →
@@ -71,7 +102,7 @@ export function PromoBanner({
           hitSlop={8}
           style={{ marginLeft: 8 }}
         >
-          <Text style={{ fontSize: 14, color: '#1a0c02', opacity: 0.7 }}>✕</Text>
+          <Text style={{ fontSize: t.bodySm.size, color: p.textSecondary }}>✕</Text>
         </Pressable>
       )}
     </View>

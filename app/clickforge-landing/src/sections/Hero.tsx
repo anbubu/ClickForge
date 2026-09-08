@@ -6,10 +6,9 @@ import { headingProps } from '../components/semantics';
 import { Container } from '../components/Container';
 import { ToolSpec } from '../components/ToolSpec';
 import { LogoStrip } from '../components/LogoStrip';
-import { ThirdsGrid } from '../components/ThirdsGrid';
 import { AnchorSection } from '../navigation/ScrollController';
 import { goToDashboard, goToSampleReport } from '../navigation/routes';
-import { fontFamily, breakpoint, type as t } from '../theme/tokens';
+import { fontFamily, breakpoint, layout, type as t } from '../theme/tokens';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
 import { usePalette } from '../theme/ThemeContext';
 import { useBelow } from '../theme/useBreakpoint';
@@ -22,23 +21,32 @@ export function Hero() {
   const rt = useResponsiveType();
 
   return (
-    <ThirdsGrid>
+    <>
       <AnchorSection id="top">
         <Container
           style={{
             flexDirection: stacked ? 'column' : 'row',
             alignItems: 'center',
-            gap: 64,
-            paddingTop: 88,
+            gap: 56,
+            paddingTop: 96,
             paddingBottom: 56,
           }}
         >
+          {/*
+            DESIGN.md's hero is a 1/3 + 2/3 split. At a 1200px page that puts the
+            headline in ~340px, which is too narrow for 72px display type to say
+            anything - it would break "Score" across two lines. 40/60 is the
+            nearest ratio that keeps the doc's asymmetry and still lets the
+            display size do its job.
+          */}
           <View style={{ flex: stacked ? undefined : 1, gap: 24, alignItems: 'flex-start', width: stacked ? '100%' : undefined }}>
-            <Badge tone="ember">CTR prediction · v3</Badge>
+            <Badge tone="signal">CTR prediction · v3</Badge>
             <Text
               {...headingProps(1)}
               style={{
-                fontFamily: fontFamily.interMedium,
+                // Weight 400, not 500. "Authority is implied by size and
+                // tracking, not by bold weight" is the doc's signature move.
+                fontFamily: fontFamily.regular,
                 ...typeStyle(rt.display),
                 color: p.textPrimary,
               }}
@@ -47,7 +55,7 @@ export function Hero() {
             </Text>
             <Text
               style={{
-                fontFamily: fontFamily.interRegular,
+                fontFamily: fontFamily.regular,
                 fontSize: t.body.size,
                 lineHeight: t.body.size * t.body.leading,
                 letterSpacing: t.body.tracking,
@@ -59,20 +67,20 @@ export function Hero() {
               retention hook, and an exact thumbnail blueprint — each carrying a predicted CTR.
             </Text>
             <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
-              <Button size="lg" hoverReveal onPress={goToDashboard}>
+              <Button size="lg" variant="light" onPress={goToDashboard}>
                 Forge your first video
               </Button>
               {/* The panel to the right is a taste of one; this opens the whole
                   report on its own page, which is what the label promises. */}
-              <Button size="lg" variant="secondary" onPress={goToSampleReport}>
+              <Button size="lg" variant="ghost" onPress={goToSampleReport}>
                 See a sample report
               </Button>
             </View>
             <Text
               style={{
                 fontFamily: fontFamily.monoRegular,
-                fontSize: 12,
-                letterSpacing: 0.85,
+                fontSize: t.label.size,
+                letterSpacing: t.label.tracking,
                 textTransform: 'uppercase',
                 color: p.textMuted,
               }}
@@ -80,14 +88,14 @@ export function Hero() {
               30-day free trial · Cancel any time
             </Text>
           </View>
-          <View style={{ flex: stacked ? undefined : 1.05, width: stacked ? '100%' : undefined, maxWidth: stacked ? 1000 : undefined }}>
+          <View style={{ flex: stacked ? undefined : 1.5, width: stacked ? '100%' : undefined, maxWidth: stacked ? 1000 : undefined }}>
             <ToolSpec />
           </View>
         </Container>
       </AnchorSection>
-      <Container style={{ paddingBottom: 72 }}>
+      <Container style={{ paddingBottom: layout.sectionGap }}>
         <LogoStrip label="Forging titles for studios shipping 400+ videos a month:" names={STUDIOS} />
       </Container>
-    </ThirdsGrid>
+    </>
   );
 }

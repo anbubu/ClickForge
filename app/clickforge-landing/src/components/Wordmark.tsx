@@ -41,7 +41,7 @@ export function Wordmark({
   const wordmark = (
     <Text
       style={{
-        fontFamily: fontFamily.interSemibold,
+        fontFamily: fontFamily.medium,
         fontSize: size,
         letterSpacing: -0.045 * size,
         color: color ?? p.textPrimary,
@@ -49,7 +49,7 @@ export function Wordmark({
       }}
     >
       Click
-      <Text style={{ color: accent ?? p.accentInk }}>Forge</Text>
+      <Text style={{ color: accent ?? p.signal }}>Forge</Text>
     </Text>
   );
 

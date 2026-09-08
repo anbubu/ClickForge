@@ -3,16 +3,25 @@ import { Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import { fontFamily, radius, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import type { Palette } from '../theme/palettes';
+import { StatusPulse } from './StatusPulse';
 
-export type BadgeTone = 'neutral' | 'ember' | 'solid';
+/**
+ * Status tags in the mono voice.
+ *
+ * None of these fill with an accent. DESIGN.md forbids #ee6018 and #a0ca92 on
+ * "button backgrounds, card surfaces, or large text fills", and a badge is a
+ * small card — so a live badge is a neutral outline that *carries* a coloured
+ * dot rather than becoming coloured itself. That keeps the accent reading as a
+ * data point instead of as chrome.
+ */
+export type BadgeTone = 'neutral' | 'signal' | 'positive' | 'onCard';
 
-/** A function of the palette rather than a constant, so tones follow the theme. */
-function tones(p: Palette): Record<BadgeTone, { color: string; borderColor: string; background: string }> {
+function tones(p: Palette): Record<BadgeTone, { color: string; borderColor: string; dot: boolean }> {
   return {
-    neutral: { color: p.textSecondary, borderColor: p.border, background: 'transparent' },
-    // `accentInk`, not `accent`: ember as text on a light ground is only 2.6:1.
-    ember: { color: p.accentInk, borderColor: p.accentEdge, background: p.accentWash },
-    solid: { color: p.textOnAccent, borderColor: 'transparent', background: p.accent },
+    neutral: { color: p.textMuted, borderColor: p.borderStrong, dot: false },
+    signal: { color: p.textPrimary, borderColor: p.borderStrong, dot: true },
+    positive: { color: p.textPrimary, borderColor: p.borderStrong, dot: true },
+    onCard: { color: p.onCardSecondary, borderColor: p.onCardBorder, dot: false },
   };
 }
 
@@ -35,16 +44,17 @@ export function Badge({
           alignItems: 'center',
           alignSelf: 'flex-start',
           gap: 6,
-          paddingVertical: 3,
-          paddingHorizontal: 7,
+          height: 22,
+          paddingHorizontal: 8,
           borderRadius: radius.tags,
           borderWidth: 1,
           borderColor: c.borderColor,
-          backgroundColor: c.background,
+          backgroundColor: 'transparent',
         },
         style,
       ]}
     >
+      {c.dot ? <StatusPulse tone={tone === 'positive' ? 'positive' : 'signal'} /> : null}
       <Text
         style={{
           fontFamily: fontFamily.monoRegular,

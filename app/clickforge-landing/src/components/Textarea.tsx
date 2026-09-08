@@ -41,7 +41,7 @@ export function Textarea({
         style={{
           backgroundColor: p.surface,
           borderWidth: 1,
-          borderColor: focus ? p.accent : p.border,
+          borderColor: focus ? p.signal : p.border,
           borderRadius: radius.inputs,
           padding: 12,
           opacity: disabled ? 0.5 : 1,
@@ -60,7 +60,7 @@ export function Textarea({
           onBlur={() => setFocus(false)}
           style={[
             {
-              fontFamily: fontFamily.interRegular,
+              fontFamily: fontFamily.regular,
               fontSize: t.body.size,
               lineHeight: t.body.size * t.body.leading,
               letterSpacing: t.body.tracking,

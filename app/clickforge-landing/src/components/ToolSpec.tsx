@@ -1,26 +1,31 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { fontFamily, type as t } from '../theme/tokens';
-import { Card } from './Card';
+import { DashboardFrame, MetricGrid, MetricTile } from './DashboardFrame';
 import { Icon, type IconName } from './Icon';
-import { useResponsiveType } from '../theme/useResponsiveType';
 import { usePalette } from '../theme/ThemeContext';
 
 /**
- * The hero's right-hand column.
+ * The hero's right-hand column — now the product window itself.
  *
- * It used to be a live <ForgePanel>, which put the product demo in two places —
- * here and in the Product section. The demo now lives in the Product section
- * alone; the hero states what the tool is and what it gives you.
+ * DESIGN.md's imagery section is unusually prescriptive: the dominant visual is
+ * "a real-feeling terminal panel with traffic-light chrome, monospaced column
+ * headers, and live sparklines in orange and green", and there is to be no
+ * lifestyle photography, no people, no gradients. So the three tool specs that
+ * used to sit in a plain card are now metric tiles inside a windowed frame, and
+ * they carry sparklines because the doc's tiles do.
  *
- * The three figures are deliberately tool specs, not outcome metrics: the Proof
- * section owns the measured numbers (CTR lift, time to forge, prediction error),
- * and repeating any of them here would be the same duplication in a new place.
+ * The figures are still tool specs rather than outcome metrics: the Proof section
+ * owns the measured numbers (CTR lift, time to forge, prediction error), and
+ * repeating any of them here would duplicate the claim in a second place.
  */
-const SPECS: { value: string; label: string }[] = [
-  { value: '3', label: 'Assets per forge' },
-  { value: '4', label: 'Platforms scored' },
-  { value: '200', label: 'Uploads benchmarked' },
+const SPECS: { value: string; label: string; series: number[]; trend: 'up' | 'down' }[] = [
+  // Series are the shape of the thing being counted, not decoration: assets per
+  // forge has been flat at three, platform coverage has stepped up, and the
+  // benchmark window grows with every upload the model reads.
+  { value: '3', label: 'Assets per forge', series: [3, 3, 3, 3, 3, 3, 3], trend: 'up' },
+  { value: '4', label: 'Platforms scored', series: [1, 1, 2, 2, 3, 3, 4], trend: 'up' },
+  { value: '200', label: 'Uploads benchmarked', series: [40, 62, 88, 101, 140, 172, 200], trend: 'up' },
 ];
 
 const RETURNS: { icon: IconName; title: string; detail: string }[] = [
@@ -33,48 +38,30 @@ const PLATFORMS = 'YouTube · Shorts · TikTok · Reels';
 
 export function ToolSpec() {
   const p = usePalette();
-  const rt = useResponsiveType();
 
   return (
-    <Card style={{ gap: 24 }}>
-      <View style={{ flexDirection: 'row', gap: 16 }}>
+    <DashboardFrame title="clickforge — forge" status="Model live">
+      <MetricGrid>
         {SPECS.map((s) => (
-          <View key={s.label} style={{ flex: 1, gap: 6 }}>
-            <Text
-              style={{
-                fontFamily: fontFamily.interMedium,
-                fontSize: rt.headingLg.size,
-                letterSpacing: rt.headingLg.tracking,
-                color: p.textPrimary,
-              }}
-            >
-              {s.value}
-            </Text>
-            <Text
-              style={{
-                fontFamily: fontFamily.monoRegular,
-                fontSize: 11,
-                letterSpacing: 0.85,
-                textTransform: 'uppercase',
-                color: p.textMuted,
-              }}
-            >
-              {s.label}
-            </Text>
-          </View>
+          <MetricTile key={s.label} label={s.label} value={s.value} series={s.series} trend={s.trend} />
         ))}
-      </View>
+      </MetricGrid>
 
-      <View style={{ borderTopWidth: 1, borderTopColor: p.border }} />
-
-      <View style={{ gap: 16 }}>
+      <View
+        style={{
+          borderTopWidth: 1,
+          borderTopColor: p.border,
+          padding: 20,
+          gap: 16,
+        }}
+      >
         <Text
           style={{
             fontFamily: fontFamily.monoRegular,
             fontSize: t.label.size,
             letterSpacing: t.label.tracking,
             textTransform: 'uppercase',
-            color: p.textSecondary,
+            color: p.textMuted,
           }}
         >
           What one forge returns
@@ -82,12 +69,12 @@ export function ToolSpec() {
         {RETURNS.map((r) => (
           <View key={r.title} style={{ flexDirection: 'row', gap: 12, alignItems: 'flex-start' }}>
             <View style={{ paddingTop: 2 }}>
-              <Icon name={r.icon} size={16} color={p.accent} />
+              <Icon name={r.icon} size={16} color={p.signal} />
             </View>
             <View style={{ flex: 1, gap: 2, minWidth: 0 }}>
               <Text
                 style={{
-                  fontFamily: fontFamily.interMedium,
+                  fontFamily: fontFamily.regular,
                   fontSize: t.bodySm.size,
                   letterSpacing: t.bodySm.tracking,
                   color: p.textPrimary,
@@ -97,7 +84,7 @@ export function ToolSpec() {
               </Text>
               <Text
                 style={{
-                  fontFamily: fontFamily.interRegular,
+                  fontFamily: fontFamily.regular,
                   fontSize: t.bodySm.size,
                   lineHeight: t.bodySm.size * t.bodySm.leading,
                   color: p.textSecondary,
@@ -110,19 +97,26 @@ export function ToolSpec() {
         ))}
       </View>
 
-      <View style={{ borderTopWidth: 1, borderTopColor: p.border }} />
-
-      <Text
+      <View
         style={{
-          fontFamily: fontFamily.monoRegular,
-          fontSize: 11,
-          letterSpacing: 0.85,
-          textTransform: 'uppercase',
-          color: p.textMuted,
+          borderTopWidth: 1,
+          borderTopColor: p.border,
+          paddingVertical: 12,
+          paddingHorizontal: 20,
         }}
       >
-        {PLATFORMS}
-      </Text>
-    </Card>
+        <Text
+          style={{
+            fontFamily: fontFamily.monoRegular,
+            fontSize: t.label.size,
+            letterSpacing: t.label.tracking,
+            textTransform: 'uppercase',
+            color: p.textMuted,
+          }}
+        >
+          {PLATFORMS}
+        </Text>
+      </View>
+    </DashboardFrame>
   );
 }

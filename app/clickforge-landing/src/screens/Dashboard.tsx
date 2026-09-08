@@ -21,21 +21,29 @@ import { usePalette } from '../theme/ThemeContext';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
 
 /**
- * A section heading. Sentence case with no eyebrow above it: the marketing
- * page's label-over-heading pattern is a selling device, and in a working
- * surface it just puts a word between the reader and their queue.
+ * A section heading, in the instrument voice.
+ *
+ * DESIGN.md's dashboard surfaces are labelled with "monospaced column headers",
+ * and this is where the two-voice split does real work rather than decorative
+ * work: mono says you are looking at the system, Geist says you are reading the
+ * page. A 20px sentence-case heading read as marketing copy sitting on top of a
+ * work queue.
+ *
+ * The count keeps tabular figures so the number does not shift the rule beside
+ * it as the queue grows.
  */
 function Heading({ children, count }: { children: string; count?: number }) {
   const p = usePalette();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 10 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
       <Text
         {...headingProps(2)}
         style={{
-          fontFamily: fontFamily.interMedium,
-          fontSize: 20,
-          letterSpacing: -0.42,
-          color: p.textPrimary,
+          fontFamily: fontFamily.monoRegular,
+          fontSize: t.label.size,
+          letterSpacing: t.label.tracking,
+          textTransform: 'uppercase',
+          color: p.textMuted,
         }}
       >
         {children}
@@ -44,14 +52,18 @@ function Heading({ children, count }: { children: string; count?: number }) {
         <Text
           style={{
             fontFamily: fontFamily.monoRegular,
-            fontSize: 13,
-            color: p.textMuted,
+            fontSize: t.label.size,
+            letterSpacing: t.label.tracking,
+            color: p.textSecondary,
             fontVariant: ['tabular-nums'],
           }}
         >
           {count}
         </Text>
       )}
+      {/* The rule runs to the end of the row, which is what turns a label into a
+          column header rather than a floating word. */}
+      <View style={{ flex: 1, height: 1, backgroundColor: p.border }} />
     </View>
   );
 }
@@ -165,7 +177,7 @@ export function Dashboard() {
           {!profile ? (
             <Onboarding />
           ) : (
-            <Container style={{ maxWidth: 1040, paddingTop: 48 }}>
+            <Container style={{ maxWidth: 1040, paddingTop: 56 }}>
               {tab === 'Performance' ? <PerformanceView /> : <LibraryView />}
             </Container>
           )}
@@ -181,12 +193,12 @@ export function Dashboard() {
    * mid-sentence.
    */
   const forgeHeader = (
-    <Container style={{ maxWidth: 1040, paddingTop: 48 }}>
+    <Container style={{ maxWidth: 1040, paddingTop: 56, gap: 56 }}>
           <View style={{ gap: 20 }}>
             <Text
               {...headingProps(1)}
               style={{
-                fontFamily: fontFamily.interMedium,
+                fontFamily: fontFamily.regular,
                 ...typeStyle(rt.headingLg),
                 color: p.textPrimary,
               }}
@@ -200,13 +212,13 @@ export function Dashboard() {
             {profile && (
               <Text
                 style={{
-                  fontFamily: fontFamily.interRegular,
+                  fontFamily: fontFamily.regular,
                   fontSize: t.bodySm.size,
                   lineHeight: t.bodySm.size * t.bodySm.leading,
                   color: p.textSecondary,
                   maxWidth: 620,
                   borderLeftWidth: 2,
-                  borderLeftColor: p.accentEdge,
+                  borderLeftColor: p.borderStrong,
                   paddingLeft: 14,
                 }}
               >
@@ -217,7 +229,7 @@ export function Dashboard() {
             <View
               style={{
                 borderWidth: 1,
-                borderColor: concept ? p.accentEdge : p.border,
+                borderColor: concept ? p.borderStrong : p.border,
                 borderRadius: radius.cards,
                 backgroundColor: p.surface,
                 padding: 16,
@@ -239,9 +251,10 @@ export function Dashboard() {
                   options={PLATFORMS}
                 />
                 <Button
+                  variant="light"
                   onPress={onForge}
                   disabled={!canForge}
-                  iconLeft={<Icon name="flame" size={16} color={canForge ? p.textOnAccent : p.textMuted} />}
+                  iconLeft={<Icon name="flame" size={16} color={canForge ? p.fillLightText : p.textSecondary} />}
                   style={{ marginLeft: 'auto' }}
                 >
                   {forging ? 'Forging' : 'Forge assets'}
@@ -256,10 +269,10 @@ export function Dashboard() {
               */}
               <Text
                 style={{
-                  fontFamily: fontFamily.interRegular,
-                  fontSize: 12,
-                  lineHeight: 12 * 1.5,
-                  color: p.textMuted,
+                  fontFamily: fontFamily.regular,
+                  fontSize: t.label.size,
+                  lineHeight: t.label.size * 1.5,
+                  color: p.textSecondary,
                 }}
               >
                 By forging, you agree to our AI data processing terms.
@@ -268,7 +281,7 @@ export function Dashboard() {
 
             <Text
               style={{
-                fontFamily: fontFamily.interRegular,
+                fontFamily: fontFamily.regular,
                 fontSize: t.bodySm.size,
                 color: p.textMuted,
               }}
@@ -284,11 +297,11 @@ export function Dashboard() {
             </Text>
           </View>
 
-          <View style={{ gap: 4 }}>
+          <View style={{ gap: 12 }}>
             <Heading count={queue.length}>In progress</Heading>
             <Text
               style={{
-                fontFamily: fontFamily.interRegular,
+                fontFamily: fontFamily.regular,
                 fontSize: t.bodySm.size,
                 lineHeight: t.bodySm.size * t.bodySm.leading,
                 color: p.textMuted,
@@ -309,7 +322,7 @@ export function Dashboard() {
             <Heading>Shipped</Heading>
             <Text
               style={{
-                fontFamily: fontFamily.interRegular,
+                fontFamily: fontFamily.regular,
                 fontSize: t.bodySm.size,
                 lineHeight: t.bodySm.size * t.bodySm.leading,
                 color: p.textMuted,

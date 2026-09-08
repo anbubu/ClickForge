@@ -6,6 +6,7 @@ import type { ShippedForge } from '../../data/dashboard';
 import { relativeDay } from '../../data/relativeTime';
 import { useForge } from '../../state/ForgeStore';
 import { Card } from '../Card';
+import { MetricGrid } from '../DashboardFrame';
 
 /**
  * Whether the predictions held.
@@ -21,15 +22,29 @@ function measured(shipped: ShippedForge[]): (ShippedForge & { actual: number })[
   return shipped.filter((s): s is ShippedForge & { actual: number } => s.actual != null);
 }
 
+/**
+ * A performance figure, in the doc's Metric Tile shape.
+ *
+ * These were filled cards. DESIGN.md's tile is explicit that there is no
+ * background - "no background, 1px #1d1a18 hairline divider, 20px padding" - and
+ * it is right about why: three filled boxes in a row read as three objects, when
+ * what is actually there is one table with three columns. The hairline says
+ * column; the fill said card.
+ *
+ * The value takes Geist at 36/400 rather than mono. Mono is the label voice in
+ * this system; the number itself is the thing being read, and it gets the
+ * display treatment.
+ */
 function Stat({ value, label, note, tone }: { value: string; label: string; note?: string; tone?: string }) {
   const p = usePalette();
   return (
-    <Card level={2} style={{ flexBasis: 200, flexGrow: 1, gap: 8 }}>
+    <View style={{ gap: 10, padding: 20 }}>
       <Text
         style={{
-          fontFamily: fontFamily.monoMedium,
-          fontSize: 32,
-          letterSpacing: -0.8,
+          fontFamily: fontFamily.regular,
+          fontSize: t.heading.size,
+          lineHeight: t.heading.size * t.heading.leading,
+          letterSpacing: t.heading.tracking,
           color: tone ?? p.textPrimary,
           fontVariant: ['tabular-nums'],
         }}
@@ -50,16 +65,16 @@ function Stat({ value, label, note, tone }: { value: string; label: string; note
       {note ? (
         <Text
           style={{
-            fontFamily: fontFamily.interRegular,
-            fontSize: 13,
-            lineHeight: 13 * 1.5,
+            fontFamily: fontFamily.regular,
+            fontSize: t.bodySm.size,
+            lineHeight: t.bodySm.size * t.bodySm.leading,
             color: p.textSecondary,
           }}
         >
           {note}
         </Text>
       ) : null}
-    </Card>
+    </View>
   );
 }
 
@@ -83,17 +98,25 @@ function CallRow({ item, last }: { item: ShippedForge & { actual: number }; last
       <View style={{ flex: 1, gap: 4, minWidth: 0 }}>
         <Text
           style={{
-            fontFamily: fontFamily.interMedium,
-            fontSize: 15,
-            lineHeight: 15 * 1.4,
-            letterSpacing: -0.25,
+            fontFamily: fontFamily.regular,
+            fontSize: t.body.size,
+            lineHeight: t.body.size * 1.4,
+            letterSpacing: t.body.tracking,
             color: p.textPrimary,
           }}
         >
           {item.title}
         </Text>
-        <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 13, color: p.textMuted }}>
-          {item.platform}, {relativeDay(item.shippedAt)}
+        <Text
+          style={{
+            fontFamily: fontFamily.monoRegular,
+            fontSize: t.label.size,
+            letterSpacing: t.label.tracking,
+            textTransform: 'uppercase',
+            color: p.textMuted,
+          }}
+        >
+          {item.platform} · {relativeDay(item.shippedAt)}
         </Text>
       </View>
       <Text
@@ -108,7 +131,7 @@ function CallRow({ item, last }: { item: ShippedForge & { actual: number }; last
       </Text>
       <Text
         style={{
-          fontFamily: fontFamily.monoMedium,
+          fontFamily: fontFamily.monoRegular,
           fontSize: t.bodySm.size,
           color: tone,
           fontVariant: ['tabular-nums'],
@@ -128,7 +151,7 @@ function Prose({ children }: { children: React.ReactNode }) {
   return (
     <Text
       style={{
-        fontFamily: fontFamily.interRegular,
+        fontFamily: fontFamily.regular,
         fontSize: t.bodySm.size,
         lineHeight: t.bodySm.size * t.bodySm.leading,
         color: p.textMuted,
@@ -192,9 +215,10 @@ export function PerformanceView() {
       <View style={{ gap: 8 }}>
         <Text
           style={{
-            fontFamily: fontFamily.interMedium,
-            fontSize: 20,
-            letterSpacing: -0.42,
+            fontFamily: fontFamily.regular,
+            fontSize: t.headingSm.size,
+            lineHeight: t.headingSm.size * t.headingSm.leading,
+            letterSpacing: t.headingSm.tracking,
             color: p.textPrimary,
           }}
         >
@@ -207,7 +231,7 @@ export function PerformanceView() {
       </View>
 
       {done.length === 0 ? (
-        <Card level={2}>
+        <Card variant="dark">
           <Prose>
             Nothing has finished its seven-day window yet. Ship something from the forge queue and its realised
             click-through will land here.
@@ -215,7 +239,8 @@ export function PerformanceView() {
         </Card>
       ) : (
         <>
-          <View style={{ flexDirection: 'row', gap: 16, flexWrap: 'wrap' }}>
+          <Card variant="panel" padding={0}>
+          <MetricGrid>
             <Stat
               value={enough ? meanError.toFixed(2) : '—'}
               label="Mean miss"
@@ -236,20 +261,25 @@ export function PerformanceView() {
               tone={beat > done.length / 2 ? p.ctrHigh : undefined}
               note="Videos that outperformed what the engine predicted."
             />
-          </View>
+          </MetricGrid>
+          </Card>
 
           <View style={{ gap: 4 }}>
-            <Text
-              style={{
-                fontFamily: fontFamily.interMedium,
-                fontSize: 16,
-                letterSpacing: -0.25,
-                color: p.textPrimary,
-                marginBottom: 8,
-              }}
-            >
-              Biggest misses first
-            </Text>
+            {/* A column header, not a heading: what follows is a table. */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <Text
+                style={{
+                  fontFamily: fontFamily.monoRegular,
+                  fontSize: t.label.size,
+                  letterSpacing: t.label.tracking,
+                  textTransform: 'uppercase',
+                  color: p.textMuted,
+                }}
+              >
+                Biggest misses first
+              </Text>
+              <View style={{ flex: 1, height: 1, backgroundColor: p.border }} />
+            </View>
             {byMiss.map((item, i) => (
               <CallRow key={item.id} item={item} last={i === byMiss.length - 1} />
             ))}

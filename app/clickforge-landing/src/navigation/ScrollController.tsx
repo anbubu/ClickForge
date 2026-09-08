@@ -11,7 +11,6 @@ import React, {
 import {
   Animated,
   Easing,
-  Platform,
   type LayoutChangeEvent,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
@@ -87,20 +86,20 @@ export function ScrollControllerProvider({
     revealed.current[key] = true;
     const value = getRevealValue(key);
 
-    // Reveals are purely decorative, so honour a reduced-motion preference by
-    // snapping to the final state instead of sliding into it.
-    if (reducedRef.current) {
-      value.setValue(1);
-      return;
-    }
-
-    Animated.timing(value, {
-      toValue: 1,
-      duration: duration.reveal,
-      easing: Easing.out(Easing.cubic),
-      // RN Web has no native animated module — asking for the native driver there just logs a warning on every reveal.
-      useNativeDriver: Platform.OS !== 'web',
-    }).start();
+    /*
+     * Sections arrive at full opacity, immediately.
+     *
+     * This used to slide each section up 28px and fade it in as it entered the
+     * viewport. DESIGN.md rules that out directly - "avoid spring physics,
+     * parallax, or scroll-driven effects; the surface should feel still and
+     * precise" - and the effect worked against the system in a second way: a
+     * fade-in is a soft, editorial gesture, and this page is meant to read as an
+     * instrument that was already running when you arrived.
+     *
+     * The registry around it is kept, because the same offsets drive anchor
+     * positions for nav jumps - navigation rather than decoration.
+     */
+    value.setValue(1);
   };
 
   const revealAll = () => Object.keys(offsets.current).forEach(reveal);
@@ -233,8 +232,9 @@ export function AnchorSection({
   /**
    * `layout.y` is relative to the immediate parent, so an AnchorSection must be
    * a direct child of the ScrollView's content for its offset to be a scroll
-   * position. Hero is the one exception — it sits inside ThirdsGrid — and it is
-   * also the first section, so its offset is 0 either way.
+   * position. Every section satisfies that today; the Hero used to be the one
+   * exception, nested inside a background-grid wrapper, and was safe anyway
+   * because it is first and its offset is 0 either way.
    *
    * A `measureLayout` refinement used to live here to lift that restriction. It
    * was a no-op: react-native-web wires the host method up as

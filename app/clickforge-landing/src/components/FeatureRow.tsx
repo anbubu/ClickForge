@@ -24,18 +24,18 @@ export function FeatureRow({
           borderRadius: radius.md,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: p.accentWash,
+          backgroundColor: p.surface,
           borderWidth: 1,
-          borderColor: p.accentEdge,
+          borderColor: p.borderStrong,
         }}
       >
-        <Icon name={icon} size={16} color={p.accent} />
+        <Icon name={icon} size={16} color={p.signal} />
       </View>
       <View style={{ gap: 6, flexShrink: 1 }}>
         <Text
           {...headingProps(3)}
           style={{
-            fontFamily: fontFamily.interMedium,
+            fontFamily: fontFamily.regular,
             fontSize: t.body.size,
             letterSpacing: t.body.tracking,
             color: p.textPrimary,
@@ -45,7 +45,7 @@ export function FeatureRow({
         </Text>
         <Text
           style={{
-            fontFamily: fontFamily.interRegular,
+            fontFamily: fontFamily.regular,
             fontSize: t.bodySm.size,
             lineHeight: t.bodySm.size * t.bodySm.leading,
             letterSpacing: t.bodySm.tracking,

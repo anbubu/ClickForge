@@ -4,7 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { landmark } from './src/components/semantics';
 import { ScrollControllerProvider, useScrollController } from './src/navigation/ScrollController';
 import { currentRoute } from './src/navigation/routes';
-import { EmberClose } from './src/sections/EmberClose';
+import { CtaClose } from './src/sections/CtaClose';
 import { Engine } from './src/sections/Engine';
 import { Footer } from './src/sections/Footer';
 import { Header } from './src/sections/Header';
@@ -45,7 +45,7 @@ function LandingBody({ scrollRef }: { scrollRef: RefObject<ScrollView | null> })
         <Engine />
         <Proof />
         <Pricing />
-        <EmberClose />
+        <CtaClose />
         <Footer />
       </ScrollView>
     </>
@@ -65,7 +65,7 @@ function Shell() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: p.canvas }} edges={['left', 'right']}>
-      <StatusBar barStyle={p.mode === 'dark' ? 'light-content' : 'dark-content'} backgroundColor={p.canvas} />
+      <StatusBar barStyle="light-content" backgroundColor={p.canvas} />
       {route === 'dashboard' ? (
         // Scoped to the dashboard: no other screen has a queue to hold, and
         // mounting the store around all of them would read the creator's storage

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
-import { breakpoint, fontFamily, radius } from '../../theme/tokens';
+import { breakpoint, fontFamily, radius, type as t } from '../../theme/tokens';
 import { usePalette } from '../../theme/ThemeContext';
 import { useBelow } from '../../theme/useBreakpoint';
 import { goToLanding } from '../../navigation/routes';
 import { landmark } from '../semantics';
 import { Container } from '../Container';
-import { ThemeToggle } from '../ThemeToggle';
+import { NavPill } from '../NavPill';
 import { Wordmark } from '../Wordmark';
 
 export const TABS = ['Forge', 'Performance', 'Library'] as const;
@@ -46,7 +46,7 @@ export function AppBar({
         } as any
       }
     >
-      <Container style={{ flexDirection: 'row', alignItems: 'center', gap: 20, paddingVertical: 12 }}>
+      <Container style={{ flexDirection: 'row', alignItems: 'center', gap: 20, paddingVertical: 14 }}>
         {/* The only way out of the signed-in app. Every other surface here moves
             between dashboard tabs, so without this the marketing page is
             reachable only by editing the URL. */}
@@ -63,35 +63,20 @@ export function AppBar({
 
         {!narrow && (
           <View style={{ flexDirection: 'row', gap: 4, marginLeft: 12 }} {...landmark.navigation}>
-            {TABS.map((label) => {
-              const active = tab === label;
-              return (
-                <Pressable
-                  key={label}
-                  onPress={() => onTabChange(label)}
-                  accessibilityRole="tab"
-                  accessibilityLabel={label}
-                  accessibilityState={{ selected: active }}
-                  style={{ paddingVertical: 8, paddingHorizontal: 12, borderRadius: radius.md }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: active ? fontFamily.interSemibold : fontFamily.interMedium,
-                      fontSize: 14,
-                      letterSpacing: -0.25,
-                      color: active ? p.textPrimary : p.textSecondary,
-                    }}
-                  >
-                    {label}
-                  </Text>
-                </Pressable>
-              );
-            })}
+            {TABS.map((label) => (
+              <NavPill
+                key={label}
+                role="tab"
+                active={tab === label}
+                onPress={() => onTabChange(label)}
+              >
+                {label}
+              </NavPill>
+            ))}
           </View>
         )}
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-          <ThemeToggle />
           <View
             accessibilityRole="image"
             accessibilityLabel="Your account"
@@ -106,7 +91,14 @@ export function AppBar({
               justifyContent: 'center',
             }}
           >
-            <Text style={{ fontFamily: fontFamily.interMedium, fontSize: 12, color: p.textSecondary }}>
+            <Text
+              style={{
+                fontFamily: fontFamily.monoRegular,
+                fontSize: t.label.size,
+                letterSpacing: t.label.tracking,
+                color: p.textSecondary,
+              }}
+            >
               {initials}
             </Text>
           </View>
@@ -121,35 +113,16 @@ export function AppBar({
           style={{ flexDirection: 'row', gap: 4, paddingBottom: 8, marginTop: -4 }}
           {...landmark.navigation}
         >
-          {TABS.map((label) => {
-            const active = tab === label;
-            return (
-              <Pressable
-                key={label}
-                onPress={() => onTabChange(label)}
-                accessibilityRole="tab"
-                accessibilityLabel={label}
-                accessibilityState={{ selected: active }}
-                style={{
-                  paddingVertical: 6,
-                  paddingHorizontal: 10,
-                  borderRadius: radius.md,
-                  backgroundColor: active ? p.surfaceElevated : 'transparent',
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: active ? fontFamily.interSemibold : fontFamily.interMedium,
-                    fontSize: 13,
-                    letterSpacing: -0.25,
-                    color: active ? p.textPrimary : p.textSecondary,
-                  }}
-                >
-                  {label}
-                </Text>
-              </Pressable>
-            );
-          })}
+          {TABS.map((label) => (
+            <NavPill
+              key={label}
+              role="tab"
+              active={tab === label}
+              onPress={() => onTabChange(label)}
+            >
+              {label}
+            </NavPill>
+          ))}
         </Container>
       )}
     </View>

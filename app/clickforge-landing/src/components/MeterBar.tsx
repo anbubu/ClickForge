@@ -22,7 +22,7 @@ export function MeterBar({
     <View style={{ flexDirection: 'column', gap: 6, flex: 1, minWidth: 0 }}>
       {(label || valueLabel) && (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 16 }}>
-          <Text style={{ fontFamily: fontFamily.interRegular, fontSize: t.bodySm.size, color: p.textPrimary }}>
+          <Text style={{ fontFamily: fontFamily.regular, fontSize: t.bodySm.size, color: p.textPrimary }}>
             {label}
           </Text>
           <Text
@@ -38,7 +38,7 @@ export function MeterBar({
         </View>
       )}
       <View style={{ height: 6, borderRadius: radius.sm, backgroundColor: p.surfaceElevated, overflow: 'hidden' }}>
-        <View style={{ width: `${pct}%`, height: '100%', borderRadius: radius.sm, backgroundColor: tone ?? p.accent }} />
+        <View style={{ width: `${pct}%`, height: '100%', borderRadius: radius.sm, backgroundColor: tone ?? p.signal }} />
       </View>
     </View>
   );

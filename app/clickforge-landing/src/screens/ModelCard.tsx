@@ -27,7 +27,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
     <View style={{ gap: 14 }}>
       <Text
         {...headingProps(2)}
-        style={{ fontFamily: fontFamily.interMedium, fontSize: 20, letterSpacing: -0.42, color: p.textPrimary }}
+        style={{ fontFamily: fontFamily.regular, fontSize: t.headingSm.size, letterSpacing: t.headingSm.tracking, color: p.textPrimary }}
       >
         {title}
       </Text>
@@ -41,7 +41,7 @@ function Body({ children }: { children: React.ReactNode }) {
   return (
     <Text
       style={{
-        fontFamily: fontFamily.interRegular,
+        fontFamily: fontFamily.regular,
         fontSize: t.body.size,
         lineHeight: t.body.size * t.body.leading,
         color: p.textSecondary,
@@ -74,7 +74,7 @@ function Row({ label, value, weight }: { label: string; value: string; weight?: 
         style={{
           flex: 1,
           minWidth: 200,
-          fontFamily: fontFamily.interRegular,
+          fontFamily: fontFamily.regular,
           fontSize: t.bodySm.size,
           lineHeight: t.bodySm.size * t.bodySm.leading,
           color: p.textPrimary,
@@ -136,7 +136,7 @@ export function ModelCard() {
         <Container style={{ maxWidth: 820, gap: 44, paddingTop: 48 }}>
           <View style={{ gap: 18 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <Badge tone="ember">CTR prediction v3</Badge>
+              <Badge tone="signal">CTR prediction v3</Badge>
               <Text
                 style={{
                   fontFamily: fontFamily.monoRegular,
@@ -151,7 +151,7 @@ export function ModelCard() {
             </View>
             <Text
               {...headingProps(1)}
-              style={{ fontFamily: fontFamily.interMedium, ...typeStyle(rt.headingLg), color: p.textPrimary }}
+              style={{ fontFamily: fontFamily.regular, ...typeStyle(rt.headingLg), color: p.textPrimary }}
             >
               What the score means.
             </Text>
@@ -163,21 +163,21 @@ export function ModelCard() {
 
           {/* The status callout leads, because it is the fact that changes how
               everything below should be read. */}
-          <Card level={1} accent style={{ gap: 12 }}>
+          <Card variant="dark" selected style={{ gap: 12 }}>
             <Text
               style={{
                 fontFamily: fontFamily.monoRegular,
                 fontSize: t.label.size,
                 letterSpacing: t.label.tracking,
                 textTransform: 'uppercase',
-                color: p.accentInk,
+                color: p.signal,
               }}
             >
               Status
             </Text>
             <Text
               style={{
-                fontFamily: fontFamily.interRegular,
+                fontFamily: fontFamily.regular,
                 fontSize: t.body.size,
                 lineHeight: t.body.size * t.body.leading,
                 color: p.textPrimary,
@@ -189,7 +189,7 @@ export function ModelCard() {
             </Text>
             <Text
               style={{
-                fontFamily: fontFamily.interRegular,
+                fontFamily: fontFamily.regular,
                 fontSize: t.bodySm.size,
                 lineHeight: t.bodySm.size * t.bodySm.leading,
                 color: p.textSecondary,
@@ -201,7 +201,7 @@ export function ModelCard() {
           </Card>
 
           <Section title="Inputs and outputs">
-            <Card level={2} style={{ gap: 16 }}>
+            <Card variant="dark" style={{ gap: 16 }}>
               <Row label="Input" value="One concept, up to 600 characters, plus the target platform" />
               <Row label="Outputs" value="Three scored title options, one retention hook, one four-line thumbnail brief" />
               <Row label="Scale" value="0 to 12. Above 8 reads as strong, 5 to 8 as workable, below 5 as weak" />
@@ -215,7 +215,7 @@ export function ModelCard() {
               The score starts at 6.3 and moves by the following, then varies by title frame within a band of about
               ±0.6. The total is clamped to the 0–12 scale.
             </Body>
-            <Card level={2} style={{ gap: 16 }}>
+            <Card variant="dark" style={{ gap: 16 }}>
               {SIGNALS.map((s) => (
                 <Row key={s.label} label={s.label} value={s.value} weight={s.weight} />
               ))}
@@ -227,7 +227,7 @@ export function ModelCard() {
               Shorter formats punish a slow title harder, so the spread between a strong and a weak title widens as the
               format gets shorter.
             </Body>
-            <Card level={2} style={{ gap: 16 }}>
+            <Card variant="dark" style={{ gap: 16 }}>
               {PLATFORMS.map((s) => (
                 <Row key={s.label} label={s.label} value={s.value} weight={s.weight} />
               ))}
@@ -235,7 +235,7 @@ export function ModelCard() {
           </Section>
 
           <Section title="Known limits">
-            <Card level={2} style={{ gap: 16 }}>
+            <Card variant="dark" style={{ gap: 16 }}>
               <Row
                 label="No channel history"
                 value="It cannot know that your audience clicks differently from anyone else's. That is the single largest source of error."
@@ -266,7 +266,7 @@ export function ModelCard() {
 
           <View style={{ paddingTop: 32, borderTopWidth: 1, borderTopColor: p.border, gap: 16 }}>
             <Body>See the outputs on a real concept, scored end to end.</Body>
-            <Button size="lg" variant="secondary" onPress={goToSampleReport}>
+            <Button size="lg" variant="ghost" onPress={goToSampleReport}>
               Read a sample report
             </Button>
           </View>

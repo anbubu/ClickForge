@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Linking, Platform, Pressable, Text, View } from 'react-native';
-import { BlurView } from 'expo-blur';
+import { Platform, Pressable, Text, View } from 'react-native';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
 import { Icon } from '../components/Icon';
 import { NavPill } from '../components/NavPill';
 import { PromoBanner } from '../components/PromoBanner';
-import { ThemeToggle } from '../components/ThemeToggle';
 import { Wordmark } from '../components/Wordmark';
-import { authUrls } from '../config/urls';
 import { goToDashboard, goToModelCard } from '../navigation/routes';
 import { landmark } from '../components/semantics';
-import { fontFamily, radius, breakpoint } from '../theme/tokens';
+import { fontFamily, radius, breakpoint, type as t } from '../theme/tokens';
 import { useScrollController } from '../navigation/ScrollController';
 import { usePalette } from '../theme/ThemeContext';
 import { useBelow } from '../theme/useBreakpoint';
@@ -23,46 +20,40 @@ const NAV_ITEMS: [string, string][] = [
   ['pricing', 'Pricing'],
 ];
 
-/** The translucent bar tint has to follow the theme, not stay carbon. */
-function chromeTint(p: { canvas: string; mode: string }, alpha: number) {
-  const hex = p.canvas.replace('#', '');
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
-  return `rgba(${r},${g},${b},${alpha})`;
-}
-
+/**
+ * The sticky bar.
+ *
+ * It used to be a translucent tint over a 12px backdrop blur. DESIGN.md rules
+ * blur out with the shadows and glows - "the system's elevation is contrast, not
+ * depth-of-field" - so the bar is now solid #101010 with a single hairline along
+ * the bottom. Solid also fixes a real problem the blur had: the page beneath is
+ * mostly #101010 already, so the frosted effect only ever showed as a faint
+ * smear when a light card passed under it.
+ */
 function StickyChrome({ children, onHeight }: { children: React.ReactNode; onHeight: (h: number) => void }) {
   const p = usePalette();
   const measure = (e: any) => onHeight(e.nativeEvent.layout.height);
+  const surface = {
+    backgroundColor: p.canvas,
+    borderBottomWidth: 1,
+    borderBottomColor: p.border,
+  } as const;
+
   if (Platform.OS === 'web') {
     return (
       <View
         {...landmark.banner}
         onLayout={measure}
-        style={
-          {
-            position: 'sticky',
-            top: 0,
-            zIndex: 20,
-            backgroundColor: chromeTint(p, 0.82),
-            backdropFilter: 'blur(12px)',
-            borderBottomWidth: 1,
-            borderBottomColor: p.border,
-          } as any
-        }
+        style={{ position: 'sticky', top: 0, zIndex: 20, ...surface } as any}
       >
         {children}
       </View>
     );
   }
   return (
-    <BlurView
-      onLayout={measure}
-      intensity={40}
-      tint={p.mode === 'dark' ? 'dark' : 'light'}
-      style={{ borderBottomWidth: 1, borderBottomColor: p.border, backgroundColor: chromeTint(p, 0.6) }}
-    >
+    <View {...landmark.banner} onLayout={measure} style={surface}>
       {children}
-    </BlurView>
+    </View>
   );
 }
 
@@ -125,7 +116,8 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
           flexDirection: 'row',
           alignItems: 'center',
           gap: compact ? 12 : 24,
-          paddingVertical: 12,
+          // 36px control + 14px either side = the doc's ~64px bar.
+          paddingVertical: 14,
         }}
       >
         <Pressable
@@ -148,9 +140,12 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
         )}
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: compact ? 8 : 12 }}>
-          {!compact && <NavPill role="button" onPress={openLogin}>Log in</NavPill>}
-          {!compact && <ThemeToggle />}
-          <Button size={compact ? 'sm' : 'md'} hoverReveal onPress={openSignup}>
+          {!compact && (
+            <NavPill role="button" onPress={openLogin}>
+              Log in
+            </NavPill>
+          )}
+          <Button variant="light" size={compact ? 'sm' : 'md'} onPress={openSignup}>
             Start 30-Day Free Trial
           </Button>
           {compact && (
@@ -180,15 +175,9 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
             {NAV_ITEMS.map(([id, label]) => (
               <MenuRow key={id} active={activeSection === id} onPress={() => go(id)} label={label} />
             ))}
-            <MenuRow label="Log in" onPress={openLogin} role="button" />
-            {/* Dropped from the bar at this width; the sheet is where they live
+            {/* Dropped from the bar at this width; the sheet is where it lives
                 instead of being unreachable. */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8, paddingHorizontal: 12 }}>
-              <ThemeToggle />
-              <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 14, color: p.textSecondary }}>
-                Theme
-              </Text>
-            </View>
+            <MenuRow label="Log in" onPress={openLogin} role="button" />
           </Container>
         </View>
       )}
@@ -221,16 +210,21 @@ function MenuRow({
       style={{
         paddingVertical: 12,
         paddingHorizontal: 12,
-        borderRadius: radius.md,
-        backgroundColor: active || hover ? p.surfaceElevated : 'transparent',
+        borderRadius: radius.sm,
+        borderLeftWidth: 2,
+        // The sheet marks its current row the way the bar does - an accent
+        // stroke - rather than by filling the row with a surface.
+        borderLeftColor: active ? p.signal : 'transparent',
+        backgroundColor: hover ? p.surface : 'transparent',
       }}
     >
       <Text
         style={{
-          fontFamily: active ? fontFamily.interSemibold : fontFamily.interMedium,
-          fontSize: 15,
-          letterSpacing: -0.25,
-          color: active ? p.textPrimary : p.textSecondary,
+          fontFamily: fontFamily.regular,
+          fontSize: t.bodySm.size,
+          letterSpacing: t.bodySm.tracking,
+          textTransform: 'uppercase',
+          color: active || hover ? p.textPrimary : p.textSecondary,
         }}
       >
         {label}

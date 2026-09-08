@@ -6,13 +6,13 @@ import { usePalette } from '../theme/ThemeContext';
  * The ClickForge mark: a frame, and the subject sitting where the thirds cross.
  *
  * It is the product's own device rather than an invented one — the same
- * rule-of-thirds framing drawn by `BlueprintDiagram` and washed across the page
- * by `ThirdsGrid`. Only the two lines that actually intersect at the subject are
- * drawn: a full nine-cell grid turns into wallpaper at header size, where this
- * mark spends nearly all of its life.
+ * rule-of-thirds framing drawn by `BlueprintDiagram`. Only the two lines that
+ * actually intersect at the subject are drawn: a full nine-cell grid turns into
+ * wallpaper at header size, where this mark spends nearly all of its life.
  *
- * The ember dot is the one filled shape, so the eye lands on the subject the way
- * it is supposed to land on a thumbnail.
+ * The signal dot is the one filled shape, so the eye lands on the subject the
+ * way it is supposed to land on a thumbnail. DESIGN.md permits #ee6018 for
+ * "icons, marks, and small graphic details", which is exactly what this is.
  */
 
 /**
@@ -36,7 +36,7 @@ export function Logo({
 }) {
   const p = usePalette();
   const ink = color ?? p.textPrimary;
-  const ember = accent ?? p.accent;
+  const ember = accent ?? p.signal;
   const detail = size >= DETAIL_MIN_SIZE;
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
-import { fontFamily } from '../theme/tokens';
+import { fontFamily, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import type { Palette } from '../theme/palettes';
 
@@ -65,7 +65,7 @@ export function CTRScore({
         />
         <Text
           style={{
-            fontFamily: fontFamily.interMedium,
+            fontFamily: fontFamily.regular,
             fontSize: size === 'lg' ? 28 : size === 'sm' ? 14 : 20,
             letterSpacing: -0.6,
             color: tone,
@@ -80,14 +80,14 @@ export function CTRScore({
             style={{
               fontFamily: fontFamily.monoRegular,
               fontSize: 12,
-              letterSpacing: 0.85,
+              letterSpacing: t.label.tracking,
               textTransform: 'uppercase',
               color: p.textSecondary,
             }}
           >
             {label}
           </Text>
-          <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 14, color: p.textPrimary }}>
+          <Text style={{ fontFamily: fontFamily.regular, fontSize: 14, color: p.textPrimary }}>
             {score >= 8 ? 'Top decile' : score >= 5 ? 'Above channel median' : 'Below channel median'}
           </Text>
         </View>

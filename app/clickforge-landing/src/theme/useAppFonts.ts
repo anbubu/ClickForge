@@ -1,25 +1,17 @@
+import { useFonts as useGeistFonts, Geist_400Regular, Geist_500Medium } from '@expo-google-fonts/geist';
 import {
-  useFonts as useInterFonts,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-} from '@expo-google-fonts/inter';
-import {
-  useFonts as useMonoFonts,
-  JetBrainsMono_400Regular,
-  JetBrainsMono_500Medium,
-} from '@expo-google-fonts/jetbrains-mono';
+  useFonts as useGeistMonoFonts,
+  GeistMono_400Regular,
+  GeistMono_500Medium,
+} from '@expo-google-fonts/geist-mono';
 
-/** Loads Inter + JetBrains Mono — the only two families the design system permits. */
+/**
+ * Loads Geist and Geist Mono — the only two families the system permits, at the
+ * only two weights it uses. DESIGN.md forbids 600+, so no SemiBold is requested:
+ * the weight simply is not available to reach for.
+ */
 export function useAppFonts() {
-  const [interLoaded] = useInterFonts({
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-  });
-  const [monoLoaded] = useMonoFonts({
-    JetBrainsMono_400Regular,
-    JetBrainsMono_500Medium,
-  });
-  return interLoaded && monoLoaded;
+  const [geistLoaded] = useGeistFonts({ Geist_400Regular, Geist_500Medium });
+  const [monoLoaded] = useGeistMonoFonts({ GeistMono_400Regular, GeistMono_500Medium });
+  return geistLoaded && monoLoaded;
 }

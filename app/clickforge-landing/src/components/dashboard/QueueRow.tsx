@@ -63,10 +63,10 @@ function AssetSection({
               style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
             >
               <Icon name="check" size={14} color={p.ctrHigh} />
-              <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 13, color: p.ctrHigh }}>Approved</Text>
+              <Text style={{ fontFamily: fontFamily.regular, fontSize: t.bodySm.size, color: p.ctrHigh }}>Approved</Text>
             </Pressable>
           ) : (
-            <Button variant="secondary" size="sm" onPress={onSettle}>
+            <Button variant="ghost" size="sm" onPress={onSettle}>
               {settleLabel}
             </Button>
           )}
@@ -110,15 +110,15 @@ function TitleOptionRow({
         padding: 12,
         borderRadius: radius.cards,
         borderWidth: 1,
-        borderColor: chosen ? p.accentEdge : hover ? p.borderStrong : p.border,
-        backgroundColor: chosen ? p.accentWash : hover ? p.surfaceElevated : 'transparent',
+        borderColor: chosen ? p.borderStrong : hover ? p.borderStrong : p.border,
+        backgroundColor: chosen ? p.surface : hover ? p.surfaceElevated : 'transparent',
       }}
     >
       <Text
         style={{
           fontFamily: fontFamily.monoMedium,
-          fontSize: 15,
-          color: chosen ? p.accentInk : p.textSecondary,
+          fontSize: t.label.size,
+          color: chosen ? p.signal : p.textSecondary,
           fontVariant: ['tabular-nums'],
           minWidth: 34,
         }}
@@ -128,7 +128,7 @@ function TitleOptionRow({
       <Text
         style={{
           flex: 1,
-          fontFamily: fontFamily.interRegular,
+          fontFamily: fontFamily.regular,
           fontSize: t.bodySm.size,
           lineHeight: t.bodySm.size * t.bodySm.leading,
           color: p.textPrimary,
@@ -136,7 +136,7 @@ function TitleOptionRow({
       >
         {text}
       </Text>
-      {chosen && <Icon name="check" size={16} color={p.accent} />}
+      {chosen && <Icon name="check" size={16} color={p.positive} />}
     </Pressable>
   );
 }
@@ -146,14 +146,14 @@ function BlueprintLine({ label, value }: { label: string; value: string }) {
   const p = usePalette();
   return (
     <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
-      <Text style={{ fontFamily: fontFamily.monoRegular, fontSize: 13, color: p.textMuted, minWidth: 110 }}>
+      <Text style={{ fontFamily: fontFamily.monoRegular, fontSize: t.label.size, color: p.textMuted, minWidth: 110 }}>
         {label}
       </Text>
       <Text
         style={{
           flex: 1,
           minWidth: 180,
-          fontFamily: fontFamily.interRegular,
+          fontFamily: fontFamily.regular,
           fontSize: t.bodySm.size,
           lineHeight: t.bodySm.size * t.bodySm.leading,
           color: p.textSecondary,
@@ -212,7 +212,7 @@ export function QueueRow({ item, last }: { item: QueuedForge; last: boolean }) {
             <Text
               style={{
                 flex: 1,
-                fontFamily: fontFamily.interMedium,
+                fontFamily: fontFamily.regular,
                 fontSize: 16,
                 lineHeight: 16 * 1.4,
                 letterSpacing: -0.25,
@@ -229,7 +229,7 @@ export function QueueRow({ item, last }: { item: QueuedForge; last: boolean }) {
 
           <Text
             style={{
-              fontFamily: fontFamily.interRegular,
+              fontFamily: fontFamily.regular,
               fontSize: t.bodySm.size,
               lineHeight: t.bodySm.size * t.bodySm.leading,
               color: p.textMuted,
@@ -256,8 +256,8 @@ export function QueueRow({ item, last }: { item: QueuedForge; last: boolean }) {
                 >
                   <Text
                     style={{
-                      fontFamily: fontFamily.interRegular,
-                      fontSize: 13,
+                      fontFamily: fontFamily.regular,
+                      fontSize: t.bodySm.size,
                       color: settled ? p.textSecondary : p.textMuted,
                     }}
                   >
@@ -272,15 +272,15 @@ export function QueueRow({ item, last }: { item: QueuedForge; last: boolean }) {
         <View style={{ alignItems: 'flex-end', gap: 6, minWidth: narrow ? undefined : 140 }}>
           <Text
             style={{
-              fontFamily: fontFamily.interMedium,
+              fontFamily: fontFamily.regular,
               fontSize: t.bodySm.size,
-              color: ready ? p.ctrHigh : p.accentInk,
+              color: ready ? p.ctrHigh : p.signal,
               textAlign: 'right',
             }}
           >
             {action}
           </Text>
-          <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 13, color: p.textMuted, textAlign: 'right' }}>
+          <Text style={{ fontFamily: fontFamily.regular, fontSize: t.bodySm.size, color: p.textMuted, textAlign: 'right' }}>
             {item.platform}, {relativeDay(item.forgedAt)}
           </Text>
         </View>
@@ -315,7 +315,7 @@ export function QueueRow({ item, last }: { item: QueuedForge; last: boolean }) {
           >
             <Text
               style={{
-                fontFamily: fontFamily.interRegular,
+                fontFamily: fontFamily.regular,
                 fontSize: t.bodySm.size,
                 lineHeight: t.bodySm.size * t.bodySm.leading,
                 color: p.textSecondary,
@@ -355,10 +355,10 @@ export function QueueRow({ item, last }: { item: QueuedForge; last: boolean }) {
 
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingTop: 20, flexWrap: 'wrap' }}>
             <Button
-              variant={ready ? 'primary' : 'secondary'}
+              variant={ready ? 'light' : 'ghost'}
               size="sm"
               onPress={() => ship(item.id)}
-              iconLeft={<Icon name="send" size={14} color={ready ? p.textOnAccent : p.textPrimary} />}
+              iconLeft={<Icon name="send" size={14} color={ready ? p.fillLightText : p.textPrimary} />}
             >
               Mark as shipped
             </Button>
@@ -366,7 +366,7 @@ export function QueueRow({ item, last }: { item: QueuedForge; last: boolean }) {
               Discard
             </Button>
             {!ready && (
-              <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 13, color: p.textMuted }}>
+              <Text style={{ fontFamily: fontFamily.regular, fontSize: t.bodySm.size, color: p.textMuted }}>
                 {action.toLowerCase()} first, or ship it as it stands.
               </Text>
             )}
@@ -386,7 +386,7 @@ export function QueueEmpty() {
       <Text
         style={{
           flex: 1,
-          fontFamily: fontFamily.interRegular,
+          fontFamily: fontFamily.regular,
           fontSize: t.body.size,
           lineHeight: t.body.size * t.body.leading,
           color: p.textSecondary,

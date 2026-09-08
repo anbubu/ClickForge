@@ -7,7 +7,7 @@ import { headingProps, landmark } from '../components/semantics';
 import { feedbackUrl } from '../config/urls';
 import { AnchorSection, useScrollController } from '../navigation/ScrollController';
 import { goTo, type Route } from '../navigation/routes';
-import { fontFamily } from '../theme/tokens';
+import { fontFamily, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { useBelow } from '../theme/useBreakpoint';
 
@@ -70,7 +70,7 @@ function FooterLink({ label, onPress }: { label: string; onPress?: () => void })
   const p = usePalette();
   const [hover, setHover] = useState(false);
   const style = {
-    fontFamily: fontFamily.interRegular,
+    fontFamily: fontFamily.regular,
     fontSize: 14,
     color: hover ? p.textPrimary : p.textSecondary,
   } as const;
@@ -112,7 +112,7 @@ export function Footer() {
       >
         <View style={{ flex: stacked ? undefined : 1.4, gap: 16, alignItems: 'flex-start' }}>
           <Wordmark size={20} />
-          <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 14, lineHeight: 14 * 1.57, color: p.textSecondary, maxWidth: 260 }}>
+          <Text style={{ fontFamily: fontFamily.regular, fontSize: 14, lineHeight: 14 * 1.57, color: p.textSecondary, maxWidth: 260 }}>
             Score the click before you record.
           </Text>
           <Badge>SOC 2 Type II</Badge>
@@ -124,7 +124,7 @@ export function Footer() {
               style={{
                 fontFamily: fontFamily.monoRegular,
                 fontSize: 12,
-                letterSpacing: 0.85,
+                letterSpacing: t.label.tracking,
                 textTransform: 'uppercase',
                 color: p.textPrimary,
               }}
@@ -143,7 +143,7 @@ export function Footer() {
             style={{
               fontFamily: fontFamily.monoRegular,
               fontSize: 12,
-              letterSpacing: 0.85,
+              letterSpacing: t.label.tracking,
               textTransform: 'uppercase',
               color: p.textMuted,
             }}
@@ -154,7 +154,7 @@ export function Footer() {
             style={{
               fontFamily: fontFamily.monoRegular,
               fontSize: 12,
-              letterSpacing: 0.85,
+              letterSpacing: t.label.tracking,
               textTransform: 'uppercase',
               color: p.textMuted,
             }}

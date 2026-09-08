@@ -8,14 +8,14 @@ export function LogoStrip({ label, names = [] }: { label?: string; names?: strin
   return (
     <View style={{ gap: 24, alignItems: 'center' }}>
       {label && (
-        <Text style={{ fontFamily: fontFamily.interRegular, fontSize: 14, color: p.textPrimary }}>{label}</Text>
+        <Text style={{ fontFamily: fontFamily.regular, fontSize: 14, color: p.textPrimary }}>{label}</Text>
       )}
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 40 }}>
         {names.map((n) => (
           <Text
             key={n}
             style={{
-              fontFamily: fontFamily.interSemibold,
+              fontFamily: fontFamily.regular,
               fontSize: 18,
               letterSpacing: -0.03 * 18,
               color: p.textSecondary,

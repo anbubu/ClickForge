@@ -10,12 +10,18 @@ export function SectionHeading({
   eyebrow,
   title,
   body,
-  align = 'center',
+  align = 'left',
   level = 2,
 }: {
   eyebrow?: string;
   title: string;
   body?: string;
+  /**
+   * Left by default. DESIGN.md's layout is asymmetric throughout - a 1/3 + 2/3
+   * hero, headers hanging off the content's left edge - and a centred block is
+   * the one shape that cannot be asymmetric. Centre only for a section with no
+   * column to hang from; there are none on this page.
+   */
   align?: 'center' | 'left';
   /** Section titles are h2 under the hero's h1; override only to nest deeper. */
   level?: 2 | 3;
@@ -29,7 +35,7 @@ export function SectionHeading({
       <Text
         {...headingProps(level)}
         style={{
-          fontFamily: fontFamily.interMedium,
+          fontFamily: fontFamily.regular,
           ...typeStyle(rt.headingLg),
           color: p.textPrimary,
           maxWidth: 560,
@@ -41,7 +47,7 @@ export function SectionHeading({
       {body ? (
         <Text
           style={{
-            fontFamily: fontFamily.interRegular,
+            fontFamily: fontFamily.regular,
             fontSize: t.body.size,
             lineHeight: t.body.size * t.body.leading,
             letterSpacing: t.body.tracking,

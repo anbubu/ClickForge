@@ -64,31 +64,32 @@ function Choice({
         padding: 16,
         borderRadius: radius.cards,
         borderWidth: 1,
-        borderColor: selected ? p.accentEdge : hover ? p.borderStrong : p.border,
-        backgroundColor: selected ? p.accentWash : hover ? p.surfaceElevated : p.surface,
-        ...(selected ? p.glowSoft : null),
+        // Selection is carried by the border stepping up to ash, not by a glow:
+        // DESIGN.md's elevation is contrast, and there are no shadows to reach for.
+        borderColor: selected || hover ? p.borderStrong : p.border,
+        backgroundColor: selected ? p.surface : 'transparent',
       }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
         <Text
           style={{
             flex: 1,
-            fontFamily: fontFamily.interMedium,
-            fontSize: 15,
-            letterSpacing: -0.25,
-            color: selected ? p.accentInk : p.textPrimary,
+            fontFamily: fontFamily.regular,
+            fontSize: t.body.size,
+            letterSpacing: t.body.tracking,
+            color: p.textPrimary,
           }}
         >
           {label}
         </Text>
-        {selected && <Icon name="check" size={16} color={p.accent} />}
+        {selected && <Icon name="check" size={16} color={p.positive} />}
       </View>
       <Text
         style={{
-          fontFamily: fontFamily.interRegular,
-          fontSize: 13,
-          lineHeight: 13 * 1.5,
-          color: p.textMuted,
+          fontFamily: fontFamily.regular,
+          fontSize: t.bodySm.size,
+          lineHeight: t.bodySm.size * t.bodySm.leading,
+          color: p.textSecondary,
         }}
       >
         {note}
@@ -124,7 +125,7 @@ function Question({
         <Text
           {...headingProps(2)}
           style={{
-            fontFamily: fontFamily.interMedium,
+            fontFamily: fontFamily.regular,
             fontSize: 20,
             letterSpacing: -0.42,
             color: p.textPrimary,
@@ -169,20 +170,20 @@ export function Onboarding() {
             fontSize: t.label.size,
             letterSpacing: t.label.tracking,
             textTransform: 'uppercase',
-            color: p.accentInk,
+            color: p.signal,
           }}
         >
           Before your first forge
         </Text>
         <Text
           {...headingProps(1)}
-          style={{ fontFamily: fontFamily.interMedium, ...typeStyle(rt.headingLg), color: p.textPrimary }}
+          style={{ fontFamily: fontFamily.regular, ...typeStyle(rt.headingLg), color: p.textPrimary }}
         >
           Two questions, then we forge.
         </Text>
         <Text
           style={{
-            fontFamily: fontFamily.interRegular,
+            fontFamily: fontFamily.regular,
             fontSize: t.body.size,
             lineHeight: t.body.size * t.body.leading,
             color: p.textSecondary,
@@ -219,17 +220,20 @@ export function Onboarding() {
       </Question>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+        {/* The one committing action on the screen, so it takes the chalk fill -
+            the same rank the trial CTA holds on the marketing page. */}
         <Button
+          variant="light"
           size="lg"
           onPress={finish}
           disabled={!ready}
-          iconLeft={<Icon name="flame" size={16} color={ready ? p.textOnAccent : p.textMuted} />}
+          iconLeft={<Icon name="flame" size={16} color={ready ? p.fillLightText : p.textSecondary} />}
         >
           Start forging
         </Button>
         <Text
           style={{
-            fontFamily: fontFamily.interRegular,
+            fontFamily: fontFamily.regular,
             fontSize: t.bodySm.size,
             color: p.textMuted,
           }}

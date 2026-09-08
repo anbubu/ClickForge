@@ -7,7 +7,7 @@ import { PricingTier } from '../components/PricingTier';
 import { SectionHeading } from '../components/SectionHeading';
 import { SegmentedControl } from '../components/SegmentedControl';
 import { AnchorSection } from '../navigation/ScrollController';
-import { fontFamily } from '../theme/tokens';
+import { fontFamily, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 
 export function Pricing() {
@@ -51,7 +51,7 @@ export function Pricing() {
 
   return (
     <AnchorSection id="pricing" style={{ paddingVertical: 80, borderTopWidth: 1, borderTopColor: p.border }}>
-      <Container style={{ gap: 32, alignItems: 'center' }}>
+      <Container style={{ gap: 32 }}>
         <SectionHeading eyebrow="Pricing" title="Priced against one wasted edit" />
         <SegmentedControl
           value={cycle}
@@ -69,7 +69,7 @@ export function Pricing() {
             flexWrap: 'wrap',
             gap: 24,
             width: '100%',
-            maxWidth: 760,
+            maxWidth: 860,
             alignItems: 'stretch',
           }}
         >
@@ -92,7 +92,7 @@ export function Pricing() {
           style={{
             fontFamily: fontFamily.monoRegular,
             fontSize: 12,
-            letterSpacing: 0.85,
+            letterSpacing: t.label.tracking,
             textTransform: 'uppercase',
             color: p.textMuted,
           }}
