@@ -7,6 +7,7 @@ import { Container } from '../components/Container';
 import { ToolSpec } from '../components/ToolSpec';
 import { AnchorSection } from '../navigation/ScrollController';
 import { hrefFor } from '../navigation/routes';
+import { useTrialHref } from '../navigation/useAuthHrefs';
 import { fontFamily, breakpoint, type as t } from '../theme/tokens';
 import { typeStyle, useResponsiveType } from '../theme/useResponsiveType';
 import { usePalette } from '../theme/ThemeContext';
@@ -16,6 +17,7 @@ export function Hero() {
   const p = usePalette();
   const stacked = useBelow(breakpoint.stack);
   const rt = useResponsiveType();
+  const trialHref = useTrialHref();
 
   return (
     <>
@@ -76,7 +78,7 @@ export function Hero() {
                 width: stacked ? '100%' : undefined,
               }}
             >
-              <Button size="lg" variant="light" fullWidth={stacked} href={hrefFor('dashboard')}>
+              <Button size="lg" variant="light" fullWidth={stacked} href={trialHref}>
                 Forge your first video
               </Button>
               {/* The panel to the right is a taste of one; this opens the whole

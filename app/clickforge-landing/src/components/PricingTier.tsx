@@ -18,6 +18,8 @@ export function PricingTier({
   featured = false,
   ctaLabel = 'Start forging',
   href,
+  onSelect,
+  disabled = false,
 }: {
   name: string;
   price: string;
@@ -26,8 +28,14 @@ export function PricingTier({
   features?: string[];
   featured?: boolean;
   ctaLabel?: string;
-  /** Where the tier's CTA goes. Both destinations are addressable, so both are links. */
+  /**
+   * Where the tier's CTA goes. On the marketing page both destinations are
+   * addressable, so both are links; inside the app the same card starts a
+   * checkout session instead, which is an action and takes `onSelect`.
+   */
   href?: string;
+  onSelect?: () => void;
+  disabled?: boolean;
 }) {
   const p = usePalette();
   const rt = useResponsiveType();
@@ -93,7 +101,14 @@ export function PricingTier({
           </View>
         ))}
       </View>
-      <Button variant={featured ? 'light' : 'ghost'} fullWidth href={href} style={{ marginTop: 'auto' }}>
+      <Button
+        variant={featured ? 'light' : 'ghost'}
+        fullWidth
+        href={href}
+        onPress={onSelect}
+        disabled={disabled}
+        style={{ marginTop: 'auto' }}
+      >
         {ctaLabel}
       </Button>
     </Card>

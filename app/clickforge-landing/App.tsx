@@ -13,9 +13,12 @@ import { Hero } from './src/sections/Hero';
 import { HowItWorks } from './src/sections/HowItWorks';
 import { Pricing } from './src/sections/Pricing';
 import { Proof } from './src/sections/Proof';
+import { Auth } from './src/screens/Auth';
 import { Dashboard } from './src/screens/Dashboard';
+import { Subscribe } from './src/screens/Subscribe';
 import { ModelCard } from './src/screens/ModelCard';
 import { SampleReport } from './src/screens/SampleReport';
+import { AuthProvider, useAuth } from './src/state/AuthProvider';
 import { ForgeProvider } from './src/state/ForgeStore';
 import { ThemeProvider, usePalette } from './src/theme/ThemeContext';
 import { useAppFonts } from './src/theme/useAppFonts';
@@ -53,6 +56,40 @@ function LandingBody({ scrollRef }: { scrollRef: RefObject<ScrollView | null> })
   );
 }
 
+/**
+ * The product, behind the two questions that decide whether someone may open it:
+ * is there a session, and does it carry a live subscription.
+ *
+ * Both are answered here rather than inside `Dashboard`, so the dashboard stays
+ * a screen about forging rather than a screen about permissions — and so demo
+ * mode, where neither question applies, is one branch in one place.
+ */
+function GuardedDashboard() {
+  const { mode, loading, session, entitled } = useAuth();
+  const p = usePalette();
+
+  // Holding on a blank canvas rather than flashing the sign-in screen at
+  // someone who is already signed in: the session read is a tick or two.
+  if (mode === 'live' && loading) {
+    return <View style={{ flex: 1, backgroundColor: p.canvas }} />;
+  }
+  if (mode === 'live' && !session) {
+    return <Auth initialMode="signin" />;
+  }
+  if (mode === 'live' && !entitled) {
+    return <Subscribe />;
+  }
+
+  // Scoped to the dashboard: no other screen has a queue to hold, and mounting
+  // the store around all of them would read the creator's storage on every
+  // marketing-page visit.
+  return (
+    <ForgeProvider>
+      <Dashboard />
+    </ForgeProvider>
+  );
+}
+
 /** Everything below the ThemeProvider, so it can read the active palette. */
 function Shell() {
   const fontsLoaded = useAppFonts();
@@ -68,12 +105,9 @@ function Shell() {
     <SafeAreaView style={{ flex: 1, backgroundColor: p.canvas }} edges={['left', 'right']}>
       <StatusBar barStyle="light-content" backgroundColor={p.canvas} />
       {route === 'dashboard' ? (
-        // Scoped to the dashboard: no other screen has a queue to hold, and
-        // mounting the store around all of them would read the creator's storage
-        // on every marketing-page visit.
-        <ForgeProvider>
-          <Dashboard />
-        </ForgeProvider>
+        <GuardedDashboard />
+      ) : route === 'signin' || route === 'signup' ? (
+        <Auth initialMode={route} />
       ) : route === 'sample-report' ? (
         <SampleReport />
       ) : route === 'model-card' ? (
@@ -93,7 +127,12 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <Shell />
+        {/* Above everything: the marketing header reads it to decide where the
+            trial call to action points, and the guard reads it to decide whether
+            the product opens at all. */}
+        <AuthProvider>
+          <Shell />
+        </AuthProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

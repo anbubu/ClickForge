@@ -6,7 +6,8 @@ import { Icon } from '../components/Icon';
 import { NavPill } from '../components/NavPill';
 import { PromoBanner } from '../components/PromoBanner';
 import { Wordmark } from '../components/Wordmark';
-import { goToDashboard, hrefFor } from '../navigation/routes';
+import { hrefFor } from '../navigation/routes';
+import { useSignInHref, useTrialHref } from '../navigation/useAuthHrefs';
 import { landmark } from '../components/semantics';
 import { fontFamily, radius, breakpoint, type as t } from '../theme/tokens';
 import { useScrollController } from '../navigation/ScrollController';
@@ -69,6 +70,8 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
    * page eating most of a phone viewport. Collapse the pills into a sheet instead.
    */
   const compact = useBelow(breakpoint.nav);
+  const trialHref = useTrialHref();
+  const signInHref = useSignInHref();
 
   // A resize back up to desktop should not leave the sheet hanging open.
   useEffect(() => {
@@ -78,19 +81,6 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
   const go = (id: string) => {
     setMenuOpen(false);
     scrollTo(id);
-  };
-
-  /**
-   * Straight into the signed-in app, with no credentials asked for.
-   *
-   * There is no auth backend yet, so the alternative is a static login page that
-   * cannot log anyone in — a dead end dressed up as a door. Sending someone to
-   * the dashboard at least lands them somewhere real. This is the line that goes
-   * back to `authUrls.login` the day sessions exist.
-   */
-  const openLogin = () => {
-    setMenuOpen(false);
-    goToDashboard();
   };
 
   return (
@@ -135,9 +125,9 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: compact ? 8 : 12 }}>
           {!compact && (
-            <NavPill href={hrefFor('dashboard')}>Log in</NavPill>
+            <NavPill href={signInHref}>Log in</NavPill>
           )}
-          <Button variant="light" size={compact ? 'sm' : 'md'} href={hrefFor('dashboard')}>
+          <Button variant="light" size={compact ? 'sm' : 'md'} href={trialHref}>
             Start 30-Day Free Trial
           </Button>
           {compact && (
@@ -169,7 +159,7 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
             ))}
             {/* Dropped from the bar at this width; the sheet is where it lives
                 instead of being unreachable. */}
-            <MenuRow label="Log in" onPress={openLogin} role="button" />
+            <MenuRow label="Log in" href={signInHref} />
           </Container>
         </View>
       )}
@@ -181,11 +171,14 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
 function MenuRow({
   label,
   onPress,
+  href,
   active = false,
   role = 'link',
 }: {
   label: string;
-  onPress: () => void;
+  onPress?: () => void;
+  /** Renders the row as a real <a>, same as the pills in the bar above it. */
+  href?: string;
   active?: boolean;
   role?: 'link' | 'button';
 }) {
@@ -193,8 +186,9 @@ function MenuRow({
   const [hover, setHover] = useState(false);
   return (
     <Pressable
-      onPress={onPress}
-      accessibilityRole={role}
+      onPress={href ? undefined : onPress}
+      {...((href ? { href } : null) as any)}
+      accessibilityRole={href ? 'link' : role}
       accessibilityLabel={label}
       accessibilityState={{ selected: active }}
       onHoverIn={() => setHover(true)}

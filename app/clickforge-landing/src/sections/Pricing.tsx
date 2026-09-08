@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { contactUrls } from '../config/urls';
-import { hrefFor } from '../navigation/routes';
+import { useTrialHref } from '../navigation/useAuthHrefs';
 import { Container } from '../components/Container';
 import { PricingTier } from '../components/PricingTier';
 import { SectionHeading } from '../components/SectionHeading';
@@ -13,6 +13,7 @@ import { usePalette } from '../theme/ThemeContext';
 export function Pricing() {
   const p = usePalette();
   const [cycle, setCycle] = useState<'mo' | 'yr'>('mo');
+  const trialHref = useTrialHref();
   const annual = cycle === 'yr';
 
   /**
@@ -33,7 +34,7 @@ export function Pricing() {
       features: ['120 forges / mo', 'Retention hooks', 'Thumbnail blueprints', 'Channel benchmarking'],
       featured: true,
       cta: 'Start 30-Day Free Trial',
-      href: hrefFor('dashboard'),
+      href: trialHref,
     },
     {
       name: 'Studio',

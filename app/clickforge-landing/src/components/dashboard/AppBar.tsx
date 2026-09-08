@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
+import { goToStripe, openBillingPortal } from '../../lib/billing';
+import { useAuth } from '../../state/AuthProvider';
+import { Button } from '../Button';
 import { breakpoint, fontFamily, radius, type as t } from '../../theme/tokens';
 import { usePalette } from '../../theme/ThemeContext';
 import { useBelow } from '../../theme/useBreakpoint';
@@ -32,7 +35,23 @@ export function AppBar({
 }) {
   const p = usePalette();
   const [homeHover, setHomeHover] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [billingError, setBillingError] = useState<string | null>(null);
+  const [openingPortal, setOpeningPortal] = useState(false);
   const narrow = useBelow(breakpoint.nav);
+  const { mode, session, subscription, signOut } = useAuth();
+
+  const email = session?.user.email;
+  const initialsFromEmail = email ? email.slice(0, 2).toUpperCase() : initials;
+
+  const manageBilling = async () => {
+    setOpeningPortal(true);
+    setBillingError(null);
+    const { url, error } = await openBillingPortal();
+    setOpeningPortal(false);
+    if (error || !url) return setBillingError(error ?? 'Could not open the billing portal.');
+    goToStripe(url);
+  };
 
   return (
     <View
@@ -77,15 +96,20 @@ export function AppBar({
         )}
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-          <View
-            accessibilityRole="image"
+          {/* The avatar was a decorative circle with nothing behind it, which
+              left a signed-in creator no way to reach their card, their invoices
+              or the sign-out — the three things an account control exists for. */}
+          <Pressable
+            onPress={() => setMenuOpen((v) => !v)}
+            accessibilityRole="button"
             accessibilityLabel="Your account"
+            accessibilityState={{ expanded: menuOpen }}
             style={{
               width: 30,
               height: 30,
               borderRadius: radius.full,
               borderWidth: 1,
-              borderColor: p.border,
+              borderColor: menuOpen ? p.borderStrong : p.border,
               backgroundColor: p.surfaceElevated,
               alignItems: 'center',
               justifyContent: 'center',
@@ -99,11 +123,69 @@ export function AppBar({
                 color: p.textSecondary,
               }}
             >
-              {initials}
+              {initialsFromEmail}
             </Text>
-          </View>
+          </Pressable>
         </View>
       </Container>
+
+      {menuOpen && (
+        <View style={{ borderTopWidth: 1, borderTopColor: p.border, backgroundColor: p.surfaceElevated }}>
+          <Container style={{ paddingVertical: 14, gap: 12, alignItems: 'flex-start' }}>
+            <Text
+              style={{
+                fontFamily: fontFamily.monoRegular,
+                fontSize: t.label.size,
+                letterSpacing: t.label.tracking,
+                textTransform: 'uppercase',
+                color: p.textMuted,
+              }}
+            >
+              {mode === 'demo'
+                ? 'Demo build · no account'
+                : `${email ?? 'Signed in'}${subscription ? ` · ${subscription.status}` : ''}`}
+            </Text>
+
+            {mode === 'demo' ? (
+              <Text
+                style={{
+                  fontFamily: fontFamily.regular,
+                  fontSize: t.bodySm.size,
+                  lineHeight: t.bodySm.size * t.bodySm.leading,
+                  color: p.textSecondary,
+                  maxWidth: 460,
+                }}
+              >
+                Nothing here is billed and nothing leaves this browser. Configure a Supabase project to turn accounts
+                and the trial on.
+              </Text>
+            ) : (
+              <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
+                <Button size="sm" variant="ghost" disabled={openingPortal} onPress={manageBilling}>
+                  {openingPortal ? 'Opening…' : 'Manage billing'}
+                </Button>
+                <Button size="sm" variant="ghost" onPress={signOut}>
+                  Sign out
+                </Button>
+              </View>
+            )}
+
+            {!!billingError && (
+              <Text
+                accessibilityRole="alert"
+                style={{
+                  fontFamily: fontFamily.regular,
+                  fontSize: t.bodySm.size,
+                  color: p.signal,
+                  maxWidth: 460,
+                }}
+              >
+                {billingError}
+              </Text>
+            )}
+          </Container>
+        </View>
+      )}
 
       {/* Narrow screens drop the inline tabs to keep the bar from wrapping, so
           they get their own row underneath. Hiding them entirely would leave

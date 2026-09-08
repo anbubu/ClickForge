@@ -23,14 +23,21 @@ import { Platform } from 'react-native';
  */
 export const INFO_ROUTES = ['about', 'careers', 'press', 'contact', 'changelog', 'status', 'api', 'blueprints'] as const;
 
-export type Route = 'landing' | 'dashboard' | 'sample-report' | 'model-card' | (typeof INFO_ROUTES)[number];
+export type Route =
+  | 'landing'
+  | 'dashboard'
+  | 'sample-report'
+  | 'model-card'
+  | 'signin'
+  | 'signup'
+  | (typeof INFO_ROUTES)[number];
 
 export function isInfoRoute(route: Route): route is (typeof INFO_ROUTES)[number] {
   return (INFO_ROUTES as readonly string[]).includes(route);
 }
 
 /** Every route but `landing`, which is what the absence of a view parameter means. */
-const VIEWS: readonly Route[] = ['dashboard', 'sample-report', 'model-card', ...INFO_ROUTES];
+const VIEWS: readonly Route[] = ['dashboard', 'sample-report', 'model-card', 'signin', 'signup', ...INFO_ROUTES];
 
 const DASHBOARD_PATH = /\/dashboard\/?$/;
 
@@ -68,7 +75,21 @@ export function goTo(route: Route): void {
   window.location.assign(hrefFor(route));
 }
 
+/**
+ * Whether the URL says we have just come back from Stripe Checkout.
+ *
+ * The webhook that writes the subscription row and the browser's return from
+ * Checkout are two independent races, and the browser usually wins — so the
+ * dashboard needs to know to wait for the row rather than conclude there isn't
+ * one and show the plan picker to somebody who has just paid.
+ */
+export function returningFromCheckout(): boolean {
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return false;
+  return new URLSearchParams(window.location.search).get('checkout') === 'success';
+}
+
 export const goToLanding = () => goTo('landing');
 export const goToDashboard = () => goTo('dashboard');
 export const goToSampleReport = () => goTo('sample-report');
 export const goToModelCard = () => goTo('model-card');
+export const goToSignIn = () => goTo('signin');

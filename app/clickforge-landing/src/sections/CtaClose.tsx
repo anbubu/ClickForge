@@ -5,7 +5,7 @@ import { Card } from '../components/Card';
 import { Container } from '../components/Container';
 import { StatusPulse } from '../components/StatusPulse';
 import { contactUrls } from '../config/urls';
-import { hrefFor } from '../navigation/routes';
+import { useTrialHref } from '../navigation/useAuthHrefs';
 import { AnchorSection } from '../navigation/ScrollController';
 import { breakpoint, fontFamily, layout, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
@@ -28,6 +28,7 @@ import { useBelow } from '../theme/useBreakpoint';
 export function CtaClose() {
   const p = usePalette();
   const stacked = useBelow(breakpoint.stack);
+  const trialHref = useTrialHref();
 
   return (
     <AnchorSection id="close">
@@ -86,7 +87,7 @@ export function CtaClose() {
             <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
               {/* `onCard` is the doc's #101010 fill — the light button would
                   disappear into the card it sits on. */}
-              <Button size="lg" variant="onCard" fullWidth={stacked} href={hrefFor('dashboard')}>
+              <Button size="lg" variant="onCard" fullWidth={stacked} href={trialHref}>
                 Forge your first video
               </Button>
               <Button

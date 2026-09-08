@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
-import { goToLanding, hrefFor } from '../navigation/routes';
+import { goToLanding } from '../navigation/routes';
+import { useTrialHref } from '../navigation/useAuthHrefs';
 import { fontFamily, type as t } from '../theme/tokens';
 import { usePalette } from '../theme/ThemeContext';
 import { Button } from './Button';
@@ -20,6 +21,7 @@ import { landmark } from './semantics';
 export function PageBar({ label }: { label: string }) {
   const p = usePalette();
   const [hover, setHover] = useState(false);
+  const trialHref = useTrialHref();
 
   return (
     <View
@@ -60,7 +62,7 @@ export function PageBar({ label }: { label: string }) {
         </Text>
 
         <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-          <Button size="sm" href={hrefFor('dashboard')}>
+          <Button size="sm" href={trialHref}>
             Start 30-Day Free Trial
           </Button>
         </View>
