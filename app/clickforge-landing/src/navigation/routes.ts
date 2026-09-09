@@ -21,7 +21,18 @@ import { Platform } from 'react-native';
  * (`screens/InfoPage`) off one content file, so adding another is an entry in
  * `data/pages.ts` and a name here.
  */
-export const INFO_ROUTES = ['about', 'careers', 'press', 'contact', 'changelog', 'status', 'api', 'blueprints'] as const;
+export const INFO_ROUTES = [
+  'about',
+  'careers',
+  'press',
+  'contact',
+  'changelog',
+  'status',
+  'api',
+  'blueprints',
+  'privacy',
+  'terms',
+] as const;
 
 export type Route =
   | 'landing'

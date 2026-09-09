@@ -30,7 +30,10 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "seo": "node scripts/generate-seo.js",
+    "build:web": "npm run seo && expo export --platform web",
+    "typecheck": "node --stack-size=20000 node_modules/typescript/lib/tsc.js --noEmit"
   },
   "private": true
 }

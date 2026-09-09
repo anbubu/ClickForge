@@ -1,9 +1,10 @@
-import React, { useRef, type RefObject } from 'react';
+import React, { useEffect, useRef, type RefObject } from 'react';
 import { ScrollView, StatusBar, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { landmark } from './src/components/semantics';
 import { ScrollControllerProvider, useScrollController } from './src/navigation/ScrollController';
 import { currentRoute, isInfoRoute } from './src/navigation/routes';
+import { applyDocumentTitle } from './src/navigation/documentTitle';
 import { CtaClose } from './src/sections/CtaClose';
 import { Engine } from './src/sections/Engine';
 import { Footer } from './src/sections/Footer';
@@ -96,6 +97,12 @@ function Shell() {
   const scrollRef = useRef<ScrollView>(null);
   const p = usePalette();
   const route = currentRoute();
+
+  // The route is read once at mount and navigation is a real page load, so the
+  // title only has to be set once per route rather than watched.
+  useEffect(() => {
+    applyDocumentTitle(route);
+  }, [route]);
 
   if (!fontsLoaded) {
     return <View style={{ flex: 1, backgroundColor: p.canvas }} />;

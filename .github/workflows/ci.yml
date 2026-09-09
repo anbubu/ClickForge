@@ -1,0 +1,60 @@
+name: CI
+
+# Two things, on every push and every PR: does it typecheck, and does it build.
+# Neither has ever run automatically on this repo, so both have been one person
+# remembering to run them locally on Windows.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+concurrency:
+  # A second push to the same branch makes the first run irrelevant.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Typecheck and build the web app
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app/clickforge-landing
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/clickforge-landing/package-lock.json
+
+      # `ci` rather than `install`: it installs exactly the lockfile and fails
+      # if package.json and the lock have drifted, which is the failure worth
+      # catching before it reaches a deploy.
+      - run: npm ci
+
+      # The bigger stack is not optional — tsc overflows on this project's type
+      # graph and reports a RangeError with no file or line.
+      - run: npm run typecheck
+
+      # Catches what a typecheck cannot: a bad import path, a missing asset, a
+      # native module that does not resolve for web. The Supabase keys are
+      # absent here on purpose, so this also proves the demo-mode path still
+      # builds from a clean checkout.
+      - run: npm run build:web
+
+      - name: Report the bundle size
+        run: |
+          echo "### Web bundle" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          du -sh dist >> $GITHUB_STEP_SUMMARY
+          find dist/_expo -name '*.js' -exec ls -lh {} \; | awk '{print $5, $9}' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: app/clickforge-landing/dist
+          retention-days: 7

@@ -92,6 +92,35 @@ function destination(
   return {};
 }
 
+/** The bottom-bar legal links: mono, uppercase, muted — the small print's voice. */
+function LegalLink({ label, route }: { label: string; route: Route }) {
+  const p = usePalette();
+  const [hover, setHover] = useState(false);
+  return (
+    <Pressable
+      onPress={undefined}
+      {...({ href: hrefFor(route) } as any)}
+      accessibilityRole="link"
+      accessibilityLabel={label}
+      onHoverIn={() => setHover(true)}
+      onHoverOut={() => setHover(false)}
+    >
+      <Text
+        style={{
+          fontFamily: fontFamily.monoRegular,
+          fontSize: 12,
+          letterSpacing: t.label.tracking,
+          textTransform: 'uppercase',
+          color: hover ? p.textSecondary : p.textMuted,
+          textDecorationLine: hover ? 'underline' : 'none',
+        }}
+      >
+        {label}
+      </Text>
+    </Pressable>
+  );
+}
+
 function FooterLink({ label, onPress, href }: { label: string; onPress?: () => void; href?: string }) {
   const p = usePalette();
   const [hover, setHover] = useState(false);
@@ -179,17 +208,22 @@ export function Footer() {
           >
             © 2026 ClickForge
           </Text>
-          <Text
-            style={{
-              fontFamily: fontFamily.monoRegular,
-              fontSize: 12,
-              letterSpacing: t.label.tracking,
-              textTransform: 'uppercase',
-              color: p.textMuted,
-            }}
-          >
-            Privacy · Terms
-          </Text>
+          {/* These were the last inert labels in the footer: uppercase mono text
+              that read as links and went nowhere. Both are real routes now. */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <LegalLink label="Privacy" route="privacy" />
+            <Text
+              style={{
+                fontFamily: fontFamily.monoRegular,
+                fontSize: 12,
+                letterSpacing: t.label.tracking,
+                color: p.textMuted,
+              }}
+            >
+              ·
+            </Text>
+            <LegalLink label="Terms" route="terms" />
+          </View>
         </View>
       </Container>
     </AnchorSection>
