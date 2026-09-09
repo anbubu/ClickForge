@@ -6,13 +6,20 @@ import { Button } from '../Button';
 import { breakpoint, fontFamily, radius, type as t } from '../../theme/tokens';
 import { usePalette } from '../../theme/ThemeContext';
 import { useBelow } from '../../theme/useBreakpoint';
-import { goToLanding } from '../../navigation/routes';
+import { hrefFor } from '../../navigation/routes';
 import { landmark } from '../semantics';
 import { Container } from '../Container';
 import { NavPill } from '../NavPill';
 import { Wordmark } from '../Wordmark';
 
 export const TABS = ['Forge', 'Performance', 'Library'] as const;
+
+/**
+ * The parent every `role="tab"` needs. React Native's `accessibilityRole` union
+ * has no `tablist`, so it goes on as the ARIA attribute — which is what RN Web
+ * emits for the role anyway.
+ */
+const tablist = { role: 'tablist' } as any;
 export type DashboardTab = (typeof TABS)[number];
 
 /**
@@ -70,7 +77,7 @@ export function AppBar({
             between dashboard tabs, so without this the marketing page is
             reachable only by editing the URL. */}
         <Pressable
-          onPress={goToLanding}
+          {...({ href: hrefFor('landing') } as any)}
           accessibilityRole="link"
           accessibilityLabel="ClickForge home"
           onHoverIn={() => setHomeHover(true)}
@@ -81,7 +88,11 @@ export function AppBar({
         </Pressable>
 
         {!narrow && (
-          <View style={{ flexDirection: 'row', gap: 4, marginLeft: 12 }} {...landmark.navigation}>
+          <View
+            style={{ flexDirection: 'row', gap: 4, marginLeft: 12 }}
+            {...landmark.navigation}
+            {...tablist}
+          >
             {TABS.map((label) => (
               <NavPill
                 key={label}
@@ -194,6 +205,7 @@ export function AppBar({
         <Container
           style={{ flexDirection: 'row', gap: 4, paddingBottom: 8, marginTop: -4 }}
           {...landmark.navigation}
+          {...tablist}
         >
           {TABS.map((label) => (
             <NavPill
