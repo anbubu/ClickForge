@@ -1,5 +1,5 @@
 // Starts a Stripe Checkout session for the 30-day Creator/Studio trial.
-// Called by the signed-in ClickForge client — returns the hosted Checkout URL
+// Called by the signed-in ClickToForge client — returns the hosted Checkout URL
 // for the client to open (e.g. `Linking.openURL(url)` on mobile). Stripe's
 // `checkout.session.completed` webhook (see ../stripe-webhook) is what
 // actually writes the `subscriptions` row once the user finishes checkout.
@@ -22,8 +22,8 @@ const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 const STRIPE_PRICE_CREATOR = Deno.env.get('STRIPE_PRICE_CREATOR');
 const STRIPE_PRICE_STUDIO = Deno.env.get('STRIPE_PRICE_STUDIO');
-const CHECKOUT_SUCCESS_URL = Deno.env.get('CHECKOUT_SUCCESS_URL') ?? 'https://app.clickforge.com/checkout/success';
-const CHECKOUT_CANCEL_URL = Deno.env.get('CHECKOUT_CANCEL_URL') ?? 'https://app.clickforge.com/pricing';
+const CHECKOUT_SUCCESS_URL = Deno.env.get('CHECKOUT_SUCCESS_URL') ?? 'https://app.clicktoforge.com/checkout/success';
+const CHECKOUT_CANCEL_URL = Deno.env.get('CHECKOUT_CANCEL_URL') ?? 'https://app.clicktoforge.com/pricing';
 
 if (
   !STRIPE_SECRET_KEY ||

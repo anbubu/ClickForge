@@ -1,4 +1,4 @@
-// Stripe -> Supabase billing sync for ClickForge's Creator/Studio subscriptions.
+// Stripe -> Supabase billing sync for ClickToForge's Creator/Studio subscriptions.
 //
 // Deploy with JWT verification OFF — Stripe can't send a Supabase JWT, so the
 // platform gateway must not require one for this function. Auth here comes

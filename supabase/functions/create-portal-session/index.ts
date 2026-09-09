@@ -24,7 +24,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2';
 const STRIPE_SECRET_KEY = Deno.env.get('STRIPE_SECRET_KEY');
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-const PORTAL_RETURN_URL = Deno.env.get('PORTAL_RETURN_URL') ?? 'https://app.clickforge.com/account';
+const PORTAL_RETURN_URL = Deno.env.get('PORTAL_RETURN_URL') ?? 'https://app.clicktoforge.com/account';
 
 if (!STRIPE_SECRET_KEY || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
   throw new Error('Missing required env vars: STRIPE_SECRET_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY');

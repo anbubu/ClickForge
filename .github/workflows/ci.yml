@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: app/clickforge-landing
+        working-directory: app/clicktoforge-landing
 
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: app/clickforge-landing/package-lock.json
+          cache-dependency-path: app/clicktoforge-landing/package-lock.json
 
       # `ci` rather than `install`: it installs exactly the lockfile and fails
       # if package.json and the lock have drifted, which is the failure worth
@@ -56,5 +56,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: web-dist
-          path: app/clickforge-landing/dist
+          path: app/clicktoforge-landing/dist
           retention-days: 7

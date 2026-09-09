@@ -18,10 +18,10 @@ what anyone cloning the repo gets.
 | Checkout session function | `supabase/functions/create-checkout-session/` | written, never deployed |
 | Billing portal function | `supabase/functions/create-portal-session/` | written, never deployed |
 | Stripe webhook handler | `supabase/functions/stripe-webhook/` | written, never deployed |
-| Sign in / sign up / reset | `app/clickforge-landing/src/screens/Auth.tsx` | done |
-| Session + entitlement | `app/clickforge-landing/src/state/AuthProvider.tsx` | done |
-| Plan picker → Checkout | `app/clickforge-landing/src/screens/Subscribe.tsx` | done |
-| Account menu → Billing portal | `app/clickforge-landing/src/components/dashboard/AppBar.tsx` | done |
+| Sign in / sign up / reset | `app/clicktoforge-landing/src/screens/Auth.tsx` | done |
+| Session + entitlement | `app/clicktoforge-landing/src/state/AuthProvider.tsx` | done |
+| Plan picker → Checkout | `app/clicktoforge-landing/src/screens/Subscribe.tsx` | done |
+| Account menu → Billing portal | `app/clicktoforge-landing/src/components/dashboard/AppBar.tsx` | done |
 
 ---
 
@@ -40,7 +40,7 @@ into `.env.local`, never into the app.
 ## 2. Point the app at it
 
 ```bash
-cd app/clickforge-landing
+cd app/clicktoforge-landing
 cp .env.example .env.local
 # fill in EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY
 npx expo start --web --port 8100 --clear
@@ -80,9 +80,9 @@ handful of messages an hour.
 
 In the Stripe dashboard, **in test mode**:
 
-1. **Products** → create *ClickForge Creator*, recurring, $29/month. Copy the
+1. **Products** → create *ClickToForge Creator*, recurring, $29/month. Copy the
    **price id** (`price_...`).
-2. Same for *ClickForge Studio*, $99/month.
+2. Same for *ClickToForge Studio*, $99/month.
 3. **Settings → Billing → Customer portal** → configure and activate it. Without
    this, "Manage billing" fails with *No configuration provided*. Test and live
    mode each need their own.
@@ -154,6 +154,9 @@ signature failure means `STRIPE_WEBHOOK_SECRET` does not match the endpoint; a
 - Point `CHECKOUT_SUCCESS_URL`, `CHECKOUT_CANCEL_URL` and `PORTAL_RETURN_URL` at
   the real domain.
 - Add the live webhook endpoint and its own signing secret.
-- Decide the canonical domain (still a `TODO` in `app/clickforge-landing/public/index.html`)
-  and set `supportEmail` in `src/config/urls.ts`.
-- Write Privacy and Terms. They are the last inert text in the footer.
+- Register clicktoforge.com. It is the canonical domain everywhere in the repo
+  now — meta tags, sitemap, robots, `supportEmail` and the two sales CTAs — but
+  it has not been bought yet, so every one of those points at nothing.
+- Take Privacy and Terms out of draft. They exist and the footer links them, but
+  every fact only the company holds is still in brackets, and Stripe asks for
+  both before it will approve a live account.

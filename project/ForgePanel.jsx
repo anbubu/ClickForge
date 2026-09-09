@@ -1,4 +1,4 @@
-const { Card, Badge, Button, Icon, CTRScore, MeterBar, Textarea, SegmentedControl } = window.ClickForgeDesignSystem_494c16;
+const { Card, Badge, Button, Icon, CTRScore, MeterBar, Textarea, SegmentedControl } = window.ClickToForgeDesignSystem_494c16;
 
 const ctrTone = (s) => (s >= 8 ? 'var(--color-ctr-high)' : s >= 5 ? 'var(--color-ctr-mid)' : 'var(--color-ctr-low)');
 

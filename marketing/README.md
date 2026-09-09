@@ -26,7 +26,7 @@ The story board keeps 260px clear at the top and 340px at the bottom, which is
 roughly what platform chrome covers. Nothing that has to be read sits there.
 
 `og-1200x630.png` is the one with a job in the repo already: it replaces
-`app/clickforge-landing/public/og-image.png`, which the page's `og:image` points
+`app/clicktoforge-landing/public/og-image.png`, which the page's `og:image` points
 at. Copy it over when you are happy with it.
 
 ## Email
@@ -45,7 +45,7 @@ Three tokens to fill in before sending:
 | `{{MARK_URL}}` | An absolute https URL to a hosted copy of `out/mark-192.png` |
 
 `{{MARK_URL}}` has to be absolute: an inbox has no base URL to resolve a
-relative path against. The word "ClickForge" beside the mark is markup rather
+relative path against. The word "ClickToForge" beside the mark is markup rather
 than part of the image, so the lockup still reads when a client blocks images —
 which most of them do by default.
 

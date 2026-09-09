@@ -1,4 +1,4 @@
-# ClickForge Logo Design
+# ClickToForge Logo Design
 
 _Started 2026-09-04 16:33 UTC_
 
@@ -6,7 +6,7 @@ _Started 2026-09-04 16:33 UTC_
 
 ## User
 
-make me a logo for ClickForge is a premium, AI-powered micro-SaaS built specifically for YouTube and TikTok creators to maximize their Click-Through Rate (CTR) and video performance.
+make me a logo for ClickToForge is a premium, AI-powered micro-SaaS built specifically for YouTube and TikTok creators to maximize their Click-Through Rate (CTR) and video performance.
 By analyzing a simple video idea or script draft, the app automatically generates:
 High-Converting Titles: Engaging video titles optimized to trigger viewer curiosity.
 Viral Hooks: Short-form script intros designed to capture attention in the first 3 seconds.
@@ -75,7 +75,7 @@ _[tool: dc_html_str_replace]_
 
 _[tool: ready_for_verification]_
 
-**ClickForge Identity.dc.html** — full sheet for 2a, 1440px wide, seven sections: construction (8×8 plate grid, clear space, min sizes with the 16px F fallback), lockups (stacked, horizontal, reversed, mark/wordmark alone), color roles + accent and neutral ramps, Archivo type scale, motion spec (live playback + timing table with easings and reduced-motion rule), applications (app icon/avatar/favicon, product nav, thumbnail watermark, red poster), and four misuse cases. Accent and monochrome tweaks carry over.
+**ClickToForge Identity.dc.html** — full sheet for 2a, 1440px wide, seven sections: construction (8×8 plate grid, clear space, min sizes with the 16px F fallback), lockups (stacked, horizontal, reversed, mark/wordmark alone), color roles + accent and neutral ramps, Archivo type scale, motion spec (live playback + timing table with easings and reduced-motion rule), applications (app icon/avatar/favicon, product nav, thumbnail watermark, red poster), and four misuse cases. Accent and monochrome tweaks carry over.
 
 Next if useful: exportable icon PNGs, or a landing hero built on this.
 
@@ -111,7 +111,7 @@ web application/stitch/projects/9617389234803204665/screens/cc95830f783c43c486df
 
 That looks like a Google Stitch link, but it's only a path fragment — and Stitch screens sit behind a login I can't reach either way.
 
-Options: paste a screenshot of the screen, or tell me what you want built (e.g. the ClickForge app UI on this identity) and I'll design it.
+Options: paste a screenshot of the screen, or tell me what you want built (e.g. the ClickToForge app UI on this identity) and I'll design it.
 
 ## User
 
@@ -161,7 +161,7 @@ _[tool: dc_js_str_replace]_
 
 _[tool: ready_for_verification]_
 
-**ClickForge App.dc.html** — all four screens live in one prototype with sidebar routing: onboarding (platform pick → consent toggle → sandbox with shimmer loader), the 30-day trial paywall (vertical timeline, $29 plan, restore/legal links), the dashboard (bento metrics, asset history), and the Forge (input → sequential generating statuses → predicted CTR, composition rules with a thirds overlay, click-to-copy titles, reset).
+**ClickToForge App.dc.html** — all four screens live in one prototype with sidebar routing: onboarding (platform pick → consent toggle → sandbox with shimmer loader), the 30-day trial paywall (vertical timeline, $29 plan, restore/legal links), the dashboard (bento metrics, asset history), and the Forge (input → sequential generating statuses → predicted CTR, composition rules with a thirds overlay, click-to-copy titles, reset).
 
 One deliberate deviation: I kept the obsidian dark ground and the screen architecture from your spec, but the accent is Forge Red on flat 0-radius panels rather than violet/emerald gradients with blur — the bound Modernist system and the logo we built require it (that's option 3b). Accent is a tweak if you want to see violet.
 

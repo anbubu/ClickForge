@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/clicktoforge-design-system-494c16d7-97d0-4f35-993d-9a782aa2b6dd/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/clicktoforge-design-system-494c16d7-97d0-4f35-993d-9a782aa2b6dd/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/clicktoforge-design-system-494c16d7-97d0-4f35-993d-9a782aa2b6dd/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/clicktoforge-design-system-494c16d7-97d0-4f35-993d-9a782aa2b6dd/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/clicktoforge-design-system-494c16d7-97d0-4f35-993d-9a782aa2b6dd/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/clicktoforge-design-system-494c16d7-97d0-4f35-993d-9a782aa2b6dd/styles.css">
+  <script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+  <script src="_ds/clicktoforge-design-system-494c16d7-97d0-4f35-993d-9a782aa2b6dd/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; background: var(--surface-canvas); color: var(--text-primary); font-family: var(--font-inter); -webkit-font-smoothing: antialiased; }
+    a { color: var(--link-color); text-decoration: none; }
+    a:hover { color: var(--link-color-hover); }
+    ::selection { background: var(--color-ember-wash); }
+    :focus-visible { outline: none; }
+  </style>
+</helmet>
+
+<div style="background: var(--surface-canvas); min-height: 100vh; overflow-x: hidden">
+
+  <header style="position: sticky; top: 0; z-index: 20; background: rgba(11,10,9,0.82); backdrop-filter: blur(12px); border-bottom: var(--border-hairline)">
+    <sc-if value="{{ showPromo }}" hint-placeholder-val="{{ true }}">
+      <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.PromoBanner" badge="New" cta-label="See the model card" on-dismiss="{{ dismissPromo }}" hint-size="100%,44px">Retention hooks v3 is live — 22% better first-three-second hold.</x-import>
+    </sc-if>
+    <nav style="max-width: var(--page-max-width); margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: var(--spacing-24)">
+      <a href="#top" style="display: flex; align-items: center">
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Wordmark" size="20" hint-size="120px,24px"></x-import>
+      </a>
+      <div style="display: flex; gap: 2px; margin-left: 8px">
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.NavPill" href="#engine" hint-size="auto,32px">Product</x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.NavPill" href="#how" hint-size="auto,32px">How it works</x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.NavPill" href="#proof" hint-size="auto,32px">Results</x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.NavPill" href="#pricing" hint-size="auto,32px">Pricing</x-import>
+      </div>
+      <div style="margin-left: auto; display: flex; align-items: center; gap: var(--spacing-12)">
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.NavPill" href="#pricing" hint-size="auto,32px">Log in</x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" icon-right="{{ arrow16 }}" hint-size="auto,36px">Start forging</x-import>
+      </div>
+    </nav>
+  </header>
+
+  <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.ThirdsGrid" hint-size="100%,720px">
+    <sc-if value="{{ isSplit }}" hint-placeholder-val="{{ true }}">
+      <div id="top" style="max-width: var(--page-max-width); margin: 0 auto; padding: 88px 24px 56px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--spacing-64); align-items: center">
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-24); align-items: flex-start">
+          <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Badge" tone="ember" hint-size="auto,22px">CTR prediction · v3</x-import>
+          <h1 style="margin: 0; font-size: var(--text-display); line-height: var(--leading-display); letter-spacing: var(--tracking-display); font-weight: 500; text-wrap: balance">Score the click before you record.</h1>
+          <p style="margin: 0; font-size: var(--text-body); line-height: var(--leading-body); color: var(--text-secondary); max-width: 470px; text-wrap: pretty">Paste a raw concept. Sixty seconds later you have three scored title options, a first-three-second retention hook, and an exact thumbnail blueprint — each carrying a predicted CTR.</p>
+          <div style="display: flex; gap: var(--spacing-12); flex-wrap: wrap">
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" size="lg" icon-right="{{ arrow18 }}" hint-size="auto,44px">Forge your first video</x-import>
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" size="lg" variant="secondary" hint-size="auto,44px">See a sample report</x-import>
+          </div>
+          <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase; color: var(--text-disabled)">No card · 5 free forges</span>
+        </div>
+        <x-import component="ForgePanel" from="./ForgePanel.jsx" hint-size="100%,560px"></x-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isStacked }}" hint-placeholder-val="{{ false }}">
+      <div id="top-stacked" style="max-width: var(--page-max-width); margin: 0 auto; padding: 88px 24px 56px; display: flex; flex-direction: column; gap: var(--spacing-40); align-items: center">
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-24); align-items: center; text-align: center; max-width: 780px">
+          <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Badge" tone="ember" hint-size="auto,22px">CTR prediction · v3</x-import>
+          <h1 style="margin: 0; font-size: var(--text-display); line-height: var(--leading-display); letter-spacing: var(--tracking-display); font-weight: 500; text-wrap: balance">Score the click before you record.</h1>
+          <p style="margin: 0; font-size: var(--text-body); line-height: var(--leading-body); color: var(--text-secondary); max-width: 560px; text-align: left; text-wrap: pretty">Paste a raw concept. Sixty seconds later you have three scored title options, a first-three-second retention hook, and an exact thumbnail blueprint — each carrying a predicted CTR.</p>
+          <div style="display: flex; gap: var(--spacing-12); flex-wrap: wrap; justify-content: center">
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" size="lg" icon-right="{{ arrow18 }}" hint-size="auto,44px">Forge your first video</x-import>
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" size="lg" variant="secondary" hint-size="auto,44px">See a sample report</x-import>
+          </div>
+        </div>
+        <div style="width: 100%; max-width: 1000px">
+          <x-import component="ForgePanel" from="./ForgePanel.jsx" hint-size="100%,560px"></x-import>
+        </div>
+      </div>
+    </sc-if>
+    <div style="max-width: var(--page-max-width); margin: 0 auto; padding: 0 24px 72px">
+      <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.LogoStrip" label="Forging titles for studios shipping 400+ videos a month:" names="{{ studios }}" hint-size="100%,60px"></x-import>
+    </div>
+  </x-import>
+
+  <section id="how" style="padding: 80px 0; border-top: var(--border-hairline)">
+    <div style="max-width: var(--page-max-width); margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: var(--spacing-40); align-items: center">
+      <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.SectionHeading" eyebrow="How it works" title="Three assets. Sixty seconds." body="An administrative safety net: the idea and the design are validated before you spend a day editing something the feed will ignore." hint-size="100%,140px"></x-import>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--spacing-24); width: 100%">
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Card" hint-size="100%,220px" style="display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; align-items: center; justify-content: space-between">
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Icon" name="pencil-line" size="20" color="var(--color-ember)" hint-size="20px,20px"></x-import>
+            <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; color: var(--text-disabled)">01</span>
+          </div>
+          <span style="font-size: var(--text-heading-sm); font-weight: 500; letter-spacing: var(--tracking-heading-sm)">Paste the concept</span>
+          <p style="margin: 0; font-size: 14px; line-height: 1.57; color: var(--text-secondary); text-wrap: pretty">A one-line angle, a script draft, or a rough idea. No formatting rules.</p>
+        </x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Card" hint-size="100%,220px" style="display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; align-items: center; justify-content: space-between">
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Icon" name="cpu" size="20" color="var(--color-ember)" hint-size="20px,20px"></x-import>
+            <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; color: var(--text-disabled)">02</span>
+          </div>
+          <span style="font-size: var(--text-heading-sm); font-weight: 500; letter-spacing: var(--tracking-heading-sm)">The engine runs</span>
+          <p style="margin: 0; font-size: 14px; line-height: 1.57; color: var(--text-secondary); text-wrap: pretty">Titles, hooks and blueprints are generated and scored against your channel history.</p>
+        </x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Card" hint-size="100%,220px" style="display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; align-items: center; justify-content: space-between">
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Icon" name="send" size="20" color="var(--color-ember)" hint-size="20px,20px"></x-import>
+            <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; color: var(--text-disabled)">03</span>
+          </div>
+          <span style="font-size: var(--text-heading-sm); font-weight: 500; letter-spacing: var(--tracking-heading-sm)">Ship the winner</span>
+          <p style="margin: 0; font-size: 14px; line-height: 1.57; color: var(--text-secondary); text-wrap: pretty">Take the highest-CTR asset set straight into your edit. Under sixty seconds, start to finish.</p>
+        </x-import>
+      </div>
+    </div>
+  </section>
+
+  <section id="engine" style="padding: 80px 0; border-top: var(--border-hairline)">
+    <div style="max-width: var(--page-max-width); margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: var(--spacing-64); align-items: center">
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-32)">
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.SectionHeading" align="left" eyebrow="The engine" title="Every asset a click depends on" body="One model call, three outputs — each one scored, each one editable before it reaches your edit." hint-size="100%,180px"></x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Card" hint-size="100%,320px" style="display: flex; flex-direction: column; gap: 24px">
+          <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.FeatureRow" icon="type" title="High-converting titles" hint-size="100%,80px">Curiosity-gap constructions and trigger-focused phrasings, ranked against your last 200 uploads.</x-import>
+          <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.FeatureRow" icon="zap" title="Viral retention hooks" hint-size="100%,80px">Snappy script intros written for the first three seconds on TikTok, Reels and Shorts.</x-import>
+          <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.FeatureRow" icon="layout-grid" title="Thumbnail blueprints" hint-size="100%,80px">Exact compositional directives — subject quadrant, colour grade, overlay styling, negative space.</x-import>
+        </x-import>
+      </div>
+      <x-import component="ForgePanel" from="./ForgePanel.jsx" compact="{{ true }}" hint-size="100%,500px"></x-import>
+    </div>
+  </section>
+
+  <section id="proof" style="padding: 80px 0; border-top: var(--border-hairline)">
+    <div style="max-width: var(--page-max-width); margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: var(--spacing-40); align-items: center">
+      <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Eyebrow" hint-size="auto,18px">Measured, not promised</x-import>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--spacing-32); width: 100%">
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.StatBlock" icon="{{ iconTrend }}" value="+38%" label="Median CTR lift" caption="Across 12,400 forged titles in a channel's first 90 days on ClickToForge." hint-size="100%,180px"></x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.StatBlock" icon="{{ iconTimer }}" value="52s" label="Median time to forge" caption="From pasted concept to a scored, ready-to-ship asset set." hint-size="100%,180px"></x-import>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.StatBlock" icon="{{ iconGauge }}" value="±0.8pt" label="Prediction error" caption="Mean absolute error of predicted CTR against realised 7-day CTR." hint-size="100%,180px"></x-import>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" style="padding: 80px 0; border-top: var(--border-hairline)">
+    <div style="max-width: var(--page-max-width); margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: var(--spacing-32); align-items: center">
+      <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.SectionHeading" eyebrow="Pricing" title="Priced against one wasted edit" hint-size="100%,110px"></x-import>
+      <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.SegmentedControl" value="{{ cycle }}" on-change="{{ setCycle }}" options="{{ cycleOptions }}" hint-size="auto,34px"></x-import>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-24); width: 100%; align-items: stretch">
+        <sc-for list="{{ tiers }}" as="tier" hint-placeholder-count="3">
+          <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.PricingTier" name="{{ tier.name }}" price="{{ tier.price }}" period="{{ tier.period }}" blurb="{{ tier.blurb }}" features="{{ tier.features }}" featured="{{ tier.featured }}" cta-label="{{ tier.cta }}" hint-size="100%,420px"></x-import>
+        </sc-for>
+      </div>
+      <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase; color: var(--text-disabled)">Cancel any time · Forges reset monthly</span>
+    </div>
+  </section>
+
+  <sc-if value="{{ isEmberClose }}" hint-placeholder-val="{{ true }}">
+    <section style="background: var(--color-ember); color: var(--action-primary-fg); border-top: var(--border-hairline)">
+      <div style="max-width: var(--page-max-width); margin: 0 auto; padding: 96px 24px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: var(--spacing-64); align-items: end">
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-24); align-items: flex-start">
+          <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase; opacity: 0.72">Start free · 5 forges</span>
+          <h2 style="margin: 0; font-size: var(--text-display); line-height: var(--leading-display); letter-spacing: var(--tracking-display); font-weight: 500; max-width: 18ch; text-wrap: balance">Stop guessing at the thumbnail.</h2>
+          <div style="display: flex; gap: var(--spacing-12); flex-wrap: wrap">
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" size="lg" variant="inverted" icon-right="{{ arrow18 }}" hint-size="auto,44px">Forge your first video</x-import>
+            <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" size="lg" variant="ghost" hint-size="auto,44px">Book a walkthrough</x-import>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px; border-left: 1px solid rgba(26,12,2,0.24); padding-left: var(--spacing-32)">
+          <span style="font-size: 15px; line-height: 1.5; max-width: 34ch">Three assets. Sixty seconds. Every one scored before a frame is shot.</span>
+          <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase; opacity: 0.72">±0.8pt prediction error</span>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+  <sc-if value="{{ isGridClose }}" hint-placeholder-val="{{ false }}">
+    <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.ThirdsGrid" hint-size="100%,340px">
+      <div style="border-top: var(--border-hairline); max-width: var(--page-max-width); margin: 0 auto; padding: 96px 24px; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-24); text-align: center">
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Wordmark" size="24" hint-size="140px,28px"></x-import>
+        <h2 style="margin: 0; font-size: var(--text-display-sm); line-height: var(--leading-display-sm); letter-spacing: var(--tracking-display-sm); font-weight: 500; max-width: 18ch; text-wrap: balance">Stop guessing at the thumbnail.</h2>
+        <div style="display: flex; gap: var(--spacing-12); flex-wrap: wrap; justify-content: center">
+          <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" size="lg" icon-right="{{ arrow18 }}" hint-size="auto,44px">Forge your first video</x-import>
+          <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Button" size="lg" variant="secondary" hint-size="auto,44px">Book a walkthrough</x-import>
+        </div>
+      </div>
+    </x-import>
+  </sc-if>
+
+  <footer style="border-top: var(--border-hairline); padding: 64px 24px 40px">
+    <div style="max-width: var(--page-max-width); margin: 0 auto; display: grid; grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr)); gap: var(--spacing-40)">
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-16); align-items: flex-start">
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Wordmark" size="20" hint-size="120px,24px"></x-import>
+        <p style="margin: 0; font-size: 14px; line-height: 1.57; color: var(--text-secondary); max-width: 260px">Score the click before you record.</p>
+        <x-import component-from-global-scope="ClickToForgeDesignSystem_494c16.Badge" hint-size="auto,22px">SOC 2 Type II</x-import>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-12)">
+        <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase">Product</span>
+        <a href="#engine" style="font-size: 14px; color: var(--text-secondary)">Title engine</a>
+        <a href="#engine" style="font-size: 14px; color: var(--text-secondary)">Retention hooks</a>
+        <a href="#engine" style="font-size: 14px; color: var(--text-secondary)">Thumbnail blueprints</a>
+        <a href="#proof" style="font-size: 14px; color: var(--text-secondary)">CTR prediction</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">Changelog</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-12)">
+        <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase">Platforms</span>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">YouTube</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">YouTube Shorts</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">TikTok</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">Instagram Reels</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-12)">
+        <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase">Resources</span>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">Blueprint library</a>
+        <a href="#proof" style="font-size: 14px; color: var(--text-secondary)">CTR benchmarks</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">Model cards</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">API docs</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">Status</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-12)">
+        <span style="font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase">Company</span>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">About</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">Careers</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">Press</a>
+        <a href="#top" style="font-size: 14px; color: var(--text-secondary)">Contact</a>
+      </div>
+    </div>
+    <div style="max-width: var(--page-max-width); margin: 48px auto 0; padding-top: 24px; border-top: var(--border-hairline); display: flex; justify-content: space-between; gap: 16px; font-family: var(--font-jetbrains-mono); font-size: 12px; letter-spacing: 0.85px; text-transform: uppercase; color: var(--text-disabled)">
+      <span>© 2026 ClickToForge</span>
+      <span>Privacy · Terms</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;split&quot;,&quot;stacked&quot;],&quot;default&quot;:&quot;split&quot;,&quot;tsType&quot;:&quot;'split' | 'stacked'&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;closeVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ember&quot;,&quot;grid&quot;],&quot;default&quot;:&quot;ember&quot;,&quot;tsType&quot;:&quot;'ember' | 'grid'&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showPromo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+class Component extends DCLogic {
+  state = { cycle: 'mo', promo: true };
+
+  icon(name, size) {
+    const NS = window.ClickToForgeDesignSystem_494c16;
+    return NS && NS.Icon ? React.createElement(NS.Icon, { name, size }) : null;
+  }
+
+  renderVals() {
+    const variant = this.props.heroVariant ?? 'split';
+    const close = this.props.closeVariant ?? 'ember';
+    const annual = this.state.cycle === 'yr';
+    return {
+      isSplit: variant === 'split',
+      isStacked: variant === 'stacked',
+      isEmberClose: close === 'ember',
+      isGridClose: close === 'grid',
+      showPromo: (this.props.showPromo ?? true) && this.state.promo,
+      dismissPromo: () => this.setState({ promo: false }),
+      arrow16: this.icon('arrow-right', 16),
+      arrow18: this.icon('arrow-right', 18),
+      iconTrend: this.icon('trending-up', 24),
+      iconTimer: this.icon('timer', 24),
+      iconGauge: this.icon('gauge', 24),
+      studios: ['Nightshift', 'Northpoint', 'Studio Kilo', 'Halcyon', 'Rundown', 'Overcast'],
+      cycle: this.state.cycle,
+      setCycle: (v) => this.setState({ cycle: v }),
+      cycleOptions: [{ value: 'mo', label: 'Monthly' }, { value: 'yr', label: 'Annual · −20%' }],
+      tiers: [
+        { name: 'Starter', price: '$0', period: '', blurb: 'Test the engine on a real upload.', features: ['5 forges / mo', 'Title options', 'Predicted CTR'], featured: false, cta: 'Start free' },
+        { name: 'Creator', price: annual ? '$23' : '$29', period: '/mo', blurb: 'For a channel shipping weekly.', features: ['120 forges / mo', 'Retention hooks', 'Thumbnail blueprints', 'Channel benchmarking'], featured: true, cta: 'Start forging' },
+        { name: 'Studio', price: annual ? '$79' : '$99', period: '/mo', blurb: 'For teams running several channels.', features: ['Unlimited forges', '5 seats', 'API access', 'Shared blueprint library', 'Priority model queue'], featured: false, cta: 'Talk to sales' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
