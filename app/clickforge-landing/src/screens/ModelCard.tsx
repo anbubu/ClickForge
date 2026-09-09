@@ -136,7 +136,7 @@ export function ModelCard() {
         <Container style={{ maxWidth: 820, gap: 44, paddingTop: 48 }}>
           <View style={{ gap: 18 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <Badge tone="signal">CTR prediction v3</Badge>
+              <Badge tone="signal">CTR prediction · preview</Badge>
               <Text
                 style={{
                   fontFamily: fontFamily.monoRegular,

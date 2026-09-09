@@ -39,7 +39,7 @@ export function Hero() {
             display size do its job.
           */}
           <View style={{ flex: stacked ? undefined : 1, gap: 24, alignItems: 'flex-start', width: stacked ? '100%' : undefined }}>
-            <Badge tone="signal">CTR prediction · v3</Badge>
+            <Badge tone="signal">CTR prediction · preview</Badge>
             <Text
               {...headingProps(1)}
               style={{

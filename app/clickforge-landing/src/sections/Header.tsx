@@ -85,14 +85,22 @@ export function Header({ showPromo = true }: { showPromo?: boolean }) {
 
   return (
     <StickyChrome onHeight={setHeaderOffset}>
+      {/*
+        This bar used to announce "Retention hooks v3 is live" under a New badge.
+        There is no v3, no v2 and no release: the scorer is the deterministic
+        heuristic the model card describes, and a version number on the first
+        line of the page is the one kind of claim a reader cannot check. It says
+        what is true now, which also gives the link beside it a reason to exist —
+        the banner and its destination finally agree.
+      */}
       {promoVisible && (
         <PromoBanner
-          badge="New"
+          badge="Preview"
           ctaLabel="See the model card"
           href={hrefFor('model-card')}
           onDismiss={() => setPromoVisible(false)}
         >
-          Retention hooks v3 is live — rewritten for the first three seconds.
+          The scorer running today is a deterministic heuristic, not a trained model.
         </PromoBanner>
       )}
       <Container
